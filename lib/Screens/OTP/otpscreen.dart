@@ -27,6 +27,56 @@ class _OTPControllerScreenState extends State<OTPControllerScreen> {
       ));
 
   @override
+  void initState() {
+    super.initState();
+    verifyPhoneNumber();
+  }
+
+  verifyPhoneNumber() async {
+    await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: "${widget.codeDigits + widget.phone}",
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          await FirebaseAuth.instance
+              .signInWithCredential(credential)
+              .then((value) {
+            if (value.user != null) {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (c) => HomeScreen()));
+            }
+          });
+        },
+        verificationFailed: (FirebaseAuthException e)
+        {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+            content: Text(e.message.toString()),
+            duration: Duration(seconds: 3),
+          ),
+          );
+        },
+        codeSent: (String vId , int? resendToken)
+        {
+          setState(() {
+            verificationCode = vId;
+          });
+        },
+
+        codeAutoRetrievalTimeout: (String vId)
+        {
+          setState(() {
+            verificationCode = vId;
+
+
+          });
+        },
+        timeout: Duration(seconds: 60),
+
+        );
+
+    //  codeAutoRetrievalTimeout: codeAutoRetrievalTimeout)
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldkey,
@@ -44,7 +94,9 @@ class _OTPControllerScreenState extends State<OTPControllerScreen> {
             margin: EdgeInsets.only(top: 20),
             child: Center(
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  verifyPhoneNumber();
+                },
                 child: Text(
                   "Verifying : ${widget.codeDigits} - ${widget.phone}",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
@@ -80,9 +132,9 @@ class _OTPControllerScreenState extends State<OTPControllerScreen> {
                 } catch (e) {
                   FocusScope.of(context).unfocus();
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Invalid OTP"),
-                    duration: Duration(seconds: 3),
-
+                    SnackBar(
+                      content: Text("Invalid OTP"),
+                      duration: Duration(seconds: 3),
                     ),
                   );
                 }
