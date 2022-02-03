@@ -4,6 +4,7 @@ import 'package:khan_pin/Refactorcodes/buttons.dart';
 import 'package:khan_pin/Screens/OTP/loginScreen.dart';
 
 class FirstScreen extends StatefulWidget {
+  static const String idscreen = "mainscreen";
   FirstScreen({Key? key}) : super(key: key);
 
   @override
@@ -11,6 +12,8 @@ class FirstScreen extends StatefulWidget {
 }
 
 class _FirstScreenState extends State<FirstScreen> {
+
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -19,13 +22,16 @@ class _FirstScreenState extends State<FirstScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                child: Image.asset("images/logo.png"),
-                decoration: BoxDecoration(
-                    // color: Colors.yellow,
-                    color: Color(0xffFFFDD0),
-                    borderRadius:
-                        BorderRadius.only(bottomLeft: Radius.circular(250.0))),
+              Hero(
+                tag: 'logo',
+                child: Container(
+                  child: Image.asset("images/logo.png"),
+                  decoration: BoxDecoration(
+                      // color: Colors.yellow,
+                      color: Color(0xffFFFDD0),
+                      borderRadius:
+                          BorderRadius.only(bottomLeft: Radius.circular(250.0))),
+                ),
               ),
               SizedBox(
                 height: 100,

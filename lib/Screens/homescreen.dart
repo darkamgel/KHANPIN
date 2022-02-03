@@ -4,6 +4,7 @@ import 'package:khan_pin/Screens/OTP/loginScreen.dart';
 
 
 class HomeScreen extends StatefulWidget {
+  static const String idscreen = "home";
   HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -11,6 +12,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

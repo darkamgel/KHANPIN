@@ -25,6 +25,7 @@ dependencies:
   country_code_picker: ^2.0.2
   pinput: ^1.2.2
   font_awesome_flutter: ^9.2.0
+  fluttertoast: ^8.0.8
 
 
 dev_dependencies:
