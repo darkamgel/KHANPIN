@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:khan_pin/Screens/loginScreen.dart';
+import 'package:khan_pin/Screens/firstScreen.dart';
+import 'package:khan_pin/Screens/OTP/loginScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.blue
       ),
-      home: LoginScreen(),
+      home: FirstScreen(),
 
     );
   }

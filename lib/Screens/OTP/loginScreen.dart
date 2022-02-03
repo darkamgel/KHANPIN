@@ -26,15 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
               padding: EdgeInsets.only(left: 28.0, right: 20),
               child: Image.asset("images/logo.png"),
             ),
-            // Container(
-            //   margin: EdgeInsets.only(top: 10),
-            //   child: Center(
-            //     child: Text(
-            //       "Phone (OTP) Authentication",
-            //       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            //     ),
-            //   ),
-            // ),
+
             Text("Phone (OTP) Authentication", style: TextStyle(fontWeight: FontWeight.bold , fontSize: 20),),
             SizedBox(
               height: 50,
