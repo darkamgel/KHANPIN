@@ -10,7 +10,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String dialCodeDigits = "+00";
+  String dialCodeDigits = "+977";
   TextEditingController _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -26,21 +26,22 @@ class _LoginScreenState extends State<LoginScreen> {
               padding: EdgeInsets.only(left: 28.0, right: 20),
               child: Image.asset("images/logo.png"),
             ),
-            Container(
-              margin: EdgeInsets.only(top: 10),
-              child: Center(
-                child: Text(
-                  "Phone (OTP) Authentication",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                ),
-              ),
-            ),
+            // Container(
+            //   margin: EdgeInsets.only(top: 10),
+            //   child: Center(
+            //     child: Text(
+            //       "Phone (OTP) Authentication",
+            //       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            //     ),
+            //   ),
+            // ),
+            Text("Phone (OTP) Authentication", style: TextStyle(fontWeight: FontWeight.bold , fontSize: 20),),
             SizedBox(
               height: 50,
             ),
             SizedBox(
-              width: 400,
-              height: 400,
+              width: 200,
+              height: 200,
               child: CountryCodePicker(
                 onChanged: (country) {
                   setState(() {

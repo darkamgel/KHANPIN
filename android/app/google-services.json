@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1063982642854",
+    "project_id": "khanpin-276b7",
+    "storage_bucket": "khanpin-276b7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1063982642854:android:51a109439ddd741cbee667",
+        "android_client_info": {
+          "package_name": "com.example.khan_pin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1063982642854-u3l1p2frbbgkbrdnhqfsjoqo0h3i7imm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.khan_pin",
+            "certificate_hash": "0a5318cb60f286412e37fbdef63e8ffbc4306644"
+          }
+        },
+        {
+          "client_id": "1063982642854-cnrgkfaf1its65ot6g230m4omvnmvja3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEMgCeR55EkHxxZLsJK82B66TG7Ht_g6c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1063982642854-cnrgkfaf1its65ot6g230m4omvnmvja3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
