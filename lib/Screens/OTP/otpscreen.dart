@@ -15,21 +15,18 @@ class OTPScreen extends StatefulWidget {
 }
 
 class _OTPScreenState extends State<OTPScreen> {
-
-
-
   final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
   final TextEditingController _pinOTPCodeController = TextEditingController();
   final FocusNode _pinOTPCodeFocus = FocusNode();
   String? verificationCode = "";
   int? _resendToken;
+  String? phone;
 
   final BoxDecoration pinOTPCodeDecoration = BoxDecoration(
       color: Colors.deepPurpleAccent,
       borderRadius: BorderRadius.circular(10.0),
       border: Border.all(
         color: Colors.grey,
-
       ));
 
   @override
@@ -65,17 +62,13 @@ class _OTPScreenState extends State<OTPScreen> {
           _resendToken = resendToken;
         });
       },
-
+      timeout: Duration(seconds: 125),
+      forceResendingToken: _resendToken,
       codeAutoRetrievalTimeout: (String vId) {
         setState(() {
           verificationCode = vId;
         });
-
       },
-      timeout: Duration(seconds: 60),
-      forceResendingToken: _resendToken,
-
-
     );
 
     //  codeAutoRetrievalTimeout: codeAutoRetrievalTimeout)
@@ -87,8 +80,9 @@ class _OTPScreenState extends State<OTPScreen> {
       key: _scaffoldkey,
       appBar: AppBar(
         backgroundColor: Colors.green,
-
-        title: Text("OTP Verification" , ),
+        title: Text(
+          "OTP Verification",
+        ),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -97,10 +91,10 @@ class _OTPScreenState extends State<OTPScreen> {
           children: [
             Container(
               decoration: BoxDecoration(
-                        // color: Colors.yellow,
-                        color: Color(0xffFFFDD0),
-                        borderRadius:
-                            BorderRadius.only(bottomLeft: Radius.circular(250.0))),
+                  // color: Colors.yellow,
+                  color: Color(0xffFFFDD0),
+                  borderRadius:
+                      BorderRadius.only(bottomLeft: Radius.circular(250.0))),
               child: Image.asset("images/logo.png"),
             ),
             Container(
@@ -155,16 +149,36 @@ class _OTPScreenState extends State<OTPScreen> {
                 },
               ),
             ),
-            // ElevatedButton(onPressed: (){
-
-
-            // }, child: Container(
-            //   height: 30,
-            //   width: 50,
-            // ))
+            ElevatedButton(
+                onPressed: () =>
+                    sendOTP(phone: "${widget.codeDigits + widget.phone}"),
+                child: Container(
+                  height: 30,
+                  width: 50,
+                  child: Center(child: Text("Verify" ,style: TextStyle(fontWeight: FontWeight.bold),)),
+                ))
           ],
         ),
       ),
     );
+  }
+
+  Future<bool> sendOTP({required String phone}) async {
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: phone,
+      verificationCompleted: (PhoneAuthCredential credential) {},
+      verificationFailed: (FirebaseAuthException e) {},
+      codeSent: (String verificationId, int? resendToken) async {
+        verificationId = verificationId;
+        _resendToken = resendToken;
+      },
+      timeout: const Duration(seconds: 25),
+      forceResendingToken: _resendToken,
+      codeAutoRetrievalTimeout: (String verificationId) {
+        verificationId = verificationId;
+      },
+    );
+
+    return true;
   }
 }
