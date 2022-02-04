@@ -1,6 +1,17 @@
+
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:khan_pin/Screens/OTP/loginScreen.dart';
+import 'package:khan_pin/Screens/Google/gLoginScreen.dart';
+
+
+// import 'package:khan_pin/Screens/OTP/loginScreen.dart';
+import 'package:khan_pin/Screens/firstScreen.dart';
+import 'package:provider/provider.dart';
+
+
+
+
 
 
 class HomeScreen extends StatefulWidget {
@@ -24,7 +35,10 @@ class _HomeScreenState extends State<HomeScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
 
-          Image.asset("images/logo.png"),
+
+
+
+          // Image.asset("images/logo.png"),
           Container(
             margin: EdgeInsets.all(65),
             width: double.infinity,
@@ -33,7 +47,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
               onPressed: (){
                 FirebaseAuth.instance.signOut();
-                Navigator.of(context).push(MaterialPageRoute(builder: (c)=> LoginScreen()));
+                Provider.of<ControllerLogin>(context , listen: false).allowUserToLogOut();
+                Navigator.of(context).push(MaterialPageRoute(builder: (c)=> FirstScreen()));
               },
               child: Text('LogOut', style:TextStyle(color: Colors.white , fontSize: 16 , fontWeight: FontWeight.bold)),
             ),
@@ -45,3 +60,4 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+

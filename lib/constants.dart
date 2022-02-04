@@ -24,4 +24,7 @@ displayToastMessage(String message, BuildContext context)
   Fluttertoast.showToast(msg: message);
 }
 
+Widget buildLoading() => Center(child: CircularProgressIndicator(),);
+
+
 

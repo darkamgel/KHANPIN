@@ -27,6 +27,7 @@ dependencies:
   font_awesome_flutter: ^9.2.0
   fluttertoast: ^8.0.8
   modal_progress_hud_nsn: ^0.1.0-nullsafety-1
+  google_sign_in: ^5.2.3
 
 
 dev_dependencies:

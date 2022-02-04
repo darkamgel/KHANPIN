@@ -1,7 +1,30 @@
+
+
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
+
 import 'package:khan_pin/Refactorcodes/buttons.dart';
+
+
 import 'package:khan_pin/Screens/OTP/loginScreen.dart';
+import 'package:khan_pin/Screens/homescreen.dart';
+import 'package:khan_pin/constants.dart';
+
+
+
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
+final GoogleSignIn _googleSignIn = GoogleSignIn();
+
+
+
+
+
+
 
 class FirstScreen extends StatefulWidget {
   static const String idscreen = "mainscreen";
@@ -14,8 +37,14 @@ class FirstScreen extends StatefulWidget {
 class _FirstScreenState extends State<FirstScreen> {
 
 
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -29,8 +58,8 @@ class _FirstScreenState extends State<FirstScreen> {
                   decoration: BoxDecoration(
                       // color: Colors.yellow,
                       color: Color(0xffFFFDD0),
-                      borderRadius:
-                          BorderRadius.only(bottomLeft: Radius.circular(250.0))),
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(250.0))),
                 ),
               ),
               SizedBox(
@@ -40,14 +69,14 @@ class _FirstScreenState extends State<FirstScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-
                   Padding(
-                    padding: const EdgeInsets.only(left:20.0,right: 20.0),
+                    padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                     child: RoundedButton(
                         color: Colors.blueAccent,
                         button_name: "SignIn with PhoneNumber",
-                        onPress: (){
-                          Navigator.of(context).push(MaterialPageRoute(builder: (c) => LoginScreen()));
+                        onPress: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (c) => LoginScreen()));
                         },
                         icon: FontAwesomeIcons.keyboard),
                   ),
@@ -56,7 +85,37 @@ class _FirstScreenState extends State<FirstScreen> {
                     child: RoundedButton(
                         color: Colors.red,
                         button_name: "SignIn with Google",
-                        onPress: () {},
+                        onPress: () async{
+                           await _gSignin();
+
+                           await buildLoading();
+
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (c) => HomeScreen()));
+
+
+                           },
+
+
+                        // async {
+                        //    await Provider.of<ControllerLogin>(context,listen: false).allowUserToLogin();
+
+                        //    await Navigator.of(context).push(
+                        //   MaterialPageRoute(
+                        //     builder: (c) => HomeScreen(),
+                        //   ),
+                        // );
+
+                        // Navigator.of(context).push(
+                        //   MaterialPageRoute(
+                        //     builder: (c) => GoogleSign(),
+                        //   ),);
+
+
+
+
+                        // },,
+
                         icon: FontAwesomeIcons.google),
                   ),
                 ],
@@ -67,4 +126,26 @@ class _FirstScreenState extends State<FirstScreen> {
       ),
     );
   }
+
+  Future<User> _gSignin() async {
+    GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
+    GoogleSignInAuthentication? googleSignInAuthentication = await googleSignInAccount!.authentication;
+
+    final AuthCredential credential = GoogleAuthProvider.credential(
+       idToken: googleSignInAuthentication.idToken,
+
+      accessToken: googleSignInAuthentication.accessToken,
+    );
+
+    final User user = (await _auth.signInWithCredential(credential)).user!;
+    // print("User is : ${user.photoURL}");
+    print("User is : ${user.displayName}");
+
+    return user;
+
+
+
+  }
+
 }
+
