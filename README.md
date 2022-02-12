@@ -16,5 +16,5 @@ For help getting started with Flutter, view our
 samples, guidance on mobile development, and a full API reference.
 
 
-for generating SHA-1 SHA-256 : keytool -list -v -alias androiddebugkey -keystore %USERPROFILE%\.android\debug.keystore
-password :android
+    for generating SHA-1 SHA-256 : keytool -list -v -alias androiddebugkey -keystore %USERPROFILE%\.android\debug.keystore
+      password :android
