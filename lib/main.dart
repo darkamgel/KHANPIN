@@ -6,6 +6,8 @@ import 'package:khan_pin/Screens/Google/gLoginScreen.dart';
 import 'package:khan_pin/Screens/firstScreen.dart';
 import 'package:provider/provider.dart';
 
+print("Hello");
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
