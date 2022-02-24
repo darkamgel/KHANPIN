@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:khan_pin/Home/main_home_page.dart';
 import 'package:khan_pin/Refactorcodes/buttons.dart';
 import 'package:khan_pin/Screens/homescreen.dart';
 import 'package:pinput/pin_put/pin_put.dart';
@@ -45,7 +46,7 @@ class _OTPScreenState extends State<OTPScreen> {
             .then((value) {
           if (value.user != null) {
             Navigator.of(context)
-                .push(MaterialPageRoute(builder: (c) => HomeScreen()));
+                .push(MaterialPageRoute(builder: (c) => MainHomePage()));
           }
         });
       },
@@ -134,7 +135,7 @@ class _OTPScreenState extends State<OTPScreen> {
                         .then((value) {
                       if (value.user != null) {
                         Navigator.of(context).push(
-                          MaterialPageRoute(builder: (c) => HomeScreen()),
+                          MaterialPageRoute(builder: (c) => MainHomePage()),
                         );
                       }
                     });
@@ -150,15 +151,14 @@ class _OTPScreenState extends State<OTPScreen> {
                 },
               ),
             ),
-
             Padding(
               padding: const EdgeInsets.all(18.0),
               child: Button1(
-                  color: Colors.red,
-                  button_name: "Re-Send OTP",
-                  onPress: () =>
-                      sendOTP(phone: "${widget.codeDigits + widget.phone}"),
-                      ),
+                color: Colors.red,
+                button_name: "Re-Send OTP",
+                onPress: () =>
+                    sendOTP(phone: "${widget.codeDigits + widget.phone}"),
+              ),
             ),
           ],
         ),

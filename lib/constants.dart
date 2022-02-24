@@ -19,12 +19,10 @@ const kTextFieldDecoration = InputDecoration(
   ),
 );
 
-displayToastMessage(String message, BuildContext context)
-{
+displayToastMessage(String message, BuildContext context) {
   Fluttertoast.showToast(msg: message);
 }
 
-Widget buildLoading() => Center(child: CircularProgressIndicator(),);
-
-
-
+Widget buildLoading() => Center(
+      child: CircularProgressIndicator(),
+    );

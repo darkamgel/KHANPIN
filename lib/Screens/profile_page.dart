@@ -1,19 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:khan_pin/Home/main_home_page.dart';
 import 'package:khan_pin/Screens/Google/gLoginScreen.dart';
-
+import 'package:khan_pin/Screens/OTP/loginScreen.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatefulWidget {
-  static const String idscreen = "home";
-  HomeScreen({Key? key}) : super(key: key);
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
+class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Provider.of<ControllerLogin>(context, listen: false)
                     .allowUserToLogOut();
                 Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (c) => MainHomePage()));
+                    .push(MaterialPageRoute(builder: (c) => LoginScreen()));
               },
               child: Text('LogOut',
                   style: TextStyle(
