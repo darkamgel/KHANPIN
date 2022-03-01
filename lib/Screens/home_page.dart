@@ -1,9 +1,11 @@
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:khan_pin/Home/main_home_page.dart';
+
 import '../data/food_card_data.dart';
 import '../widgets/food_category.dart';
 import '../widgets/food_card_item.dart';
+
+User? loggedInUser;
 
 //Data
 
@@ -13,6 +15,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final currentUser = loggedInUser!.phoneNumber;
+
+  // final user = _auth.currentUser;
+
+  // LoggedInUser = user;
+
   List<FoodData> _foods = foodsData;
 
   final textStyle = TextStyle(
@@ -39,7 +47,11 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        'Ani k ',
+                        // loggedInUser!.phoneNumber.toString(),
+                        //loggedInUser.phoneNumber!,
+                        // "Ani k ",
+                        "${loggedInUser?.phoneNumber}",
+
                         style: textStyle,
                       ),
                       Text(
