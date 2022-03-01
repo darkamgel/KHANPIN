@@ -15,9 +15,13 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  String ? phonenumber;
+  String ? username;
+
   bool showSpinner = false;
   String dialCodeDigits = "+977";
-  TextEditingController _controller = TextEditingController();
+  TextEditingController number_controller = TextEditingController();
+  TextEditingController username_controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -71,6 +75,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     right: 10.0,
                   ),
                   child: TextField(
+                    onChanged: ( value){
+                      phonenumber = value;
+
+                    },
+                    textAlign: TextAlign.center,
                     decoration: InputDecoration(
                       hintText: "Phone Number",
                       hintStyle: TextStyle(color: Colors.black),
@@ -98,7 +107,38 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     maxLength: 10,
                     keyboardType: TextInputType.number,
-                    controller: _controller,
+                    controller: number_controller,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: TextField(
+                    onChanged: (value){
+                      username = value;
+
+                    },
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      hintText: "Enter Your User Name",
+                      hintStyle: TextStyle(color: Colors.black),
+                      labelStyle: TextStyle(color: Colors.deepOrange),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Colors.lightBlueAccent, width: 1.0),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20.0),
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.teal, width: 2.0),
+                          borderRadius: BorderRadius.all(Radius.circular(32.0)),
+                        ),
+                    ),
                   ),
                 ),
 
@@ -108,36 +148,28 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Button1(
                     color: Colors.blue,
                     button_name: "Get OTP",
-                    onPress: () async{
-                      if (_controller.text.length < 10) {
+                    onPress: () async {
+                      print(phonenumber);
+                      print(username);
+                      if (number_controller.text.length < 10) {
                         displayToastMessage("Enter 10 Digits Number", context);
                       } else {
-
-                          setState(() {
-                            showSpinner = true;
-                          });
-
-
+                        setState(() {
+                          showSpinner = true;
+                        });
 
                         await Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (c) => OTPScreen(
-                              phone: _controller.text,
+                              phone: number_controller.text,
                               codeDigits: dialCodeDigits,
                             ),
                           ),
                         );
 
-
-
                         setState(() {
-                           showSpinner = false;
-
+                          showSpinner = false;
                         });
-
-
-
-
                       }
                     },
                   ),

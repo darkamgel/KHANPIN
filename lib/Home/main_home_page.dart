@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../Screens/favorite_page.dart';
 import '../Screens/home_page.dart';
@@ -10,7 +11,11 @@ class MainHomePage extends StatefulWidget {
 }
 
 class _MainHomePageState extends State<MainHomePage> {
+  final _auth = FirebaseAuth.instance;
+  User  ? LoggedInUser;
   int currentIndex = 0;
+
+  
 
   List<Widget> pages = [];
   late Widget currentPage;
@@ -22,6 +27,7 @@ class _MainHomePageState extends State<MainHomePage> {
 
   @override
   void initState() {
+    getCurrentUser();
     homePage = HomePage();
     orderPage = Order();
     profilePage = ProfilePage();
@@ -32,6 +38,21 @@ class _MainHomePageState extends State<MainHomePage> {
 
     super.initState();
   }
+
+  void getCurrentUser() async {
+    try{
+    final user = await _auth.currentUser;
+
+      LoggedInUser = user;
+      print(LoggedInUser!.phoneNumber);
+      LoggedInUser!.phoneNumber;
+      print(LoggedInUser!.displayName);
+    }
+    catch(e){
+      print(e);
+    }
+  }
+  
 
   @override
   Widget build(BuildContext context) {

@@ -5,7 +5,7 @@ import 'package:khan_pin/Screens/firstScreen.dart';
 
 import 'package:provider/provider.dart';
 
-import 'Home/main_home_page.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

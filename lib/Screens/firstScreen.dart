@@ -8,7 +8,7 @@ import 'package:khan_pin/Home/main_home_page.dart';
 import 'package:khan_pin/Refactorcodes/buttons.dart';
 
 import 'package:khan_pin/Screens/OTP/loginScreen.dart';
-import 'package:khan_pin/Screens/homescreen.dart';
+
 import 'package:khan_pin/constants.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;

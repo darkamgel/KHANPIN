@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:khan_pin/Screens/Google/gLoginScreen.dart';
-import 'package:khan_pin/Screens/OTP/loginScreen.dart';
+
+import 'package:khan_pin/Screens/firstScreen.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -30,7 +31,7 @@ class ProfilePage extends StatelessWidget {
                 Provider.of<ControllerLogin>(context, listen: false)
                     .allowUserToLogOut();
                 Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (c) => LoginScreen()));
+                    .push(MaterialPageRoute(builder: (c) => FirstScreen()));
               },
               child: Text('LogOut',
                   style: TextStyle(
