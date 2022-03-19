@@ -1,11 +1,17 @@
+
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../data/food_card_data.dart';
 import '../widgets/food_category.dart';
 import '../widgets/food_card_item.dart';
 
-User? loggedInUser;
+User? loggedInuser = FirebaseAuth.instance.currentUser;
+// CollectionReference users = FirebaseFirestore.instance.collection('users');
+
 
 //Data
 
@@ -15,11 +21,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final currentUser = loggedInUser!.phoneNumber;
-
-  // final user = _auth.currentUser;
-
-  // LoggedInUser = user;
+  final _auth = FirebaseAuth.instance;
+  
+  
 
   List<FoodData> _foods = foodsData;
 
@@ -30,6 +34,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+
+  final users =Provider.of<QuerySnapshot>(context);
     return Scaffold(
       backgroundColor: Color(0xffeeeeee),
       body: ListView(
@@ -46,16 +52,22 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(
-                        // loggedInUser!.phoneNumber.toString(),
-                        //loggedInUser.phoneNumber!,
-                        // "Ani k ",
-                        "${loggedInUser?.phoneNumber}",
+                      // Text(
+                      //   "${loggedInuser!.phoneNumber}",
 
-                        style: textStyle,
-                      ),
+                      //   // loggedInUser!.displayName,
+
+                      //   style: TextStyle(fontSize: 20),
+                      // ): "$loggedInuser!.displayName",
+                      
+
+                      // Text("${loggedInuser!.displayName}"),
+                      Text("${users.docs}"),
+
+                      // Text("${users.doc().get()}")
+
                       Text(
-                        'khane ho ta?',
+                        ' k khane ho ta?',
                         style: textStyle,
                       ),
                     ],

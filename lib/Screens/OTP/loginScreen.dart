@@ -1,9 +1,11 @@
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:khan_pin/Refactorcodes/buttons.dart';
 import 'package:khan_pin/Screens/OTP/otpscreen.dart';
 import 'package:khan_pin/constants.dart';
+import 'package:khan_pin/database/database.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -158,6 +160,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           showSpinner = true;
                         });
 
+
+                        await DataBaseServiceOTP(uid: FirebaseAuth.instance.currentUser!.uid).updateUserData(username!, phonenumber!);
+
+
+
                         await Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (c) => OTPScreen(
@@ -165,7 +172,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               codeDigits: dialCodeDigits,
                             ),
                           ),
+
+                          // Create a new document for the user with the uid
+                          
+
                         );
+                       
 
                         setState(() {
                           showSpinner = false;
