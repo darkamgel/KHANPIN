@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 
-import 'package:khan_pin/Screens/users/OTP/firstScreen.dart';
+import 'package:khan_pin/firstScreen.dart';
 // import 'package:provider/provider.dart';
 
 class ProfilePage extends StatelessWidget {

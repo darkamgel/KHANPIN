@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:khan_pin/Screens/admin/homescreenadmin.dart';
 import 'package:khan_pin/Screens/users/OTP/main_home_page.dart';
 import 'package:khan_pin/Refactorcodes/buttons.dart';
 
@@ -46,7 +47,7 @@ class _OTPScreenadminState extends State<OTPScreenadmin> {
             .then((value) {
           if (value.user != null) {
             Navigator.of(context)
-                .push(MaterialPageRoute(builder: (c) => MainHomePage()));
+                .push(MaterialPageRoute(builder: (c) => Homepageadmin()));
           }
         });
       },
@@ -135,7 +136,7 @@ class _OTPScreenadminState extends State<OTPScreenadmin> {
                         .then((value) {
                       if (value.user != null) {
                         Navigator.of(context).push(
-                          MaterialPageRoute(builder: (c) => MainHomePage()),
+                          MaterialPageRoute(builder: (c) => Homepageadmin()),
                         );
                       }
                     });

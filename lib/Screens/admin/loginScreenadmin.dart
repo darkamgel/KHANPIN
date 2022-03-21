@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:khan_pin/Refactorcodes/buttons.dart';
 import 'package:khan_pin/Screens/admin/homescreenadmin.dart';
 import 'package:khan_pin/Screens/admin/otpscreenadmin.dart';
-import 'package:khan_pin/Screens/users/OTP/otpscreen.dart';
+
 
 import 'package:khan_pin/constants.dart';
 import 'package:khan_pin/database/database.dart';
@@ -171,13 +171,17 @@ class _LoginScreenadminState extends State<LoginScreenadmin> {
                   color: Colors.blue,
                   button_name: "Get OTP",
                   onPress: () async {
-                    print(phonenumber);
-                    print(username);
+                    
                     if (number_controller.text.length < 10 ) {
                       displayToastMessage("Enter 10 Digits Number", context);
-                    }else if(username_controller.text.length < 8){
-                      displayToastMessage("Your name must be at least 8 characters.", context);
-                    }else if(!email_controller.text.contains("@")){
+                    }
+                    else if(username!.isEmpty){
+                      displayToastMessage("Your name must be at least 5 characters.", context);
+                    }
+                    else if(resturantname!.isEmpty){
+                      displayToastMessage("Enter your Resturant Name.", context);
+                    }
+                    else if(!email!.contains("@")){
                       displayToastMessage("Enter valid Email.", context);
                     }else{
                     
@@ -194,20 +198,20 @@ class _LoginScreenadminState extends State<LoginScreenadmin> {
                       .updateAdminData(username!, phonenumber!, email!, resturantname!);
 
   //for easiness i am removing  this verification method and will be added back later
-                      // await Navigator.of(context).push(
-                      //   MaterialPageRoute(
-                      //     builder: (c) => OTPScreenadmin(
-                      //       phone: number_controller.text,
-                      //       codeDigits: dialCodeDigits,
-                      //     ),
-                      //   ),
-
-                      //   // Create a new document for the user with the uid
-                      // );
-
                       await Navigator.of(context).push(
-                        MaterialPageRoute(builder: (c) => Homepageadmin())
+                        MaterialPageRoute(
+                          builder: (c) => OTPScreenadmin(
+                            phone: number_controller.text,
+                            codeDigits: dialCodeDigits,
+                          ),
+                        ),
+
+                        // Create a new document for the user with the uid
                       );
+
+                      // await Navigator.of(context).push(
+                      //   MaterialPageRoute(builder: (c) => Homepageadmin())
+                      // );
                     }
 
                       // setState(() {

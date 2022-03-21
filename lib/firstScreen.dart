@@ -9,8 +9,6 @@ import 'package:khan_pin/Refactorcodes/buttons.dart';
 import 'package:khan_pin/Screens/admin/loginScreenadmin.dart';
 import 'package:khan_pin/Screens/users/OTP/loginScreenuser.dart';
 
-
-
 import 'package:khan_pin/constants.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -57,15 +55,9 @@ class _FirstScreenState extends State<FirstScreen> {
                         color: Colors.blueAccent,
                         button_name: "SignIn with PhoneNumber",
                         onPress: () {
-                          
                           Navigator.of(context).push(
                               MaterialPageRoute(builder: (c) => LoginScreen()));
                         },
-
-
-                      
-                      
-
                         icon: FontAwesomeIcons.keyboard),
                   ),
                   Padding(
@@ -78,33 +70,34 @@ class _FirstScreenState extends State<FirstScreen> {
 
                           await buildLoading();
 
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (c) => MainHomePage()));
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (c) => MainHomePage(),
+                            ),
+                          );
                         },
-
-
                         icon: FontAwesomeIcons.google),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                    child: TextButton(child: Text("Resturant Owner ? " ,
-                    style: TextStyle(
-                      color: Colors.black , 
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1
-                      
-                      ),
-                      ), 
-                    
-                    onPressed: (){
-                      // if (isresturantowner = true){
-                      // Navigator.of(context).push(MaterialPageRoute(builder: (c) => LoginScreen()));
+                    child: TextButton(
+                        child: Text(
+                          "Resturant Owner ? ",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1),
+                        ),
+                        onPressed: () {
+                          // if (isresturantowner = true){
+                          // Navigator.of(context).push(MaterialPageRoute(builder: (c) => LoginScreen()));
 
-                      // }
+                          // }
 
-                      Navigator.of(context).push(MaterialPageRoute(builder: (c) => LoginScreenadmin()));
-                    }),
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (c) => LoginScreenadmin()));
+                        }),
                   ),
                 ],
               )

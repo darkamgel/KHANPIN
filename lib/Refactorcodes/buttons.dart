@@ -71,7 +71,7 @@ class Button1 extends StatelessWidget {
         child: MaterialButton(
           onPressed: onPress,
 
-          minWidth: 200.0,
+          minWidth: 150.0,
           height: 42.0,
 
           // child: Text(button_name,style: TextStyle(color: Colors.white),),

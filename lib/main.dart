@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-import 'package:khan_pin/Screens/users/OTP/firstScreen.dart';
+import 'package:khan_pin/firstScreen.dart';
 
 // import 'package:provider/provider.dart';
 
