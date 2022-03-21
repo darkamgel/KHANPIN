@@ -19,8 +19,28 @@ class _AddFoodFormState extends State<AddFoodForm> {
   TextEditingController food_dicount_controller = TextEditingController();
   TextEditingController location_controller = TextEditingController();
 
+  late double discount;
+
   XFile? imageXFile;
   final ImagePicker _picker = ImagePicker();
+
+  Future<void> formvalidation() async {
+    if (imageXFile == null) {
+      displayToastMessage("Please select an food image", context);
+
+    } else if (food_category_controller.text.isNotEmpty &&
+        food_name_controller.text.isNotEmpty &&
+        food_price_controller.text.isNotEmpty &&
+        food_dicount_controller.text.isNotEmpty &&
+        location_controller.text.isNotEmpty) {
+
+        }
+
+        else{
+          displayToastMessage("Fill The All Required Field", context);
+        }
+  }
+  
 
   Future<void> _getImage() async {
     imageXFile = await _picker.pickImage(source: ImageSource.gallery);
@@ -99,6 +119,7 @@ class _AddFoodFormState extends State<AddFoodForm> {
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: TextField(
+                  keyboardType: TextInputType.number,
                   onChanged: (value) {
                     food_price_controller.text = value;
                   },
@@ -113,6 +134,7 @@ class _AddFoodFormState extends State<AddFoodForm> {
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: TextField(
+                  keyboardType: TextInputType.number,
                   onChanged: (value) {
                     food_dicount_controller.text = value;
                   },
@@ -169,7 +191,11 @@ class _AddFoodFormState extends State<AddFoodForm> {
                   Button1(
                       color: Colors.red, button_name: "Back", onPress: () {}),
                   Button1(
-                      color: Colors.red, button_name: "Submit", onPress: () {}),
+                      color: Colors.red,
+                      button_name: "Submit",
+                      onPress: () {
+                        formvalidation();
+                      }),
                 ],
               )
             ],
