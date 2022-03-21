@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:khan_pin/Home/main_home_page.dart';
+import 'package:khan_pin/Screens/users/OTP/main_home_page.dart';
 import 'package:khan_pin/Refactorcodes/buttons.dart';
 
 import 'package:pinput/pin_put/pin_put.dart';

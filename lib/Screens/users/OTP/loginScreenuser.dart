@@ -3,10 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:khan_pin/Refactorcodes/buttons.dart';
-import 'package:khan_pin/Screens/OTP/otpscreen.dart';
+import 'package:khan_pin/Screens/users/OTP/otpscreen.dart';
+
 import 'package:khan_pin/constants.dart';
 import 'package:khan_pin/database/database.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+
+
 
 class LoginScreen extends StatefulWidget {
   static const String idscreen = "loginScreen";
@@ -17,8 +20,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String ? phonenumber;
-  String ? username;
+  String? phonenumber;
+  String? username;
 
   bool showSpinner = false;
   String dialCodeDigits = "+977";
@@ -27,13 +30,19 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      
       child: Scaffold(
-        body: ModalProgressHUD(
+        
+        body: 
+         
+        ModalProgressHUD(
           inAsyncCall: showSpinner,
           child: SingleChildScrollView(
             child: Column(
+              
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                
                 SizedBox(
                   height: 10,
                 ),
@@ -56,8 +65,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 //   height: 50,
                 // ),
                 SizedBox(
-                  width: 200,
-                  height: 200,
+                  width: 150,
+                  height: 150,
                   child: CountryCodePicker(
                     onChanged: (country) {
                       setState(() {
@@ -70,6 +79,22 @@ class _LoginScreenState extends State<LoginScreen> {
                     favorite: ["+1", "US", "+92", "PAK", "+977", "NP"],
                   ),
                 ),
+
+
+                // separation
+                
+
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: TextField(
+                    onChanged: (value) {
+                      username = value;
+                    },
+                    textAlign: TextAlign.center,
+                    decoration: kTextFieldDecoration.copyWith(hintText: "Enter your Username" , hintStyle: kHintStyle)
+                  ),
+                ),
+                
                 Container(
                   margin: EdgeInsets.only(
                     top: 10.0,
@@ -77,9 +102,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     right: 10.0,
                   ),
                   child: TextField(
-                    onChanged: ( value){
+                    onChanged: (value) {
                       phonenumber = value;
-
                     },
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
@@ -112,38 +136,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: number_controller,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: TextField(
-                    onChanged: (value){
-                      username = value;
-
-                    },
-                    textAlign: TextAlign.center,
-                    decoration: InputDecoration(
-                      hintText: "Enter Your User Name",
-                      hintStyle: TextStyle(color: Colors.black),
-                      labelStyle: TextStyle(color: Colors.deepOrange),
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.lightBlueAccent, width: 1.0),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(20.0),
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.teal, width: 2.0),
-                          borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                        ),
-                    ),
-                  ),
-                ),
-
+                
+                
                 Container(
                   margin: EdgeInsets.all(30),
                   width: double.infinity,
@@ -153,17 +147,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPress: () async {
                       print(phonenumber);
                       print(username);
-                      if (number_controller.text.length < 10) {
+                      if (number_controller.text.length < 10 && username_controller.text.length < 7) {
                         displayToastMessage("Enter 10 Digits Number", context);
                       } else {
                         setState(() {
                           showSpinner = true;
                         });
 
-
-                        await DataBaseServiceOTP(uid: FirebaseAuth.instance.currentUser!.uid).updateUserData(username!, phonenumber!);
-
-
+                        await DataBaseServiceOTP(
+                                uid: FirebaseAuth.instance.currentUser!.uid)
+                            .updateUserData(username!, phonenumber!);
 
                         await Navigator.of(context).push(
                           MaterialPageRoute(
@@ -174,10 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
 
                           // Create a new document for the user with the uid
-                          
-
                         );
-                       
 
                         setState(() {
                           showSpinner = false;
@@ -200,7 +190,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ],
             ),
           ),
-        ),
+        )
+        
       ),
     );
   }

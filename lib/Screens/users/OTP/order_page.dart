@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:khan_pin/widgets/price_info_order.dart';
-import '../widgets/order_card.dart';
+import '../../../widgets/order_card.dart';
 
 class Order extends StatefulWidget {
   @override

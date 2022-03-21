@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:khan_pin/Screens/Google/gLoginScreen.dart';
 
-import 'package:khan_pin/Screens/firstScreen.dart';
-import 'package:provider/provider.dart';
+
+import 'package:khan_pin/Screens/users/OTP/firstScreen.dart';
+// import 'package:provider/provider.dart';
 
 class ProfilePage extends StatelessWidget {
   @override
@@ -28,8 +28,8 @@ class ProfilePage extends StatelessWidget {
               style: ElevatedButton.styleFrom(primary: Colors.red),
               onPressed: () {
                 FirebaseAuth.instance.signOut();
-                Provider.of<ControllerLogin>(context, listen: false)
-                    .allowUserToLogOut();
+                // Provider.of<ControllerLogin>(context, listen: false)
+                //     .allowUserToLogOut();
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (c) => FirstScreen()));
               },
