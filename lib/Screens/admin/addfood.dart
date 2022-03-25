@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:khan_pin/Refactorcodes/buttons.dart';
 import 'package:khan_pin/constants.dart';
@@ -24,6 +26,39 @@ class _AddFoodFormState extends State<AddFoodForm> {
   XFile? imageXFile;
   final ImagePicker _picker = ImagePicker();
 
+  Position ? position;
+  List<Placemark>? placeMarks;
+
+  getCurrentLocation() async
+  {
+
+    LocationPermission permission = await Geolocator.requestPermission();
+
+    Position newPosition = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+    position = newPosition;
+
+    
+    placeMarks = await placemarkFromCoordinates(
+      position!.latitude , position!.longitude
+
+    );
+    Placemark pMark = placeMarks![0];
+
+    // String completeAddress = '${pMark.subThoroughfare} ${pMark.thoroughfare} , ${pMark.subLocality}  ${pMark.locality} , ${pMark.subAdministrativeArea} , ${pMark.administrativeArea} ${pMark.postalCode} , ${pMark.country}';
+    String completeAddress = '${pMark.subThoroughfare} ${pMark.thoroughfare} , ${pMark.subLocality}  ${pMark.locality} , ${pMark.subAdministrativeArea} , ${pMark.administrativeArea} ${pMark.postalCode} , ${pMark.country}';
+    print(completeAddress);
+    location_controller.text = completeAddress;
+    
+
+  }
+
+
+
+
+
+
   Future<void> formvalidation() async {
     if (imageXFile == null) {
       displayToastMessage("Please select an food image", context);
@@ -39,6 +74,7 @@ class _AddFoodFormState extends State<AddFoodForm> {
         else{
           displayToastMessage("Fill The All Required Field", context);
         }
+    
   }
   
 
@@ -149,10 +185,11 @@ class _AddFoodFormState extends State<AddFoodForm> {
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: TextField(
+                  controller: location_controller,
                   enabled: false,
-                  onChanged: (value) {
-                    location_controller.text = value;
-                  },
+                  // onChanged: (value) {
+                  //   location_controller.text = value;
+                  // },
                   textAlign: TextAlign.center,
                   decoration: kTextFieldDecoration.copyWith(
                       hintText: "Resturant Location", hintStyle: kHintStyle),
@@ -167,7 +204,8 @@ class _AddFoodFormState extends State<AddFoodForm> {
                 alignment: Alignment.center,
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    debugPrint("Button test");
+                    getCurrentLocation();
+                    // debugPrint("Button test");
                   },
                   icon: Icon(
                     Icons.location_on,

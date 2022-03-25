@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:khan_pin/Screens/admin/addfood.dart';
 
 import 'package:khan_pin/firstScreen.dart';
 
@@ -20,7 +21,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'KhanPin ',
       theme: ThemeData(primaryColor: Colors.blue),
-      home: FirstScreen(),
+      home: AddFoodForm(),
+      // home: FirstScreen(),
       // home: OTPScreen(),
 
       // initialRoute: FirebaseAuth.instance.currentUser == null ? HomeScreen.idscreen : FirstScreen.idscreen,
