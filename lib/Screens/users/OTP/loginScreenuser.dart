@@ -19,9 +19,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
-  String ? phonenumber;
-  
+  String? phonenumber;
 
   bool showSpinner = false;
   String dialCodeDigits = "+977";
@@ -139,7 +137,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   color: Colors.blue,
                   button_name: "Get OTP",
                   onPress: () async {
-                    
                     if (number_controller.text.length < 10 &&
                         username_controller.text.length < 7) {
                       displayToastMessage("Enter 10 Digits Number", context);
@@ -148,14 +145,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         showSpinner = true;
                       });
 
-                      // await DataBaseServiceOTP(
-                      //         uid: FirebaseAuth.instance.currentUser!.uid)
-                      //     .updateUserData(username!, phonenumber!);
-
                       FirebaseFirestore.instance.collection("users").add({
                         // "adminUID":currentuser.uid,
-                        "username":username_controller.text,
-                        "phone_number":number_controller.text,
+                        "username": username_controller.text,
+                        "phone_number": number_controller.text,
                         // "address": completeAddress,
                         // "earnings": 0.0,
                         // "lat": position!.latitude,
@@ -168,21 +161,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         Navigator.pushReplacement(context, newRoute);
                       });
 
-                      // await Navigator.of(context).push(
-                      //   MaterialPageRoute(
-                      //     builder: (c) => OTPScreen(
-                      //       phone: number_controller.text,
-                      //       codeDigits: dialCodeDigits,
-                      //     ),
-                      //   ),
-
-                      //   // Create a new document for the user with the uid
-                      // );
-
-
-
-                      Route newRoute = await MaterialPageRoute(builder: (c) => OTPScreen(
-                        phone: phonenumber!, codeDigits: dialCodeDigits));
+                      Route newRoute = await MaterialPageRoute(
+                          builder: (c) => OTPScreen(
+                              phone: phonenumber!, codeDigits: dialCodeDigits));
                       Navigator.pushReplacement(context, newRoute);
 
                       setState(() {
@@ -192,17 +173,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
               ),
-              //   ElevatedButton(
-              //     onPressed: (){
-
-              //       Navigator.of(context).push(MaterialPageRoute(builder: (c) =>OTPControllerScreen(
-              //         phone: _controller.text,
-              //         codeDigits: dialCodeDigits,
-              //       )));
-              //     },
-
-              //     child: Text("Next" , style:TextStyle(color: Colors.white , fontWeight: FontWeight.bold),),),
-              // )
             ],
           ),
         ),

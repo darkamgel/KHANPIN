@@ -23,19 +23,9 @@ class _HomepageadminState extends State<Homepageadmin> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            // Navigator.of(context).push(
-            //                 MaterialPageRoute(
-            //                   builder: (c) => AddFoodForm(),
-            //                 ),
-            //               );
-
             Route newRoute = MaterialPageRoute(builder: (c) => AddFoodForm());
             Navigator.pushReplacement(context, newRoute);
           },
-          
-
-
-
           child: Icon(Icons.add),
         ),
       ),
@@ -44,8 +34,4 @@ class _HomepageadminState extends State<Homepageadmin> {
 }
 
 
-//  Route newRoute = MaterialPageRoute(
-//                             builder: (c) => OTPScreenadmin(
-//                                 phone: phonenumber_controller.text,
-//                                 codeDigits: dialCodeDigits));
-//                         Navigator.pushReplacement(context, newRoute);
+

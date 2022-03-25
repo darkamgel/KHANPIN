@@ -1,9 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:khan_pin/Screens/admin/homescreenadmin.dart';
-import 'package:khan_pin/Screens/admin/loginScreenadmin.dart';
-import 'package:khan_pin/Screens/users/OTP/loginScreenuser.dart';
-import 'package:khan_pin/Screens/users/OTP/main_home_page.dart';
+
 import 'package:khan_pin/Refactorcodes/buttons.dart';
 
 import 'package:pinput/pin_put/pin_put.dart';
@@ -137,14 +135,9 @@ class _OTPScreenadminState extends State<OTPScreenadmin> {
                             verificationId: verificationCode!, smsCode: pin))
                         .then((value) {
                       if (value.user != null) {
-
-                        Route newRoute = MaterialPageRoute(builder: (c) => Homepageadmin());
+                        Route newRoute =
+                            MaterialPageRoute(builder: (c) => Homepageadmin());
                         Navigator.pushReplacement(context, newRoute);
-                        
-                        
-                        // Navigator.of(context).push(
-                        //   MaterialPageRoute(builder: (c) => Homepageadmin()),
-                        // );
                       }
                     });
                   } catch (e) {

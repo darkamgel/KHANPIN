@@ -134,16 +134,9 @@ class _OTPScreenState extends State<OTPScreen> {
                             verificationId: verificationCode!, smsCode: pin))
                         .then((value) {
                       if (value.user != null) {
-
-                        Route newRoute = MaterialPageRoute(builder: (c) => MainHomePage());
+                        Route newRoute =
+                            MaterialPageRoute(builder: (c) => MainHomePage());
                         Navigator.pushReplacement(context, newRoute);
-
-
-
-
-                        // Navigator.of(context).push(
-                        //   MaterialPageRoute(builder: (c) => MainHomePage()),
-                        // );
                       }
                     });
                   } catch (e) {

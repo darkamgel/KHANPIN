@@ -46,18 +46,7 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      // Text(
-                      //   "${loggedInuser!.phoneNumber}",
-
-                      //   // loggedInUser!.displayName,
-
-                      //   style: TextStyle(fontSize: 20),
-                      // ): "$loggedInuser!.displayName",
-
-                      // Text("${loggedInuser!.displayName}"),
-                      // Text("${users.docs}"),
-
-                      // Text("${users.doc().get()}")
+                      
 
                       Text(
                         ' k khane ho ta?',
