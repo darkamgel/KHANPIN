@@ -134,9 +134,16 @@ class _OTPScreenState extends State<OTPScreen> {
                             verificationId: verificationCode!, smsCode: pin))
                         .then((value) {
                       if (value.user != null) {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(builder: (c) => MainHomePage()),
-                        );
+
+                        Route newRoute = MaterialPageRoute(builder: (c) => MainHomePage());
+                        Navigator.pushReplacement(context, newRoute);
+
+
+
+
+                        // Navigator.of(context).push(
+                        //   MaterialPageRoute(builder: (c) => MainHomePage()),
+                        // );
                       }
                     });
                   } catch (e) {
@@ -154,6 +161,8 @@ class _OTPScreenState extends State<OTPScreen> {
             Padding(
               padding: const EdgeInsets.all(18.0),
               child: Button1(
+                width: 150,
+                height: 42,
                 color: Colors.red,
                 button_name: "Re-Send OTP",
                 onPress: () =>

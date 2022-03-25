@@ -1,5 +1,3 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +10,6 @@ import '../../../widgets/food_card_item.dart';
 User? loggedInuser = FirebaseAuth.instance.currentUser;
 // CollectionReference users = FirebaseFirestore.instance.collection('users');
 
-
 //Data
 
 class HomePage extends StatefulWidget {
@@ -22,8 +19,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _auth = FirebaseAuth.instance;
-  
-  
 
   List<FoodData> _foods = foodsData;
 
@@ -34,8 +29,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-
-  // final users =Provider.of<QuerySnapshot>(context);
+    // final users =Provider.of<QuerySnapshot>(context);
     return Scaffold(
       backgroundColor: Color(0xffeeeeee),
       body: ListView(
@@ -59,7 +53,6 @@ class _HomePageState extends State<HomePage> {
 
                       //   style: TextStyle(fontSize: 20),
                       // ): "$loggedInuser!.displayName",
-                      
 
                       // Text("${loggedInuser!.displayName}"),
                       // Text("${users.docs}"),

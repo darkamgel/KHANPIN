@@ -1,11 +1,15 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:khan_pin/Refactorcodes/buttons.dart';
 import 'package:khan_pin/constants.dart';
+import 'package:khan_pin/widgets/loading_dialog.dart';
+import 'package:firebase_storage/firebase_storage.dart' as fstorage;
 
 class AddFoodForm extends StatefulWidget {
   AddFoodForm({Key? key}) : super(key: key);
@@ -19,70 +23,64 @@ class _AddFoodFormState extends State<AddFoodForm> {
   TextEditingController food_name_controller = TextEditingController();
   TextEditingController food_price_controller = TextEditingController();
   TextEditingController food_dicount_controller = TextEditingController();
-  TextEditingController location_controller = TextEditingController();
 
-  late double discount;
+  TextEditingController totalprice_controller = TextEditingController();
 
   XFile? imageXFile;
   final ImagePicker _picker = ImagePicker();
 
-  Position ? position;
-  List<Placemark>? placeMarks;
-
-  getCurrentLocation() async
-  {
-
-    LocationPermission permission = await Geolocator.requestPermission();
-
-    Position newPosition = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-    );
-    position = newPosition;
-
-    
-    placeMarks = await placemarkFromCoordinates(
-      position!.latitude , position!.longitude
-
-    );
-    Placemark pMark = placeMarks![0];
-
-    // String completeAddress = '${pMark.subThoroughfare} ${pMark.thoroughfare} , ${pMark.subLocality}  ${pMark.locality} , ${pMark.subAdministrativeArea} , ${pMark.administrativeArea} ${pMark.postalCode} , ${pMark.country}';
-    String completeAddress = '${pMark.subThoroughfare} ${pMark.thoroughfare} , ${pMark.subLocality}  ${pMark.locality} , ${pMark.subAdministrativeArea} , ${pMark.administrativeArea} ${pMark.postalCode} , ${pMark.country}';
-    print(completeAddress);
-    location_controller.text = completeAddress;
-    
-
-  }
-
-
-
-
-
+  String foodImageUrl = "";
 
   Future<void> formvalidation() async {
     if (imageXFile == null) {
       displayToastMessage("Please select an food image", context);
-
-    } else if (food_category_controller.text.isNotEmpty &&
+    }
+    if (food_category_controller.text.isNotEmpty &&
         food_name_controller.text.isNotEmpty &&
         food_price_controller.text.isNotEmpty &&
-        food_dicount_controller.text.isNotEmpty &&
-        location_controller.text.isNotEmpty) {
+        food_dicount_controller.text.isNotEmpty) {
+      showDialog(
+          context: context,
+          builder: (c) {
+            return LoadingDialog(
+              message: "Saving Data...",
+            );
+          });
 
-        }
+      String fileName = DateTime.now().microsecondsSinceEpoch.toString();
+      fstorage.Reference reference = fstorage.FirebaseStorage.instance
+          .ref()
+          .child("foodimage")
+          .child(fileName);
+      fstorage.UploadTask uploadTask =
+          reference.putFile(File(imageXFile!.path));
+      fstorage.TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
+      await taskSnapshot.ref.getDownloadURL().then((url) {
+        foodImageUrl = url;
 
-        else{
-          displayToastMessage("Fill The All Required Field", context);
-        }
-    
+        //  save info to firestore database
+      });
+    } else {
+      displayToastMessage("Fill The All Required Field", context);
+    }
   }
-  
 
   Future<void> _getImage() async {
     imageXFile = await _picker.pickImage(source: ImageSource.gallery);
 
     setState(() {
       imageXFile;
+    });
+  }
+
+  Future saveDatatoFirestore(User currentUser) async {
+    FirebaseFirestore.instance.collection("food").doc(currentUser.uid).set({
+      "foodUID": currentUser.uid,
+      "foodurl": foodImageUrl,
+      "foodcategory": food_category_controller.text.trim(),
+      "foodname": food_name_controller.text.trim(),
+      "price": food_price_controller.text.trim(),
+      "discount": food_dicount_controller.text.trim(),
     });
   }
 
@@ -185,52 +183,51 @@ class _AddFoodFormState extends State<AddFoodForm> {
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: TextField(
-                  controller: location_controller,
+                  controller: totalprice_controller,
                   enabled: false,
-                  // onChanged: (value) {
-                  //   location_controller.text = value;
-                  // },
+                  keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
                   decoration: kTextFieldDecoration.copyWith(
-                      hintText: "Resturant Location", hintStyle: kHintStyle),
+                      hintText: "Total Price With Discount",
+                      hintStyle: kHintStyle),
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                width: 400,
-                height: 40,
-                alignment: Alignment.center,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    getCurrentLocation();
-                    // debugPrint("Button test");
-                  },
-                  icon: Icon(
-                    Icons.location_on,
-                    color: Colors.white,
-                  ),
-                  label: Text(
-                    "Get My Current Location",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.amber,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
-                ),
+              Padding(
+                padding: const EdgeInsets.only(left: 25.0, right: 25),
+                child: Button1(
+                    color: Colors.yellow,
+                    button_name: "Generate Total Amount",
+                    onPress: () {
+                      double dis_rate =
+                          double.parse(food_dicount_controller.text) / 100;
+
+                      double dis_amount =
+                          double.parse(food_price_controller.text) * dis_rate;
+
+                      double total_price =
+                          double.parse(food_price_controller.text) - dis_amount;
+
+                      totalprice_controller.text = total_price.toString();
+
+                      // totalprice_controller = food_price_controller - (food_price_controller * (food_dicount_controller / 100));
+                    },
+                    height: 42,
+                    width: 150),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Button1(
-                      color: Colors.red, button_name: "Back", onPress: () {}),
+                      color: Colors.red,
+                      button_name: "Back",
+                      width: 150,
+                      height: 42,
+                      onPress: () {}),
                   Button1(
                       color: Colors.red,
                       button_name: "Submit",
+                      width: 150,
+                      height: 42,
                       onPress: () {
                         formvalidation();
                       }),

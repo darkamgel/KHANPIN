@@ -56,9 +56,11 @@ class Button1 extends StatelessWidget {
   final Color color;
   final String button_name;
   final VoidCallback onPress;
+  final double ? height;
+  final double ? width;
 
   Button1(
-      {required this.color, required this.button_name, required this.onPress});
+      {required this.color, required this.button_name, required this.onPress , required this.height , required this.width});
 
   @override
   Widget build(BuildContext context) {
@@ -71,8 +73,9 @@ class Button1 extends StatelessWidget {
         child: MaterialButton(
           onPressed: onPress,
 
-          minWidth: 150.0,
-          height: 42.0,
+          minWidth: width  ,
+          
+          height: height,
 
           // child: Text(button_name,style: TextStyle(color: Colors.white),),
           child: Expanded(

@@ -21,8 +21,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'KhanPin ',
       theme: ThemeData(primaryColor: Colors.blue),
-      home: AddFoodForm(),
-      // home: FirstScreen(),
+      // home: AddFoodForm(),
+      home: FirstScreen(),
       // home: OTPScreen(),
 
       // initialRoute: FirebaseAuth.instance.currentUser == null ? HomeScreen.idscreen : FirstScreen.idscreen,

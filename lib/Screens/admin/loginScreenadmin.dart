@@ -1,11 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 
 import 'package:khan_pin/Refactorcodes/buttons.dart';
 import 'package:khan_pin/Screens/admin/homescreenadmin.dart';
 import 'package:khan_pin/Screens/admin/otpscreenadmin.dart';
-
 
 import 'package:khan_pin/constants.dart';
 import 'package:khan_pin/database/database.dart';
@@ -21,16 +23,57 @@ class LoginScreenadmin extends StatefulWidget {
 
 class _LoginScreenadminState extends State<LoginScreenadmin> {
   String? phonenumber;
-  String? username;
-  String? email;
-  String? resturantname;
+  // String? username;
+  // String? email;
+  // String? resturantname;
+
+  Position? position;
+  List<Placemark>? placeMarks;
 
   bool showSpinner = false;
   String dialCodeDigits = "+977";
-  TextEditingController number_controller = TextEditingController();
+  TextEditingController phonenumber_controller = TextEditingController();
   TextEditingController username_controller = TextEditingController();
   TextEditingController resturantname_controller = TextEditingController();
   TextEditingController email_controller = TextEditingController();
+  TextEditingController location_controller = TextEditingController();
+
+  String completeAddress = "";
+
+  getCurrentLocation() async {
+    LocationPermission permission = await Geolocator.requestPermission();
+
+    Position newPosition = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+    position = newPosition;
+
+    placeMarks =
+        await placemarkFromCoordinates(position!.latitude, position!.longitude);
+    Placemark pMark = placeMarks![0];
+
+    // String completeAddress = '${pMark.subThoroughfare} ${pMark.thoroughfare} , ${pMark.subLocality}  ${pMark.locality} , ${pMark.subAdministrativeArea} , ${pMark.administrativeArea} ${pMark.postalCode} , ${pMark.country}';
+    completeAddress =
+        '${pMark.subThoroughfare} ${pMark.thoroughfare} , ${pMark.subLocality}  ${pMark.locality} , ${pMark.subAdministrativeArea} , ${pMark.administrativeArea} ${pMark.postalCode} , ${pMark.country}';
+    print(completeAddress);
+    location_controller.text = completeAddress;
+  }
+
+  // Future saveDataToFirestore(User currentuser) async {
+  //   FirebaseFirestore.instance.collection("admin").doc(currentuser.uid).set({
+  //     "adminUID": currentuser.uid,
+  //     "adminName": username_controller.text.trim(),
+  //     "resturantName": resturantname_controller.text.trim(),
+  //     "adminEmail": email_controller.text.trim(),
+  //     "address": completeAddress,
+  //     "earnings": 0.0,
+  //     "lat": position!.latitude,
+  //     "lng": position!.longitude,
+  //   });
+
+  //   // save data locally
+  // }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -118,7 +161,7 @@ class _LoginScreenadminState extends State<LoginScreenadmin> {
                   ),
                   maxLength: 10,
                   keyboardType: TextInputType.number,
-                  controller: number_controller,
+                  controller: phonenumber_controller,
                 ),
               ),
 
@@ -126,7 +169,7 @@ class _LoginScreenadminState extends State<LoginScreenadmin> {
                 padding: const EdgeInsets.all(10.0),
                 child: TextField(
                     onChanged: (value) {
-                      username = value;
+                      username_controller.text = value;
                     },
                     textAlign: TextAlign.center,
                     decoration: kTextFieldDecoration.copyWith(
@@ -138,7 +181,7 @@ class _LoginScreenadminState extends State<LoginScreenadmin> {
                 padding: const EdgeInsets.all(10.0),
                 child: TextField(
                   onChanged: (value) {
-                    resturantname = value;
+                    resturantname_controller.text = value;
                   },
                   textAlign: TextAlign.center,
                   decoration: kTextFieldDecoration.copyWith(
@@ -149,75 +192,120 @@ class _LoginScreenadminState extends State<LoginScreenadmin> {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: TextField(
-                   keyboardType: TextInputType.emailAddress,
-                   
+                  keyboardType: TextInputType.emailAddress,
                   onChanged: (value) {
-                    email = value;
+                    email_controller.text = value;
                   },
                   textAlign: TextAlign.center,
                   decoration: kTextFieldDecoration.copyWith(
-                      hintText: "Enter your Business Email",
-                      hintStyle: kHintStyle ,
-                      ),
+                    hintText: "Enter your Business Email",
+                    hintStyle: kHintStyle,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10),
+                child: TextField(
+                  controller: location_controller,
+                  enabled: false,
+                  textAlign: TextAlign.center,
+                  decoration: kTextFieldDecoration.copyWith(
+                      hintText: "Resturant Location", hintStyle: kHintStyle),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                width: 400,
+                height: 40,
+                alignment: Alignment.center,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    getCurrentLocation();
+                    // debugPrint("Button test");
+                  },
+                  icon: Icon(
+                    Icons.location_on,
+                    color: Colors.white,
+                  ),
+                  label: Text(
+                    "Get My Current Location",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.amber,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
                 ),
               ),
 
-              
-
               Container(
-                margin: EdgeInsets.all(30),
+                margin: EdgeInsets.all(10),
                 width: double.infinity,
                 child: Button1(
+                  height: 42,
+                  width: 150,
                   color: Colors.blue,
                   button_name: "Get OTP",
                   onPress: () async {
-                    
-                    if (number_controller.text.length < 10 ) {
+                    if (phonenumber_controller.text.length < 10) {
                       displayToastMessage("Enter 10 Digits Number", context);
-                    }
-                    else if(username!.isEmpty){
-                      displayToastMessage("Your name must be at least 5 characters.", context);
-                    }
-                    else if(resturantname!.isEmpty){
-                      displayToastMessage("Enter your Resturant Name.", context);
-                    }
-                    else if(!email!.contains("@")){
+                    } else if (username_controller.text.isEmpty) {
+                      displayToastMessage(
+                          "Your name must be at least 5 characters.", context);
+                    } else if (resturantname_controller.text.isEmpty) {
+                      displayToastMessage(
+                          "Enter your Resturant Name.", context);
+                    } else if (!email_controller.text.contains("@")) {
                       displayToastMessage("Enter valid Email.", context);
-                    }else{
-                    
-                    
-                    // added later 
-                    // else {
-                    //   setState(() {
-                    //     showSpinner = true;
-                    //   });
+                    } else {
+                      // added later
+                      // else {
+                      //   setState(() {
+                      //     showSpinner = true;
+                      //   });
+                      FirebaseFirestore.instance.collection("admin").add({
+                        // "adminUID":currentuser.uid,
+                        "adminName": username_controller.text.trim(),
+                        "resturantName": resturantname_controller.text.trim(),
+                        "adminEmail": email_controller.text.trim(),
+                        "address": completeAddress,
+                        "earnings": 0.0,
+                        "lat": position!.latitude,
+                        "lng": position!.longitude,
+                      }).whenComplete(() {
+                        Route newRoute = MaterialPageRoute(
+                            builder: (c) => OTPScreenadmin(
+                                phone: phonenumber_controller.text,
+                                codeDigits: dialCodeDigits));
+                        Navigator.pushReplacement(context, newRoute);
+                      });
 
-                    
+                      //for easiness i am removing  this verification method and will be added back later
 
-                      await DatabBaseServiceOTPAdmin(uid: FirebaseAuth.instance.currentUser!.uid)
-                      .updateAdminData(username!, phonenumber!, email!, resturantname!);
+                      // await Navigator.of(context).push(
+                      //   MaterialPageRoute(
+                      //     builder: (c) => OTPScreenadmin(
+                      //       phone: phonenumber_controller.text,
+                      //       codeDigits: dialCodeDigits,
+                      //     ),
+                      //   ),
 
-  //for easiness i am removing  this verification method and will be added back later
-                      await Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (c) => OTPScreenadmin(
-                            phone: number_controller.text,
-                            codeDigits: dialCodeDigits,
-                          ),
-                        ),
-
-                        // Create a new document for the user with the uid
-                      );
+                      //   // Create a new document for the user with the uid
+                      // );
 
                       // await Navigator.of(context).push(
                       //   MaterialPageRoute(builder: (c) => Homepageadmin())
                       // );
                     }
 
-                      // setState(() {
-                      //   showSpinner = false;
-                      // });
-                  // }
+                    // setState(() {
+                    //   showSpinner = false;
+                    // });
+                    // }
                   },
                 ),
               ),
