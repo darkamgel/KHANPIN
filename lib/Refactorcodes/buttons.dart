@@ -27,24 +27,22 @@ class RoundedButton extends StatelessWidget {
           height: 42.0,
 
           // child: Text(button_name,style: TextStyle(color: Colors.white),),
-          child: Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(icon),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  button_name,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1),
-                )
-              ],
-            ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(icon),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                button_name,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1),
+              )
+            ],
           ),
         ),
       ),
@@ -78,23 +76,21 @@ class Button1 extends StatelessWidget {
           height: height,
 
           // child: Text(button_name,style: TextStyle(color: Colors.white),),
-          child: Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  button_name,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1),
-                )
-              ],
-            ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                button_name,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1),
+              )
+            ],
           ),
         ),
       ),

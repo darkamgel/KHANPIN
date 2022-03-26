@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:khan_pin/Screens/admin/homescreenadmin.dart';
 import 'package:khan_pin/Screens/users/OTP/main_home_page.dart';
 
 import 'package:khan_pin/Refactorcodes/buttons.dart';
@@ -11,7 +12,7 @@ import 'package:khan_pin/Screens/users/OTP/loginScreenuser.dart';
 
 import 'package:khan_pin/constants.dart';
 
-final FirebaseAuth _auth = FirebaseAuth.instance;
+// final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = GoogleSignIn();
 
 class FirstScreen extends StatefulWidget {
@@ -23,6 +24,29 @@ class FirstScreen extends StatefulWidget {
 }
 
 class _FirstScreenState extends State<FirstScreen> {
+  // startTimer() {
+  //   if (firebaseAuth.currentUser != null) {
+  //     Navigator.push(context,MaterialPageRoute(builder:(c)=> Homepageadmin()));
+  //   } else {
+  //     Route newRoute = MaterialPageRoute(builder: (c) => LoginScreen());
+  //     Navigator.pushReplacement(context, newRoute);
+  //   }
+  // }
+
+  @override
+  void initState() {
+    super.initState();
+    // startTimer();
+    
+  }
+
+  // @override
+  // void dispose() {
+  //   // TODO: implement dispose
+  //   super.dispose();
+  //   startTimer();
+  // }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -118,7 +142,8 @@ class _FirstScreenState extends State<FirstScreen> {
       accessToken: googleSignInAuthentication.accessToken,
     );
 
-    final User user = (await _auth.signInWithCredential(credential)).user!;
+    final User user =
+        (await firebaseAuth.signInWithCredential(credential)).user!;
     // print("User is : ${user.photoURL}");
     print("User is : ${user.displayName}");
 

@@ -5,11 +5,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:khan_pin/Refactorcodes/buttons.dart';
+import 'package:khan_pin/Screens/admin/homescreenadmin.dart';
 import 'package:khan_pin/constants.dart';
 import 'package:khan_pin/widgets/loading_dialog.dart';
 import 'package:firebase_storage/firebase_storage.dart' as fstorage;
 
 class AddFoodForm extends StatefulWidget {
+  static const String idscreen = "foodform";
   AddFoodForm({Key? key}) : super(key: key);
 
   @override
@@ -27,7 +29,7 @@ class _AddFoodFormState extends State<AddFoodForm> {
   XFile? imageXFile;
   final ImagePicker _picker = ImagePicker();
 
-  String foodImageUrl = "";
+  String  foodImageUrl = "" ;
 
   Future<void> formvalidation() async {
     if (imageXFile == null) {
@@ -72,15 +74,36 @@ class _AddFoodFormState extends State<AddFoodForm> {
   }
 
   Future saveDatatoFirestore(User currentUser) async {
-    FirebaseFirestore.instance.collection("food").doc(currentUser.uid).set({
+    FirebaseFirestore.instance.collection("food").add({
       "foodUID": currentUser.uid,
       "foodurl": foodImageUrl,
       "foodcategory": food_category_controller.text.trim(),
       "foodname": food_name_controller.text.trim(),
       "price": food_price_controller.text.trim(),
       "discount": food_dicount_controller.text.trim(),
+    }).whenComplete((){
+      Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (c) => Homepageadmin()));
     });
   }
+
+
+  // FirebaseFirestore.instance.collection("admin").add({
+                         
+  //                       "adminName": username_controller.text.trim(),
+  //                       "resturantName": resturantname_controller.text.trim(),
+  //                       "adminEmail": email_controller.text.trim(),
+  //                       "address": completeAddress,
+  //                       "earnings": 0.0,
+  //                       "lat": position!.latitude,
+  //                       "lng": position!.longitude,
+  //                     }).whenComplete(() {
+  //                       Route newRoute = MaterialPageRoute(
+  //                           builder: (c) => OTPScreenadmin(
+  //                               phone: phonenumber_controller.text,
+  //                               codeDigits: dialCodeDigits));
+  //                       Navigator.pushReplacement(context, newRoute);
+  //                     });
 
   @override
   Widget build(BuildContext context) {
@@ -220,14 +243,23 @@ class _AddFoodFormState extends State<AddFoodForm> {
                       button_name: "Back",
                       width: 150,
                       height: 42,
-                      onPress: () {}),
+                      onPress: () {
+                        Navigator.pop(context);
+                      }),
                   Button1(
                       color: Colors.red,
                       button_name: "Submit",
                       width: 150,
                       height: 42,
-                      onPress: () {
-                        formvalidation();
+                      onPress: () async {
+                        await formvalidation();
+
+                        if(FirebaseAuth.instance.currentUser!= null){
+                          await saveDatatoFirestore(firebaseAuth.currentUser!);
+                        }
+
+
+
                       }),
                 ],
               )

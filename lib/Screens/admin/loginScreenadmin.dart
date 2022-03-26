@@ -1,16 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_code_picker/country_code_picker.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'package:khan_pin/Refactorcodes/buttons.dart';
-
+import 'package:khan_pin/Screens/admin/homescreenadmin.dart';
 import 'package:khan_pin/Screens/admin/otpscreenadmin.dart';
 
 import 'package:khan_pin/constants.dart';
-
+import 'package:khan_pin/database/database.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class LoginScreenadmin extends StatefulWidget {
@@ -22,7 +22,11 @@ class LoginScreenadmin extends StatefulWidget {
 }
 
 class _LoginScreenadminState extends State<LoginScreenadmin> {
+  
   String? phonenumber;
+  // String? username;
+  // String? email;
+  // String? resturantname;
 
   Position? position;
   List<Placemark>? placeMarks;
@@ -56,20 +60,7 @@ class _LoginScreenadminState extends State<LoginScreenadmin> {
     location_controller.text = completeAddress;
   }
 
-  // Future saveDataToFirestore(User currentuser) async {
-  //   FirebaseFirestore.instance.collection("admin").doc(currentuser.uid).set({
-  //     "adminUID": currentuser.uid,
-  //     "adminName": username_controller.text.trim(),
-  //     "resturantName": resturantname_controller.text.trim(),
-  //     "adminEmail": email_controller.text.trim(),
-  //     "address": completeAddress,
-  //     "earnings": 0.0,
-  //     "lat": position!.latitude,
-  //     "lng": position!.longitude,
-  //   });
 
-  //   // save data locally
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -98,6 +89,10 @@ class _LoginScreenadminState extends State<LoginScreenadmin> {
                 ),
               ),
 
+              // Text("Phone (OTP) Authentication", style: TextStyle(fontWeight: FontWeight.bold , fontSize: 20),),
+              // SizedBox(
+              //   height: 50,
+              // ),
               SizedBox(
                 width: 150,
                 height: 150,
@@ -261,7 +256,8 @@ class _LoginScreenadminState extends State<LoginScreenadmin> {
                       //     showSpinner = true;
                       //   });
                       FirebaseFirestore.instance.collection("admin").add({
-                        // "adminUID":currentuser.uid,
+
+                        "phonenumner":phonenumber, 
                         "adminName": username_controller.text.trim(),
                         "resturantName": resturantname_controller.text.trim(),
                         "adminEmail": email_controller.text.trim(),
@@ -276,10 +272,28 @@ class _LoginScreenadminState extends State<LoginScreenadmin> {
                                 codeDigits: dialCodeDigits));
                         Navigator.pushReplacement(context, newRoute);
                       });
+
+                      
                     }
+
+                    // setState(() {
+                    //   showSpinner = false;
+                    // });
+                    // }
                   },
                 ),
               ),
+              //   ElevatedButton(
+              //     onPressed: (){
+
+              //       Navigator.of(context).push(MaterialPageRoute(builder: (c) =>OTPControllerScreen(
+              //         phone: _controller.text,
+              //         codeDigits: dialCodeDigits,
+              //       )));
+              //     },
+
+              //     child: Text("Next" , style:TextStyle(color: Colors.white , fontWeight: FontWeight.bold),),),
+              // )
             ],
           ),
         ),

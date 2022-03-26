@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:khan_pin/Screens/admin/homescreenadmin.dart';
 
 import 'package:khan_pin/Refactorcodes/buttons.dart';
+import 'package:khan_pin/constants.dart';
 
 import 'package:pinput/pin_put/pin_put.dart';
 
@@ -129,16 +131,25 @@ class _OTPScreenadminState extends State<OTPScreenadmin> {
                 followingFieldDecoration: pinOTPCodeDecoration,
                 pinAnimationType: PinAnimationType.rotation,
                 onSubmit: (pin) async {
+                   await FirebaseFirestore.instance.collection('admin').doc().update({
+                    'currentuser':FirebaseAuth.instance.currentUser,
+                  });
+
+                  
+
                   try {
-                    await FirebaseAuth.instance
+                    await firebaseAuth
                         .signInWithCredential(PhoneAuthProvider.credential(
                             verificationId: verificationCode!, smsCode: pin))
                         .then((value) {
+                          
                       if (value.user != null) {
+                        
                         Route newRoute =
                             MaterialPageRoute(builder: (c) => Homepageadmin());
                         Navigator.pushReplacement(context, newRoute);
                       }
+                                           
                     });
                   } catch (e) {
                     FocusScope.of(context).unfocus();

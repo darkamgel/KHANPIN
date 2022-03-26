@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:khan_pin/Screens/users/OTP/main_home_page.dart';
@@ -128,6 +129,9 @@ class _OTPScreenState extends State<OTPScreen> {
                 followingFieldDecoration: pinOTPCodeDecoration,
                 pinAnimationType: PinAnimationType.rotation,
                 onSubmit: (pin) async {
+                  await FirebaseFirestore.instance.collection('admin').doc().update({
+                    'currentuser':FirebaseAuth.instance.currentUser,
+                  });
                   try {
                     await FirebaseAuth.instance
                         .signInWithCredential(PhoneAuthProvider.credential(
