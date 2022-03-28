@@ -1,0 +1,144 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:khan_pin/Screens/admin/addfood.dart';
+import 'package:khan_pin/Screens/users/OTP/loginScreenuser.dart';
+import 'package:khan_pin/constants.dart';
+import 'package:khan_pin/firstScreen.dart';
+import 'package:khan_pin/widgets/food_card_item.dart';
+
+class Homepageadmin extends StatefulWidget {
+
+  static const String idscreen = "home_admin";
+  Homepageadmin({Key? key}) : super(key: key);
+
+  @override
+  State<Homepageadmin> createState() => _HomepageadminState();
+}
+
+class _HomepageadminState extends State<Homepageadmin> {
+
+
+  Future<void> downloadURLExample() async {
+  
+
+  // Within your widgets:
+  // Image.network(downloadURL);
+}
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Food List" , style: kStyle,),
+          // centerTitle: true,
+          automaticallyImplyLeading: false,
+          elevation: 2,
+          leading: GestureDetector(onTap: (){
+            FirebaseAuth.instance.signOut();
+            Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (c) => FirstScreen()));
+          } , child: Icon(Icons.close),),
+          
+
+          
+
+        ),
+        body: SingleChildScrollView(
+          child: Center(
+            child: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance.collection('food').snapshots(),
+              builder: (context ,snapshot){
+                if(snapshot.hasData){
+                  final services = snapshot.data!.docs;
+                  List<Widget> servicesWidget = [];
+                  for(var st in services){
+                    final foodcategory = st.get('foodcategory');
+                    final foodname = st.get('foodname');
+                    final foodurl = st.get('foodurl');
+                    final discount = st.get('discount');
+                    final price = st.get('price');
+
+                    // final datas = FoodCardItemAdmin(category,url,name );
+                    final datas = FoodCardItemAdmin(foodurl, foodcategory, foodname);
+
+                    // final datas = buildTile(category, name, url, context);
+                    servicesWidget.add(datas);
+                    print(foodurl);
+                  }
+        
+                  return ListView(
+                    children: servicesWidget,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                  );
+        
+                  
+                  
+        
+        
+                }
+                  return Center(child: CircularProgressIndicator());
+                
+        
+              },
+            ),
+          ),
+        ),
+        // SingleChildScrollView(
+        //   child: Center(
+        //     child: Column(
+        //       mainAxisAlignment: MainAxisAlignment.center,
+        //       children: [
+                
+        //       ],
+              
+        //     ),
+            
+        //   ),
+        // ),
+        
+        
+        
+        
+        
+        
+
+
+        floatingActionButton: FloatingActionButton(
+          
+          onPressed: () {
+            // Route newRoute = MaterialPageRoute(builder: (c) => AddFoodForm());
+            // Navigator.push(context, newRoute);
+            Navigator.pushNamed(context, AddFoodForm.idscreen);
+
+            
+          },
+          child: Icon(Icons.add),
+        ),
+        
+        
+      ),
+    );
+  }
+
+  // buildTile(category, name, url ,BuildContext context){
+  //   return ListTile(
+  //     leading: CircleAvatar(backgroundImage:NetworkImage(url), radius: 50,),
+  //     title: Text(category),
+      
+
+  //   );
+
+  // }
+
+
+
+}
+
+
+

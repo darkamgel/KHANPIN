@@ -1,30 +1,19 @@
-
-
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
+import 'package:khan_pin/Screens/admin/homescreenadmin.dart';
+import 'package:khan_pin/Screens/users/OTP/main_home_page.dart';
 
 import 'package:khan_pin/Refactorcodes/buttons.dart';
+import 'package:khan_pin/Screens/admin/loginScreenadmin.dart';
+import 'package:khan_pin/Screens/users/OTP/loginScreenuser.dart';
 
-
-import 'package:khan_pin/Screens/OTP/loginScreen.dart';
-import 'package:khan_pin/Screens/homescreen.dart';
 import 'package:khan_pin/constants.dart';
 
-
-
-
-final FirebaseAuth _auth = FirebaseAuth.instance;
+// final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = GoogleSignIn();
-
-
-
-
-
-
 
 class FirstScreen extends StatefulWidget {
   static const String idscreen = "mainscreen";
@@ -35,16 +24,31 @@ class FirstScreen extends StatefulWidget {
 }
 
 class _FirstScreenState extends State<FirstScreen> {
+  // startTimer() {
+  //   if (firebaseAuth.currentUser != null) {
+  //     Navigator.push(context,MaterialPageRoute(builder:(c)=> Homepageadmin()));
+  //   } else {
+  //     Route newRoute = MaterialPageRoute(builder: (c) => LoginScreen());
+  //     Navigator.pushReplacement(context, newRoute);
+  //   }
+  // }
 
+  @override
+  void initState() {
+    super.initState();
+    // startTimer();
+    
+  }
 
-
-
-
-
+  // @override
+  // void dispose() {
+  //   // TODO: implement dispose
+  //   super.dispose();
+  //   startTimer();
+  // }
 
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -75,8 +79,8 @@ class _FirstScreenState extends State<FirstScreen> {
                         color: Colors.blueAccent,
                         button_name: "SignIn with PhoneNumber",
                         onPress: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (c) => LoginScreen()));
+                          Navigator.of(context).push(
+                              MaterialPageRoute(builder: (c) => LoginScreen()));
                         },
                         icon: FontAwesomeIcons.keyboard),
                   ),
@@ -85,38 +89,39 @@ class _FirstScreenState extends State<FirstScreen> {
                     child: RoundedButton(
                         color: Colors.red,
                         button_name: "SignIn with Google",
-                        onPress: () async{
-                           await _gSignin();
+                        onPress: () async {
+                          await _gSignin();
 
-                           await buildLoading();
+                          await buildLoading();
 
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (c) => HomeScreen()));
-
-
-                           },
-
-
-                        // async {
-                        //    await Provider.of<ControllerLogin>(context,listen: false).allowUserToLogin();
-
-                        //    await Navigator.of(context).push(
-                        //   MaterialPageRoute(
-                        //     builder: (c) => HomeScreen(),
-                        //   ),
-                        // );
-
-                        // Navigator.of(context).push(
-                        //   MaterialPageRoute(
-                        //     builder: (c) => GoogleSign(),
-                        //   ),);
-
-
-
-
-                        // },,
-
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (c) => MainHomePage(),
+                            ),
+                          );
+                        },
                         icon: FontAwesomeIcons.google),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                    child: TextButton(
+                        child: Text(
+                          "Resturant Owner ? ",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1),
+                        ),
+                        onPressed: () {
+                          // if (isresturantowner = true){
+                          // Navigator.of(context).push(MaterialPageRoute(builder: (c) => LoginScreen()));
+
+                          // }
+
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (c) => LoginScreenadmin()));
+                        }),
                   ),
                 ],
               )
@@ -129,23 +134,19 @@ class _FirstScreenState extends State<FirstScreen> {
 
   Future<User> _gSignin() async {
     GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
-    GoogleSignInAuthentication? googleSignInAuthentication = await googleSignInAccount!.authentication;
+    GoogleSignInAuthentication? googleSignInAuthentication =
+        await googleSignInAccount!.authentication;
 
     final AuthCredential credential = GoogleAuthProvider.credential(
-       idToken: googleSignInAuthentication.idToken,
-
+      idToken: googleSignInAuthentication.idToken,
       accessToken: googleSignInAuthentication.accessToken,
     );
 
-    final User user = (await _auth.signInWithCredential(credential)).user!;
+    final User user =
+        (await firebaseAuth.signInWithCredential(credential)).user!;
     // print("User is : ${user.photoURL}");
     print("User is : ${user.displayName}");
 
     return user;
-
-
-
   }
-
 }
-

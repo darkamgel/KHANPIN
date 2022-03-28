@@ -27,24 +27,22 @@ class RoundedButton extends StatelessWidget {
           height: 42.0,
 
           // child: Text(button_name,style: TextStyle(color: Colors.white),),
-          child: Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(icon),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  button_name,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1),
-                )
-              ],
-            ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(icon),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                button_name,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1),
+              )
+            ],
           ),
         ),
       ),
@@ -56,9 +54,11 @@ class Button1 extends StatelessWidget {
   final Color color;
   final String button_name;
   final VoidCallback onPress;
+  final double ? height;
+  final double ? width;
 
   Button1(
-      {required this.color, required this.button_name, required this.onPress});
+      {required this.color, required this.button_name, required this.onPress , required this.height , required this.width});
 
   @override
   Widget build(BuildContext context) {
@@ -71,27 +71,26 @@ class Button1 extends StatelessWidget {
         child: MaterialButton(
           onPressed: onPress,
 
-          minWidth: 200.0,
-          height: 42.0,
+          minWidth: width  ,
+          
+          height: height,
 
           // child: Text(button_name,style: TextStyle(color: Colors.white),),
-          child: Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  button_name,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1),
-                )
-              ],
-            ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                button_name,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1),
+              )
+            ],
           ),
         ),
       ),

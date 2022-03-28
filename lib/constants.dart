@@ -1,3 +1,7 @@
+import 'dart:ui';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -14,17 +18,25 @@ const kTextFieldDecoration = InputDecoration(
     borderRadius: BorderRadius.all(Radius.circular(32.0)),
   ),
   focusedBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: Colors.lightBlueAccent, width: 2.0),
+    borderSide: BorderSide(color: Colors.teal, width: 2.0),
     borderRadius: BorderRadius.all(Radius.circular(32.0)),
   ),
 );
 
-displayToastMessage(String message, BuildContext context)
-{
+displayToastMessage(String message, BuildContext context) {
   Fluttertoast.showToast(msg: message);
 }
 
-Widget buildLoading() => Center(child: CircularProgressIndicator(),);
+Widget buildLoading() => Center(
+      child: CircularProgressIndicator(),
+    );
 
+const kHintStyle = TextStyle(color: Colors.black);
+const kStyle = TextStyle(color: Colors.amber);
 
+bool isresturantowner = true;
+
+FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+Reference photoReference = FirebaseStorage.instance.ref().child('foodimage');
 
