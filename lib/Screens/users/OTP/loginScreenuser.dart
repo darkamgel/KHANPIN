@@ -23,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool showSpinner = false;
   String dialCodeDigits = "+977";
-  TextEditingController number_controller = TextEditingController();
+  // TextEditingController number_controller = TextEditingController();
   TextEditingController username_controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -124,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   maxLength: 10,
                   keyboardType: TextInputType.number,
-                  controller: number_controller,
+                  // controller: phonenumber,
                 ),
               ),
 
@@ -137,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   color: Colors.blue,
                   button_name: "Get OTP",
                   onPress: () async {
-                    if (number_controller.text.length < 10 &&
+                    if (phonenumber!.length < 10 &&
                         username_controller.text.length < 7) {
                       displayToastMessage("Enter 10 Digits Number", context);
                     } else {
@@ -148,23 +148,25 @@ class _LoginScreenState extends State<LoginScreen> {
                       FirebaseFirestore.instance.collection("users").add({
                         // "adminUID":currentuser.uid,
                         "username": username_controller.text,
-                        "phone_number": number_controller.text,
+                        "phone_number": phonenumber,
                         // "address": completeAddress,
                         // "earnings": 0.0,
                         // "lat": position!.latitude,
                         // "lng": position!.longitude,
-                      }).whenComplete(() {
-                        Route newRoute = MaterialPageRoute(
-                            builder: (c) => OTPScreen(
-                                phone: phonenumber!,
-                                codeDigits: dialCodeDigits));
-                        Navigator.pushReplacement(context, newRoute);
+                      })
+                      .whenComplete(() {
+                        // Route newRoute = MaterialPageRoute(
+                        //     builder: (c) => OTPScreen(
+                        //         phone: phonenumber!,
+                        //         codeDigits: dialCodeDigits));
+                        // Navigator.pushReplacement(context, newRoute);
+                        Navigator.push(context, MaterialPageRoute(builder:(c) => OTPScreen(phone: phonenumber!, codeDigits:dialCodeDigits )));
                       });
 
-                      Route newRoute = await MaterialPageRoute(
-                          builder: (c) => OTPScreen(
-                              phone: phonenumber!, codeDigits: dialCodeDigits));
-                      Navigator.pushReplacement(context, newRoute);
+                      // Route newRoute = await MaterialPageRoute(
+                      //     builder: (c) => OTPScreen(
+                      //         phone: phonenumber!, codeDigits: dialCodeDigits));
+                      // Navigator.pushReplacement(context, newRoute);
 
                       setState(() {
                         showSpinner = false;
