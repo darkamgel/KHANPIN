@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -33,10 +34,16 @@ Widget buildLoading() => Center(
 
 const kHintStyle = TextStyle(color: Colors.black);
 const kStyle = TextStyle(color: Colors.amber);
+const kfoodTextStyle = TextStyle(fontSize: 17.0 , fontWeight: FontWeight.bold , color: Colors.white);
+const kDiscountTextStyle =  TextStyle(fontSize: 14 , fontWeight: FontWeight.bold , color: Colors.white);
 
 bool isresturantowner = true;
 
 FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
 Reference photoReference = FirebaseStorage.instance.ref().child('foodimage');
+
+
+
+
 

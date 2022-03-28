@@ -11,6 +11,7 @@ import 'package:khan_pin/widgets/loading_dialog.dart';
 import 'package:firebase_storage/firebase_storage.dart' as fstorage;
 
 class AddFoodForm extends StatefulWidget {
+  
   static const String idscreen = "foodform";
   AddFoodForm({Key? key}) : super(key: key);
 
@@ -19,6 +20,7 @@ class AddFoodForm extends StatefulWidget {
 }
 
 class _AddFoodFormState extends State<AddFoodForm> {
+  bool ? update;
   TextEditingController food_category_controller = TextEditingController();
   TextEditingController food_name_controller = TextEditingController();
   TextEditingController food_price_controller = TextEditingController();
@@ -29,7 +31,7 @@ class _AddFoodFormState extends State<AddFoodForm> {
   XFile? imageXFile;
   final ImagePicker _picker = ImagePicker();
 
-  String  foodImageUrl = "" ;
+  String foodImageUrl = "";
 
   Future<void> formvalidation() async {
     if (imageXFile == null) {
@@ -81,29 +83,12 @@ class _AddFoodFormState extends State<AddFoodForm> {
       "foodname": food_name_controller.text.trim(),
       "price": food_price_controller.text.trim(),
       "discount": food_dicount_controller.text.trim(),
-    }).whenComplete((){
+      "price_with_discount": totalprice_controller.text.trim(),
+    }).whenComplete(() {
       Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (c) => Homepageadmin()));
+          .push(MaterialPageRoute(builder: (c) => Homepageadmin()));
     });
   }
-
-
-  // FirebaseFirestore.instance.collection("admin").add({
-                         
-  //                       "adminName": username_controller.text.trim(),
-  //                       "resturantName": resturantname_controller.text.trim(),
-  //                       "adminEmail": email_controller.text.trim(),
-  //                       "address": completeAddress,
-  //                       "earnings": 0.0,
-  //                       "lat": position!.latitude,
-  //                       "lng": position!.longitude,
-  //                     }).whenComplete(() {
-  //                       Route newRoute = MaterialPageRoute(
-  //                           builder: (c) => OTPScreenadmin(
-  //                               phone: phonenumber_controller.text,
-  //                               codeDigits: dialCodeDigits));
-  //                       Navigator.pushReplacement(context, newRoute);
-  //                     });
 
   @override
   Widget build(BuildContext context) {
@@ -254,12 +239,9 @@ class _AddFoodFormState extends State<AddFoodForm> {
                       onPress: () async {
                         await formvalidation();
 
-                        if(FirebaseAuth.instance.currentUser!= null){
+                        if (FirebaseAuth.instance.currentUser != null) {
                           await saveDatatoFirestore(firebaseAuth.currentUser!);
                         }
-
-
-
                       }),
                 ],
               )

@@ -33,6 +33,8 @@ class _HomepageadminState extends State<Homepageadmin> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor:Color(0xffFFFDD0),
+        // backgroundColor: ,
         appBar: AppBar(
           title: Text("Food List" , style: kStyle,),
           // centerTitle: true,
@@ -48,7 +50,13 @@ class _HomepageadminState extends State<Homepageadmin> {
           
 
         ),
+
+        
+        
+        
         body: SingleChildScrollView(
+          
+
           child: Center(
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance.collection('food').snapshots(),
@@ -57,14 +65,18 @@ class _HomepageadminState extends State<Homepageadmin> {
                   final services = snapshot.data!.docs;
                   List<Widget> servicesWidget = [];
                   for(var st in services){
-                    final foodcategory = st.get('foodcategory');
-                    final foodname = st.get('foodname');
+                    
+                    
                     final foodurl = st.get('foodurl');
-                    final discount = st.get('discount');
+                    final foodname = st.get('foodname');
+                    final foodcategory = st.get('foodcategory');
+                    
                     final price = st.get('price');
+                    final discount = st.get('discount');
+                    final total_price = st.get('price_with_discount');
 
                     // final datas = FoodCardItemAdmin(category,url,name );
-                    final datas = FoodCardItemAdmin(foodurl, foodcategory, foodname);
+                    final datas = FoodCardItemAdmin(foodurl, foodname,foodcategory  ,price,discount,total_price);
 
                     // final datas = buildTile(category, name, url, context);
                     servicesWidget.add(datas);
