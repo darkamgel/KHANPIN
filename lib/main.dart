@@ -11,6 +11,8 @@ import 'package:khan_pin/firstScreen.dart';
 // import 'package:provider/provider.dart';
 
 
+print("Hello");
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
