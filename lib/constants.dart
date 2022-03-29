@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:khan_pin/model/admindetails.dart';
 
 const kTextFieldDecoration = InputDecoration(
   hintText: 'Enter your email',
@@ -41,8 +42,16 @@ bool isresturantowner = true;
 
 FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
-Reference photoReference = FirebaseStorage.instance.ref().child('foodimage');
 
+// Reference photoReference = FirebaseStorage.instance.ref().child('foodimage');
+// Reference usersRef =
+//       FirebaseFirestore.instance.reference().child("users");
+// // Reference adminReference = FirebaseFirestore.instance.collection("admin").doc(admin);
+
+
+User ? currentfirebaseUser;
+
+Admin ? admin;
 
 
 

@@ -71,37 +71,13 @@ class _HomePageState extends State<HomePage> {
           FoodCategory(),
 
           //search info
-          Container(
-            margin: EdgeInsets.only(top: 15.0),
-            child: Material(
-              color: Colors.white,
-              elevation: 5.0,
-              borderRadius: BorderRadius.circular(30.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
-                  hintText: 'Search Foods',
-                  hintStyle: TextStyle(
-                    fontSize: 18.0,
-                    color: Color(0xff303841),
-                    letterSpacing: 2.0,
-                  ),
-                  suffixIcon: Material(
-                    color: Colors.white,
-                    elevation: 3.0,
-                    borderRadius: BorderRadius.circular(30.0),
-                    child: Icon(
-                      Icons.search,
-                      color: Color(0xffe23e57),
-                      size: 30.0,
-                    ),
-                  ),
-                  border: InputBorder.none,
-                ),
-              ),
+          Searchbar(
+            onPress: (){
+            print("hello");
+            },
+            margin: 15,
+            
             ),
-          ),
 
           //bought info
           Padding(
@@ -150,5 +126,66 @@ class _HomePageState extends State<HomePage> {
             foodData.name,
             foodData.price,
             foodData.ratings));
+  }
+}
+
+class Searchbar extends StatelessWidget {
+
+  final VoidCallback onPress;
+  final double margin;
+
+  Searchbar({required this.onPress , required this.margin});
+ 
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: margin),
+      child: Material(
+        color: Colors.white,
+        elevation: 5.0,
+        borderRadius: BorderRadius.circular(30.0),
+        child: TextField(
+          decoration: InputDecoration(
+            contentPadding:
+                EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
+            hintText: 'Search Foods',
+            hintStyle: TextStyle(
+              fontSize: 18.0,
+              color: Color(0xff303841),
+              letterSpacing: 2.0,
+            ),
+            suffixIcon: Material(
+              color: Colors.white,
+              elevation: 3.0,
+              borderRadius: BorderRadius.circular(30.0),
+              child: 
+              // ElevatedButton.icon(
+              //   onPressed: (){print("hello");}, 
+              //   icon: Icon(Icons.search , color: Color(0xffe23e57),), 
+              //   label: Text('')),
+              TextButton.icon(
+
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(42.0)),
+                  elevation: 0,
+                ),
+                
+                onPressed: onPress,
+               icon: Icon(Icons.search,color: Color(0xffe23e57),),
+               label: Text(''))
+              
+              // Icon(
+              //   Icons.search,
+              //   color: Color(0xffe23e57),
+              //   size: 30.0,
+              // ),
+            ),
+            border: InputBorder.none,
+          ),
+        ),
+      ),
+    );
   }
 }

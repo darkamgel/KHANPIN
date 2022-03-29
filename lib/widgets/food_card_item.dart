@@ -160,7 +160,7 @@ class FoodCardItemAdmin extends StatefulWidget {
   final String price_with_discount;
   // final double ratings;
   FoodCardItemAdmin(
-      this.imagePath, this.name, this.category, this.price, this.discount , this.price_with_discount);
+      this.imagePath, this.name, this.category, this.price, this.discount ,this.price_with_discount);
   @override
   _FoodCardItemAdminState createState() => _FoodCardItemAdminState();
 }
