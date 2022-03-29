@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Color(0xffeeeeee),
       body: ListView(
-        padding: EdgeInsets.only(top: 50.0, left: 20.0, right: 20.0),
+        padding: EdgeInsets.only(top: 50.0, left: 4.0, right: 4.0),
         children: <Widget>[
           //top bar info
           Container(
@@ -46,8 +46,6 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      
-
                       Text(
                         ' k khane ho ta?',
                         style: textStyle,

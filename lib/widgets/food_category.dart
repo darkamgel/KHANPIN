@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:khan_pin/widgets/food_category_method.dart';
 
@@ -15,11 +14,7 @@ class _FoodCategoryState extends State<FoodCategory> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(55.0),
-      ),
       height: 80.0,
-      margin: EdgeInsets.only(top: 8.0),
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: categoryData.length,

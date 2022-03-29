@@ -1,8 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.khan_pin">
+<uses-permission android:name="android.permission.INTERNET"/>
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+<uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
 
 
@@ -36,5 +37,11 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-    </application>
+        <meta-data android:name="com.google.android.geo.API_KEY"
+                   android:value="AIzaSyCMskATBBlrA_vC654vk3fVS1Ov0ibai2M"/>
+
+        
+       
+
+   </application>
 </manifest>
