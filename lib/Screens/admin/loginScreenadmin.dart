@@ -24,6 +24,7 @@ class LoginScreenadmin extends StatefulWidget {
 class _LoginScreenadminState extends State<LoginScreenadmin> {
   
   String? phonenumber;
+  String ? uid;
   // String? username;
   // String? email;
   // String? resturantname;
@@ -257,6 +258,7 @@ class _LoginScreenadminState extends State<LoginScreenadmin> {
                       //   });
                       FirebaseFirestore.instance.collection("admin").add({
 
+                        // "uid":FirebaseAuth.instance.currentUser!.uid,
                         "phonenumner":phonenumber, 
                         "adminName": username_controller.text.trim(),
                         "resturantName": resturantname_controller.text.trim(),

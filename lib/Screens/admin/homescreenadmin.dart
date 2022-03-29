@@ -9,6 +9,8 @@ import 'package:khan_pin/constants.dart';
 import 'package:khan_pin/firstScreen.dart';
 import 'package:khan_pin/widgets/food_card_item.dart';
 
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
 class Homepageadmin extends StatefulWidget {
   static const String idscreen = "home_admin";
   Homepageadmin({Key? key}) : super(key: key);
@@ -18,6 +20,16 @@ class Homepageadmin extends StatefulWidget {
 }
 
 class _HomepageadminState extends State<Homepageadmin> {
+  @override
+  void initState() {
+    // _fetchName();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   Future<void> downloadURLExample() async {
     // Within your widgets:
     // Image.network(downloadURL);
@@ -41,107 +53,96 @@ class _HomepageadminState extends State<Homepageadmin> {
         //   } , child: Icon(Icons.close),),
 
         // ),
-        
 
         body: Column(
           children: [
-
             Container(
               height: 75,
               width: double.infinity,
-              
               decoration: BoxDecoration(
-                color: Colors.pink,
-                borderRadius: BorderRadius.only(bottomRight: Radius.circular(0) , bottomLeft: Radius.circular(50))),
-
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-
-                    Text(" Welcome ${FirebaseAuth.instance.currentUser!.displayName}" , style: kStyle.copyWith(
-                      fontSize: 18.0,
-                      color: Colors.white,
-                      letterSpacing: 2
-                      
-                      ),),
-                      
-
-                    Image.asset("images/logo.png" ,fit: BoxFit.cover, color: Colors.white,),
-                  ],
-                ),
-              
-            ),
-
-            Searchbar(
-              onPress: (){
-              print("Search button");
-            },
-            margin: 5,
-            
-            ),
-
-
-
-            Expanded(
-              child: ListView(
-            
+                  color: Colors.blue[500],
+                  borderRadius: BorderRadius.only(
+                      bottomRight: Radius.circular(0),
+                      bottomLeft: Radius.circular(50))),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                
-                SingleChildScrollView(
-                  child: Center(
-                    child: StreamBuilder<QuerySnapshot>(
-                      stream: FirebaseFirestore.instance.collection('food').snapshots(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          final services = snapshot.data!.docs;
-                          List<Widget> servicesWidget = [];
-                          for (var st in services) {
-                            final foodurl = st.get('foodurl');
-                            final foodname = st.get('foodname');
-                            final foodcategory = st.get('foodcategory');
-              
-                            final price = st.get('price');
-                            final discount = st.get('discount');
-                            final total_price = st.get('price_with_discount');
-              
-                            // final datas = FoodCardItemAdmin(category,url,name );
-                            final datas = FoodCardItemAdmin(foodurl, foodname,
-                                foodcategory, price, discount, total_price);
-              
-                            // final datas = buildTile(category, name, url, context);
-                            servicesWidget.add(datas);
-                            print(foodurl);
-                          }
-              
-                          return ListView(
-                            children: servicesWidget,
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                          );
-                        }
-                        return Center(child: CircularProgressIndicator());
-                      },
+                  Padding(
+                    padding: const EdgeInsets.only(left: 50),
+                    child: Text(
+                      " Welcome ${resturantName} ".toUpperCase(),
+                      style: kStyle.copyWith(
+                          fontSize: 18.0,
+                          color: Colors.white,
+                          letterSpacing: 2,
+                          fontWeight: FontWeight.w900),
                     ),
                   ),
-                ),
+                  Image.asset(
+                    "images/logo.png",
+                    fit: BoxFit.cover,
+                    color: Colors.white,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Searchbar(
+                onPress: () {
+                  print("Search button");
+                },
+                margin: 5,
+              ),
+            ),
+            Expanded(
+              child: ListView(
+                children: [
+                  SingleChildScrollView(
+                    child: Center(
+                      child: StreamBuilder<QuerySnapshot>(
+                        stream: FirebaseFirestore.instance
+                            .collection('food')
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            final services = snapshot.data!.docs;
+                            List<Widget> servicesWidget = [];
+                            for (var st in services) {
+                              final foodurl = st.get('foodurl');
+                              final foodname = st.get('foodname');
+                              final foodcategory = st.get('foodcategory');
+
+                              final price = st.get('price');
+                              final discount = st.get('discount');
+                              final total_price = st.get('price_with_discount');
+
+                              // final datas = FoodCardItemAdmin(category,url,name );
+                              final datas = FoodCardItemAdmin(foodurl, foodname,
+                                  foodcategory, price, discount, total_price);
+
+                              // final datas = buildTile(category, name, url, context);
+                              servicesWidget.add(datas);
+                              print(foodurl);
+                            }
+
+                            return ListView(
+                              children: servicesWidget,
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                            );
+                          }
+                          return Center(child: CircularProgressIndicator());
+                        },
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
           ],
         ),
-        // SingleChildScrollView(
-        //   child: Center(
-        //     child: Column(
-        //       mainAxisAlignment: MainAxisAlignment.center,
-        //       children: [
-
-        //       ],
-
-        //     ),
-
-        //   ),
-        // ),
 
         floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -154,14 +155,26 @@ class _HomepageadminState extends State<Homepageadmin> {
       ),
     );
   }
-
-  // buildTile(category, name, url ,BuildContext context){
-  //   return ListTile(
-  //     leading: CircleAvatar(backgroundImage:NetworkImage(url), radius: 50,),
-  //     title: Text(category),
-
-  //   );
-
-  // }
-
 }
+
+
+//   Future<String> _fetchName() async {
+
+//   if (firebaseUser != null)
+//   print("test-1");
+//     await _firestore
+//         .collection('admin')
+//         .doc(FirebaseAuth.instance.currentUser!.uid)
+//         .get()
+//         .then((DocumentSnapshot documentSnapshot) {
+//       resturantName = documentSnapshot.get('resturantName');
+//       print("test-2");
+//       print(resturantName);
+      
+//     }).catchError((e) {
+//       print(e);
+//     });
+
+  
+//   return resturantName;
+// }

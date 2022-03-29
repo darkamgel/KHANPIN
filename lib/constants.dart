@@ -13,17 +13,27 @@ const kTextFieldDecoration = InputDecoration(
   labelStyle: TextStyle(color: Colors.deepOrangeAccent),
   contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
   border: OutlineInputBorder(
-    borderRadius: BorderRadius.all(Radius.circular(32.0)),
+    borderRadius: BorderRadius.all(Radius.circular(15.0)),
   ),
   enabledBorder: OutlineInputBorder(
     borderSide: BorderSide(color: Colors.lightBlueAccent, width: 1.0),
-    borderRadius: BorderRadius.all(Radius.circular(32.0)),
+    borderRadius: BorderRadius.all(Radius.circular(15.0)),
   ),
   focusedBorder: OutlineInputBorder(
     borderSide: BorderSide(color: Colors.teal, width: 2.0),
-    borderRadius: BorderRadius.all(Radius.circular(32.0)),
+    borderRadius: BorderRadius.all(Radius.circular(15.0)),
   ),
 );
+
+
+
+
+
+                        
+                        
+                        
+
+                        
 
 displayToastMessage(String message, BuildContext context) {
   Fluttertoast.showToast(msg: message);
@@ -41,17 +51,21 @@ const kDiscountTextStyle =  TextStyle(fontSize: 14 , fontWeight: FontWeight.bold
 bool isresturantowner = true;
 
 FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+final firebaseUser = firebaseAuth.currentUser;
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 
-// Reference photoReference = FirebaseStorage.instance.ref().child('foodimage');
-// Reference usersRef =
-//       FirebaseFirestore.instance.reference().child("users");
-// // Reference adminReference = FirebaseFirestore.instance.collection("admin").doc(admin);
+
 
 
 User ? currentfirebaseUser;
 
 Admin ? admin;
+
+String resturantName='';
+
+
+
 
 
 

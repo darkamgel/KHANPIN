@@ -11,7 +11,6 @@ import 'package:khan_pin/widgets/loading_dialog.dart';
 import 'package:firebase_storage/firebase_storage.dart' as fstorage;
 
 class AddFoodForm extends StatefulWidget {
-  
   static const String idscreen = "foodform";
   AddFoodForm({Key? key}) : super(key: key);
 
@@ -20,7 +19,7 @@ class AddFoodForm extends StatefulWidget {
 }
 
 class _AddFoodFormState extends State<AddFoodForm> {
-  bool ? update;
+  bool? update;
   TextEditingController food_category_controller = TextEditingController();
   TextEditingController food_name_controller = TextEditingController();
   TextEditingController food_price_controller = TextEditingController();
@@ -94,14 +93,45 @@ class _AddFoodFormState extends State<AddFoodForm> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: Text("Admin Panel"),
-          centerTitle: true,
-        ),
+        backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Container(
+                height: 75,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: Colors.blue[500],
+                    borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(50),
+                        bottomLeft: Radius.circular(50))),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 50),
+                      child: Text(
+                        " Add Food ".toUpperCase(),
+                        style: kStyle.copyWith(
+                            fontSize: 18.0,
+                            color: Colors.white,
+                            letterSpacing: 2,
+                            fontWeight: FontWeight.w900),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: Image.asset(
+                        "images/logo.png",
+                        fit: BoxFit.cover,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               SizedBox(
                 height: 10,
               ),
@@ -253,10 +283,7 @@ class _AddFoodFormState extends State<AddFoodForm> {
   }
 }
 
-
-
 class UpdateFoodForm extends StatefulWidget {
-  
   static const String idscreen = "foodform";
   UpdateFoodForm({Key? key}) : super(key: key);
 
@@ -265,7 +292,7 @@ class UpdateFoodForm extends StatefulWidget {
 }
 
 class _UpdateFoodFormState extends State<UpdateFoodForm> {
-  bool ? update;
+  bool? update;
   TextEditingController food_category_controller = TextEditingController();
   TextEditingController food_name_controller = TextEditingController();
   TextEditingController food_price_controller = TextEditingController();
