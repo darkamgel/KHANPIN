@@ -35,10 +35,11 @@ class _FoodCardItemState extends State<FoodCardItem> {
           Container(
             height: 300.0,
             width: 400.0,
-            child: Image.asset(
-              widget.imagePath,
-              fit: BoxFit.cover,
-            ),
+            child: Image(image: NetworkImage(widget.imagePath)),
+            // child: Image.asset(
+            //   widget.imagePath,
+            //   fit: BoxFit.cover,
+            // ),
           ),
           Positioned(
             left: 0.0,
@@ -159,8 +160,8 @@ class FoodCardItemAdmin extends StatefulWidget {
   final String discount;
   final String price_with_discount;
   // final double ratings;
-  FoodCardItemAdmin(
-      this.imagePath, this.name, this.category, this.price, this.discount ,this.price_with_discount);
+  FoodCardItemAdmin(this.imagePath, this.name, this.category, this.price,
+      this.discount, this.price_with_discount);
   @override
   _FoodCardItemAdminState createState() => _FoodCardItemAdminState();
 }
@@ -179,25 +180,26 @@ class _FoodCardItemAdminState extends State<FoodCardItemAdmin> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 20, right: 20 ,bottom: 10 , top: 10),
+      margin: EdgeInsets.only(left: 20, right: 20, bottom: 10, top: 10),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: Stack(
           children: <Widget>[
             Container(
-                // margin: EdgeInsets.only(top: 20),
-                height: 200.0,
-                width: 400.0,
-                // child: Image.network(widget.imagePath),
-                child: TextButton(
-                  onPressed: (){},
-                  onLongPress: (){print("Hello");},
-                  child: Image(
-                    image: NetworkImage(widget.imagePath , scale: 1 ),
-                    
-                  ),
+              // margin: EdgeInsets.only(top: 20),
+              height: 200.0,
+              width: 400.0,
+              // child: Image.network(widget.imagePath),
+              child: TextButton(
+                onPressed: () {},
+                onLongPress: () {
+                  print("Hello");
+                },
+                child: Image(
+                  image: NetworkImage(widget.imagePath, scale: 1),
                 ),
-                ),
+              ),
+            ),
             Positioned(
               left: 0.0,
               bottom: 0.0,
@@ -222,13 +224,12 @@ class _FoodCardItemAdminState extends State<FoodCardItemAdmin> {
               right: 10.0,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                
-                
                 children: <Widget>[
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(widget.name.toUpperCase(), style: kfoodTextStyle.copyWith(color: Colors.green)),
+                      Text(widget.name.toUpperCase(),
+                          style: kfoodTextStyle.copyWith(color: Colors.green)),
                       Text(
                         "Category: ${widget.category}",
                         style: kDiscountTextStyle.copyWith(color: Colors.green),
@@ -241,15 +242,14 @@ class _FoodCardItemAdminState extends State<FoodCardItemAdmin> {
                   // SizedBox(width: 20,),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
-                    
                     children: [
-                      Text(
-                        "Rs.${widget.price   }",
-                        style: kfoodTextStyle.copyWith(color: Colors.amberAccent)),
-                      
+                      Text("Rs.${widget.price}",
+                          style: kfoodTextStyle.copyWith(
+                              color: Colors.amberAccent)),
                       Text(
                         "Rs.${widget.price_with_discount}(${widget.discount}%)",
-                        style: kDiscountTextStyle.copyWith(color: Colors.amberAccent),
+                        style: kDiscountTextStyle.copyWith(
+                            color: Colors.amberAccent),
                       ),
                     ],
                   ),

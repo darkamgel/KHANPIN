@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:khan_pin/Screens/users/ProductDetails.dart';
 // import 'package:provider/provider.dart';
 
 import '../../../data/food_card_data.dart';
@@ -70,12 +71,11 @@ class _HomePageState extends State<HomePage> {
 
           //search info
           Searchbar(
-            onPress: (){
-            print("hello");
+            onPress: () {
+              print("hello");
             },
             margin: 15,
-            
-            ),
+          ),
 
           //bought info
           Padding(
@@ -105,35 +105,85 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          Column(
-            children: _foods.map(_buildFoodItem).toList(),
-          ),
+          showFood()
+          // Column(
+          //   children: _foods.map(_buildFoodItem).toList(),
+          // ),
         ],
       ),
     );
   }
 
-  Widget _buildFoodItem(FoodData foodData) {
+  FutureBuilder showFood() {
+    return FutureBuilder(
+      future: FirebaseFirestore.instance.collection('food').get(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        //snapshot.data.docs.forEach((doc) => {print(doc.data())});
+        print(snapshot.data.docs[0]['foodUID']);
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 12.0),
+          child: Container(
+            height: MediaQuery.of(context).size.height / 1.6,
+            child: ListView.builder(
+                itemCount: snapshot.data.docs.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProductDetails(
+                                    initCounter: 0,
+                                    productName: snapshot.data.docs[index]
+                                        ['foodname'],
+                                    price: double.parse(
+                                        snapshot.data.docs[index]['price']),
+                                    rating: 5.0,
+                                    id: snapshot.data.docs[index]['foodUID'],
+                                    category: snapshot.data.docs[index]
+                                        ['foodcategory'],
+                                    imageUrl: snapshot.data.docs[index]
+                                        ['foodurl'],
+                                    discount: double.parse(
+                                        snapshot.data.docs[index]['discount']),
+                                  )));
+                    },
+                    child: _buildFoodItem(
+                        snapshot.data.docs[index]['foodurl'],
+                        snapshot.data.docs[index]['foodUID'],
+                        snapshot.data.docs[index]['foodcategory'],
+                        double.parse(snapshot.data.docs[index]['discount']),
+                        snapshot.data.docs[index]['foodname'],
+                        double.parse(snapshot.data.docs[index]['price']),
+                        5.0),
+                  );
+                }),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildFoodItem(String imgUrl, String id, String category,
+      double discount, String name, double price, double ratings) {
     return Container(
         margin: EdgeInsets.only(bottom: 20.0),
-        child: FoodCardItem(
-            foodData.imagePath,
-            foodData.id,
-            foodData.category,
-            foodData.discount,
-            foodData.name,
-            foodData.price,
-            foodData.ratings));
+        child:
+            FoodCardItem(imgUrl, id, category, discount, name, price, ratings));
   }
 }
 
 class Searchbar extends StatelessWidget {
-
   final VoidCallback onPress;
   final double margin;
 
-  Searchbar({required this.onPress , required this.margin});
- 
+  Searchbar({required this.onPress, required this.margin});
 
   @override
   Widget build(BuildContext context) {
@@ -154,32 +204,34 @@ class Searchbar extends StatelessWidget {
               letterSpacing: 2.0,
             ),
             suffixIcon: Material(
-              color: Colors.white,
-              elevation: 3.0,
-              borderRadius: BorderRadius.circular(30.0),
-              child: 
-              // ElevatedButton.icon(
-              //   onPressed: (){print("hello");}, 
-              //   icon: Icon(Icons.search , color: Color(0xffe23e57),), 
-              //   label: Text('')),
-              TextButton.icon(
+                color: Colors.white,
+                elevation: 3.0,
+                borderRadius: BorderRadius.circular(30.0),
+                child:
+                    // ElevatedButton.icon(
+                    //   onPressed: (){print("hello");},
+                    //   icon: Icon(Icons.search , color: Color(0xffe23e57),),
+                    //   label: Text('')),
+                    TextButton.icon(
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(42.0)),
+                          elevation: 0,
+                        ),
+                        onPressed: onPress,
+                        icon: Icon(
+                          Icons.search,
+                          color: Color(0xffe23e57),
+                        ),
+                        label: Text(''))
 
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(42.0)),
-                  elevation: 0,
+                // Icon(
+                //   Icons.search,
+                //   color: Color(0xffe23e57),
+                //   size: 30.0,
+                // ),
                 ),
-                
-                onPressed: onPress,
-               icon: Icon(Icons.search,color: Color(0xffe23e57),),
-               label: Text(''))
-              
-              // Icon(
-              //   Icons.search,
-              //   color: Color(0xffe23e57),
-              //   size: 30.0,
-              // ),
-            ),
             border: InputBorder.none,
           ),
         ),

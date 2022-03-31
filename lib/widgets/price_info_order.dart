@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
-Widget buildContainer() {
+Widget buildContainer(
+    {@required double? sub,
+    @required double? tax,
+    @required num? discount,
+    @required double? cartTotal}) {
   return Container(
     margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 25.0),
     height: 240.0,
@@ -18,7 +22,7 @@ Widget buildContainer() {
               ),
             ),
             Text(
-              '32.0',
+              cartTotal.toString(),
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Color(0xff303841),
@@ -41,7 +45,7 @@ Widget buildContainer() {
               ),
             ),
             Text(
-              '4.0',
+              discount.toString(),
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Color(0xff303841),
@@ -64,7 +68,7 @@ Widget buildContainer() {
               ),
             ),
             Text(
-              '0.50',
+              tax.toString(),
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Color(0xff303841),
@@ -87,7 +91,7 @@ Widget buildContainer() {
               ),
             ),
             Text(
-              '36.50',
+              sub.toString(),
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Color(0xff303841),

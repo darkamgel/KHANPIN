@@ -37,7 +37,6 @@ class _FirstScreenState extends State<FirstScreen> {
   void initState() {
     super.initState();
     // startTimer();
-    
   }
 
   // @override
@@ -84,24 +83,24 @@ class _FirstScreenState extends State<FirstScreen> {
                         },
                         icon: FontAwesomeIcons.keyboard),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                    child: RoundedButton(
-                        color: Colors.red,
-                        button_name: "SignIn with Google",
-                        onPress: () async {
-                          await _gSignin();
+                  // Padding(
+                  //   padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                  //   child: RoundedButton(
+                  //       color: Colors.red,
+                  //       button_name: "SignIn with Google",
+                  //       onPress: () async {
+                  //         await _gSignin();
 
-                          await buildLoading();
+                  //         await buildLoading();
 
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (c) => MainHomePage(),
-                            ),
-                          );
-                        },
-                        icon: FontAwesomeIcons.google),
-                  ),
+                  //         Navigator.of(context).push(
+                  //           MaterialPageRoute(
+                  //             builder: (c) => MainHomePage(),
+                  //           ),
+                  //         );
+                  //       },
+                  //       icon: FontAwesomeIcons.google),
+                  // ),
                   Padding(
                     padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                     child: TextButton(

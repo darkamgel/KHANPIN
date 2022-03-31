@@ -15,7 +15,6 @@ class _MainHomePageState extends State<MainHomePage> {
 
   List<Widget> pages = [];
   late Widget currentPage;
-
   late HomePage homePage;
   late ProfilePage profilePage;
   late Order orderPage;
@@ -55,9 +54,8 @@ class _MainHomePageState extends State<MainHomePage> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart), label: "Order"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.favorite), label: "Favourite"),
+              icon: Icon(Icons.shopping_cart), label: "Cart"),
+          BottomNavigationBarItem(icon: Icon(Icons.note_alt), label: "Orders"),
           BottomNavigationBarItem(icon: Icon(Icons.map), label: "Maps"),
           BottomNavigationBarItem(
               icon: Icon(Icons.person_outline), label: "Logout"),
