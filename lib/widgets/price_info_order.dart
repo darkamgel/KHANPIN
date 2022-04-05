@@ -1,7 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+
+import '../Screens/Chekckout.dart';
+
+Position? position;
+List<Placemark>? placeMarks;
+String completeAddress = "";
+TextEditingController location_controller = TextEditingController();
+
+getCurrentLocation() async {
+  print("INVOKED");
+  LocationPermission permission = await Geolocator.requestPermission();
+  Position newPosition = await Geolocator.getCurrentPosition(
+    desiredAccuracy: LocationAccuracy.high,
+  );
+  position = newPosition;
+  return position;
+}
 
 Widget buildContainer(
     {@required double? sub,
+    @required BuildContext? context,
     @required double? tax,
     @required num? discount,
     @required double? cartTotal}) {
@@ -99,22 +119,52 @@ Widget buildContainer(
             ),
           ],
         ),
-        Container(
-          margin: EdgeInsets.only(top: 35.0),
-          height: 50.0,
-          width: 400.0,
-          decoration: BoxDecoration(
-            color: Color(0xffe23e57),
-            borderRadius: BorderRadius.circular(25.0),
+        GestureDetector(
+          // onTap: () => showDialog<String>(
+          //   context: context!,
+          //   builder: (BuildContext context) => AlertDialog(
+          //     title: const Text('Location'),
+          //     content: const Text(
+          //         'If you wish to proceed with Checkout your location will be automatically taken !'),
+          //     actions: <Widget>[
+          //       TextButton(
+          //         onPressed: () => Navigator.pop(context, 'Cancel'),
+          //         child: const Text('Cancel'),
+          //       ),
+          //       TextButton(
+          //         onPressed: () {
+          //           position = getCurrentLocation();
+          //           if (position != null) {
+          //             Navigator.push(context,
+          //                 MaterialPageRoute(builder: (context) => Checkout()));
+          //           }
+          //         },
+          //         child: const Text('OK'),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          onTap: () {
+            Navigator.push(
+                context!, MaterialPageRoute(builder: (context) => Checkout()));
+          },
+          child: Container(
+            margin: EdgeInsets.only(top: 35.0),
+            height: 50.0,
+            width: 400.0,
+            decoration: BoxDecoration(
+              color: Color(0xffe23e57),
+              borderRadius: BorderRadius.circular(25.0),
+            ),
+            child: Center(
+                child: Text(
+              'Proceed to Checkout',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xffeeeeee),
+                  fontSize: 20.0),
+            )),
           ),
-          child: Center(
-              child: Text(
-            'Proceed to Checkout',
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Color(0xffeeeeee),
-                fontSize: 20.0),
-          )),
         ),
       ],
     ),

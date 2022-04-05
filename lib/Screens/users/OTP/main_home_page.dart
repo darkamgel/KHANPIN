@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../widgets/Map_Box.dart';
+import '../../../widgets/OrdersPage.dart';
 import 'favorite_page.dart';
 import 'home_page.dart';
 import 'order_page.dart';
@@ -18,18 +19,16 @@ class _MainHomePageState extends State<MainHomePage> {
   late HomePage homePage;
   late ProfilePage profilePage;
   late Order orderPage;
-  late FavoritePage favPage;
-  late GoogleMapsDraw maps;
+  late OrderCart orderCart;
 
   @override
   void initState() {
     homePage = HomePage();
     orderPage = Order();
+    orderCart = OrderCart();
     profilePage = ProfilePage();
-    favPage = FavoritePage();
-    maps = GoogleMapsDraw();
 
-    pages = [homePage, orderPage, favPage, maps, profilePage];
+    pages = [homePage, orderPage, orderCart, profilePage];
 
     currentPage = homePage;
 
@@ -56,7 +55,6 @@ class _MainHomePageState extends State<MainHomePage> {
           BottomNavigationBarItem(
               icon: Icon(Icons.shopping_cart), label: "Cart"),
           BottomNavigationBarItem(icon: Icon(Icons.note_alt), label: "Orders"),
-          BottomNavigationBarItem(icon: Icon(Icons.map), label: "Maps"),
           BottomNavigationBarItem(
               icon: Icon(Icons.person_outline), label: "Logout"),
         ],

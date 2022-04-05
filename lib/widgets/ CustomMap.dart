@@ -1,8 +1,21 @@
+import 'dart:typed_data';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:khan_pin/Screens/users/OTP/home_page.dart';
+import 'dart:ui' as ui;
+
+import '../Screens/users/OTP/main_home_page.dart';
+import '../firstScreen.dart';
+import '../main.dart';
 
 class CustomMap extends StatefulWidget {
-  const CustomMap({Key? key}) : super(key: key);
+  // CustomMap({this.lat, this.lng});
+  // final double? lat;
+  // final double? lng;
 
   @override
   State<CustomMap> createState() => _CustomMapState();
@@ -12,6 +25,19 @@ class _CustomMapState extends State<CustomMap> {
   BitmapDescriptor? customIcon;
   Set<Marker> markers = {};
   LatLng? place;
+  double? lng;
+  double? lat;
+
+  doDatabasestuff() async {
+    await FirebaseFirestore.instance.collection('orders').doc().set({
+      "cartId": FirebaseAuth.instance.currentUser?.uid,
+      "lat": lat,
+      "lng": lng,
+    });
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text("Order Placed")));
+  }
+
   @override
   void initState() {
     super.initState();
@@ -37,8 +63,9 @@ class _CustomMapState extends State<CustomMap> {
       body: Column(
         children: [
           Container(
-            height: 700,
+            height: MediaQuery.of(context).size.height / 1.1,
             child: GoogleMap(
+              mapType: MapType.normal,
               markers: markers,
               onTap: (pos) {
                 place = pos;
@@ -49,15 +76,32 @@ class _CustomMapState extends State<CustomMap> {
                 });
               },
               onMapCreated: (GoogleMapController controller) {},
+              myLocationEnabled: true,
               initialCameraPosition:
-                  CameraPosition(target: LatLng(36.98, -121.99), zoom: 18),
+                  CameraPosition(target: LatLng(27.6195, 85.5386), zoom: 18),
             ),
           ),
-          ElevatedButton(
-              onPressed: () {
-                // database ma halne
-              },
-              child: Text("Place My Order"))
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+                onPressed: () {
+                  markers.forEach((mark) {
+                    lng = mark.position.longitude;
+                    lat = mark.position.latitude;
+                  });
+                  if (lat == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("No Location Selected")));
+                  } else {
+                    doDatabasestuff();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MainHomePage()));
+                  }
+                },
+                child: Text("Place My Order")),
+          )
         ],
       ),
     );

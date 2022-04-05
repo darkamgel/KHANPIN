@@ -28,7 +28,9 @@ class _OrderCardState extends State<OrderCard> {
     try {
       await FirebaseFirestore.instance
           .collection('cart')
-          .doc(uid)
+          .doc(
+            FirebaseAuth.instance.currentUser?.uid,
+          )
           .collection('items')
           .doc(pId)
           .delete();

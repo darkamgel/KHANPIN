@@ -54,7 +54,9 @@ class _ProductDetailsState extends State<ProductDetails> {
       });
       await FirebaseFirestore.instance
           .collection('cart')
-          .doc(uid)
+          .doc(
+            FirebaseAuth.instance.currentUser?.uid,
+          )
           .collection('items')
           .doc(widget.id)
           .set({

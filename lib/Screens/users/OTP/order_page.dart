@@ -38,10 +38,11 @@ class _OrderState extends State<Order> {
   }
 
   getData() async {
-    print("YAHA PUGYO");
     QuerySnapshot query = await FirebaseFirestore.instance
         .collection('cart')
-        .doc(uid)
+        .doc(
+          FirebaseAuth.instance.currentUser?.uid,
+        )
         .collection('items')
         .orderBy('Timestamp', descending: true)
         .get();
@@ -51,11 +52,12 @@ class _OrderState extends State<Order> {
   }
 
   StreamBuilder displayOrders() {
-    print(uid);
     return StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('cart')
-            .doc(uid)
+            .doc(
+              FirebaseAuth.instance.currentUser?.uid,
+            )
             .collection('items')
             .orderBy('Timestamp', descending: true)
             .snapshots(),
@@ -74,7 +76,6 @@ class _OrderState extends State<Order> {
                   child: ListView.builder(
                       itemCount: snapshot.data.docs.length,
                       itemBuilder: (context, index) {
-                        
                         return GestureDetector(
                             onTap: () {
                               Navigator.push(
@@ -114,6 +115,7 @@ class _OrderState extends State<Order> {
                       }),
                 ),
                 buildContainer(
+                    context: context,
                     sub: cart - discount,
                     tax: tax,
                     discount: discount,
