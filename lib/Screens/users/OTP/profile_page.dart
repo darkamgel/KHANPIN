@@ -16,7 +16,7 @@ class ProfilePage extends StatelessWidget {
             margin: EdgeInsets.all(65),
             width: double.infinity,
             child: ElevatedButton(
-              style: ElevatedButton.styleFrom(primary: Colors.red),
+              style: ElevatedButton.styleFrom(primary: Colors.blueAccent),
               onPressed: () {
                 FirebaseAuth.instance.signOut();
                 // Provider.of<ControllerLogin>(context, listen: false)
@@ -24,11 +24,14 @@ class ProfilePage extends StatelessWidget {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (c) => FirstScreen()));
               },
-              child: Text('LogOut',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold)),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('LogOut',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold)),
+              ),
             ),
           )
         ],
