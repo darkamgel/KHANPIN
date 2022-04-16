@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:khan_pin/Refactorcodes/buttons.dart';
 import 'package:khan_pin/Screens/admin/homescreenadmin.dart';
 import 'package:khan_pin/constants.dart';
+import 'package:khan_pin/firstScreen.dart';
 import 'package:khan_pin/widgets/loading_dialog.dart';
 import 'package:firebase_storage/firebase_storage.dart' as fstorage;
 
@@ -60,6 +61,9 @@ class _AddFoodFormState extends State<AddFoodForm> {
         foodImageUrl = url;
 
         //  save info to firestore database
+        if (FirebaseAuth.instance.currentUser != null) {
+                          saveDatatoFirestore(firebaseAuth.currentUser!);
+                        }
       });
     } else {
       displayToastMessage("Fill The All Required Field", context);
@@ -269,9 +273,7 @@ class _AddFoodFormState extends State<AddFoodForm> {
                       onPress: () async {
                         await formvalidation();
 
-                        if (FirebaseAuth.instance.currentUser != null) {
-                          await saveDatatoFirestore(firebaseAuth.currentUser!);
-                        }
+                        
                       }),
                 ],
               )
@@ -500,8 +502,12 @@ class _UpdateFoodFormState extends State<UpdateFoodForm> {
                       button_name: "Back",
                       width: 150,
                       height: 42,
-                      onPress: () {
-                        Navigator.pop(context);
+                      onPress: () async {
+                        await FirebaseAuth.instance.signOut();
+
+                         Route newRoute =
+                            MaterialPageRoute(builder: (c) => FirstScreen());
+                        Navigator.pushReplacement(context, newRoute);
                       }),
                   Button1(
                       color: Colors.red,

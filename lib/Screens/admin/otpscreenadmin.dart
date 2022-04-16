@@ -1,12 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:khan_pin/Screens/admin/home_tab_page.dart';
 import 'package:khan_pin/Screens/admin/homescreenadmin.dart';
 
 import 'package:khan_pin/Refactorcodes/buttons.dart';
 import 'package:khan_pin/constants.dart';
 
 import 'package:pinput/pin_put/pin_put.dart';
+
+import '../users/OTP/main_home_page.dart';
 
 class OTPScreenadmin extends StatefulWidget {
   static const String idscreen = "otp";
@@ -49,7 +52,7 @@ class _OTPScreenadminState extends State<OTPScreenadmin> {
             .then((value) {
           if (value.user != null) {
             Navigator.of(context)
-                .push(MaterialPageRoute(builder: (c) => Homepageadmin()));
+                .push(MaterialPageRoute(builder: (c) => MainHomePageAdmin()));
           }
         });
       },
