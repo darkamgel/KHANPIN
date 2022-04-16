@@ -7,6 +7,8 @@ import 'order_page.dart';
 import 'profile_page.dart';
 
 class MainHomePage extends StatefulWidget {
+  static const String idscreen = "main_page";
+
   @override
   _MainHomePageState createState() => _MainHomePageState();
 }

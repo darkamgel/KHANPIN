@@ -32,6 +32,27 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+        debugShowCheckedModeBanner: false,
+        title: 'KhanPin ',
+        theme: ThemeData(primaryColor: Colors.blue),
+
+        // home: AddFoodForm(),
+        home: FirstScreen(),
+        initialRoute: FirebaseAuth.instance.currentUser != null
+            ? FirstScreen.idscreen
+            : MainHomePage.idscreen,
+        routes: {
+          FirstScreen.idscreen: (context) => FirstScreen(),
+          LoginScreen.idscreen: (context) => LoginScreen(),
+          Homepageadmin.idscreen: (context) => Homepageadmin(),
+          AddFoodForm.idscreen: (context) => AddFoodForm(),
+          MainHomePage.idscreen: ((context) => MainHomePage())
+        });
+=======
+>>>>>>> eca67af4e5c1c3ec8b824f80b7f8cf3e30c9d03e
       debugShowCheckedModeBanner: false,
       title: 'KhanPin ',
       theme: ThemeData(primaryColor: Colors.blue),
