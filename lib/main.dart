@@ -7,7 +7,7 @@ import 'package:khan_pin/Screens/admin/addfood.dart';
 import 'package:khan_pin/Screens/admin/home_tab_page.dart';
 import 'package:khan_pin/Screens/admin/homescreenadmin.dart';
 import 'package:khan_pin/Screens/users/OTP/home_page.dart';
-import 'package:khan_pin/Screens/users/OTP/loginScreenuser.dart';
+import 'package:khan_pin/Screens/users/OTP/RegisterScreenuser.dart';
 import 'package:khan_pin/Screens/users/OTP/main_home_page.dart';
 import 'package:khan_pin/Screens/users/OTP/otpscreen.dart';
 import 'package:khan_pin/constants.dart';
@@ -26,11 +26,14 @@ void main() async {
 }
 
 // CollectionReference admincollectionref = FirebaseFirestore.instance.collection("admin");
+CollectionReference foodcollectionref = FirebaseFirestore.instance.collection('food');
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+<<<<<<< HEAD
+=======
 <<<<<<< Updated upstream
         debugShowCheckedModeBanner: false,
         title: 'KhanPin ',
@@ -49,6 +52,7 @@ class MyApp extends StatelessWidget {
           MainHomePage.idscreen: ((context) => MainHomePage())
         });
 =======
+>>>>>>> eca67af4e5c1c3ec8b824f80b7f8cf3e30c9d03e
       debugShowCheckedModeBanner: false,
       title: 'KhanPin ',
       theme: ThemeData(primaryColor: Colors.blue),
@@ -61,12 +65,11 @@ class MyApp extends StatelessWidget {
       initialRoute: FirebaseAuth.instance.currentUser==null ? FirstScreen.idscreen : MainHomePageAdmin.idscreen,
       routes: {
         FirstScreen.idscreen: (context) => FirstScreen(),
-        LoginScreen.idscreen: (context) => LoginScreen(),
+        // RegisterScreenUser.idscreen: (context) => RegisterScreenUser(),     
         Homepageadmin.idscreen: (context) => Homepageadmin(),
         AddFoodForm.idscreen: (context) => AddFoodForm(),
         MainHomePageAdmin.idscreen: (context) => MainHomePageAdmin(),
       }
     );
->>>>>>> Stashed changes
   }
 }

@@ -1,29 +1,15 @@
-class UserDetailsModel{
-  String? displayName;
-  String? email;
-  String? photoURL;
-
-  UserDetailsModel({this.displayName , this.email ,this.photoURL});
-
-  UserDetailsModel.fromJson(Map<String , dynamic> json)
-  {
-    // data getting from google
-    displayName = json['displayName'];
-    photoURL = json['photoURL'];
-    email = json['email'];
-  }
-
-  Map<String , dynamic> toJson(){
-    final Map<String , dynamic> mapData = new Map<String , dynamic>();
-
-    mapData["displayName"] = this.displayName;
-    mapData['email'] = this.email;
-    mapData['photoURL'] = this.photoURL;
-
-    return mapData;
 
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 
+class UserModel {
+  
+  final String phNumber;
+
+  UserModel({ required this.phNumber});
+
+  factory UserModel.deserialize(DocumentSnapshot doc) {
+    return UserModel(phNumber: doc['phone']);
   }
 }
 
