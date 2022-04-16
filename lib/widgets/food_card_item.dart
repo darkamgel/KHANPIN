@@ -1,6 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:khan_pin/Screens/admin/addfood.dart';
+import 'package:khan_pin/Screens/admin/updatefoodform.dart';
+
 import 'package:khan_pin/constants.dart';
+import 'package:khan_pin/main.dart';
 
 class FoodCardItem extends StatefulWidget {
   final String id;
@@ -150,7 +156,7 @@ class _FoodCardItemState extends State<FoodCardItem> {
   }
 }
 
-class FoodCardItemAdmin extends StatefulWidget {
+class FoodCardItemAdminedit extends StatefulWidget {
   // final String id;
   final String imagePath;
   final String name;
@@ -160,13 +166,13 @@ class FoodCardItemAdmin extends StatefulWidget {
   final String discount;
   final String price_with_discount;
   // final double ratings;
-  FoodCardItemAdmin(this.imagePath, this.name, this.category, this.price,
+  FoodCardItemAdminedit(this.imagePath, this.name, this.category, this.price,
       this.discount, this.price_with_discount);
   @override
-  _FoodCardItemAdminState createState() => _FoodCardItemAdminState();
+  _FoodCardItemAdmineditState createState() => _FoodCardItemAdmineditState();
 }
 
-class _FoodCardItemAdminState extends State<FoodCardItemAdmin> {
+class _FoodCardItemAdmineditState extends State<FoodCardItemAdminedit> {
   Future<void> downloadURLExample() async {
     String downloadURL = await firebase_storage.FirebaseStorage.instance
         .ref(widget.imagePath)
@@ -193,7 +199,35 @@ class _FoodCardItemAdminState extends State<FoodCardItemAdmin> {
               child: TextButton(
                 onPressed: () {},
                 onLongPress: () {
-                  print("Hello");
+                  showDialog(context: context, builder: (BuildContext context){
+                    return AlertDialog(
+                      title: Text('Do You Want To Update/Delete ?'),
+                      actions: [TextButton(
+                        onPressed: ()async{
+                          await FirebaseFirestore.instance.collection('food').doc(foodcollectionref.id).delete().whenComplete((){
+                            Navigator.pop(context);
+                          });
+                        }, 
+                        child: Text("Delete"),
+                        
+                        ),
+                        TextButton(
+                          onPressed: (){
+                            // Navigator.push(context, MaterialPageRoute(builder: (context){
+                            //   return UpdateFoodForm();
+
+                            // }));
+                            Navigator.push(context,MaterialPageRoute(builder:(context)=>UpdateFoodForm()));
+
+                          }, 
+                          child: Text("Update"))
+                        
+                        ],
+                    );
+
+                  });
+                  
+                  
                 },
                 child: Image(
                   image: NetworkImage(widget.imagePath, scale: 1),

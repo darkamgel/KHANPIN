@@ -7,7 +7,7 @@ import 'package:khan_pin/Screens/admin/addfood.dart';
 import 'package:khan_pin/Screens/admin/home_tab_page.dart';
 import 'package:khan_pin/Screens/admin/homescreenadmin.dart';
 import 'package:khan_pin/Screens/users/OTP/home_page.dart';
-import 'package:khan_pin/Screens/users/OTP/loginScreenuser.dart';
+import 'package:khan_pin/Screens/users/OTP/RegisterScreenuser.dart';
 import 'package:khan_pin/Screens/users/OTP/main_home_page.dart';
 import 'package:khan_pin/Screens/users/OTP/otpscreen.dart';
 import 'package:khan_pin/constants.dart';
@@ -26,28 +26,12 @@ void main() async {
 }
 
 // CollectionReference admincollectionref = FirebaseFirestore.instance.collection("admin");
+CollectionReference foodcollectionref = FirebaseFirestore.instance.collection('food');
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-<<<<<<< Updated upstream
-        debugShowCheckedModeBanner: false,
-        title: 'KhanPin ',
-        theme: ThemeData(primaryColor: Colors.blue),
-
-        // home: AddFoodForm(),
-        home: FirstScreen(),
-        initialRoute: FirebaseAuth.instance.currentUser != null
-            ? FirstScreen.idscreen
-            : Homepageadmin.idscreen,
-        routes: {
-          FirstScreen.idscreen: (context) => FirstScreen(),
-          LoginScreen.idscreen: (context) => LoginScreen(),
-          Homepageadmin.idscreen: (context) => Homepageadmin(),
-          AddFoodForm.idscreen: (context) => AddFoodForm(),
-        });
-=======
       debugShowCheckedModeBanner: false,
       title: 'KhanPin ',
       theme: ThemeData(primaryColor: Colors.blue),
@@ -60,12 +44,11 @@ class MyApp extends StatelessWidget {
       initialRoute: FirebaseAuth.instance.currentUser==null ? FirstScreen.idscreen : MainHomePageAdmin.idscreen,
       routes: {
         FirstScreen.idscreen: (context) => FirstScreen(),
-        LoginScreen.idscreen: (context) => LoginScreen(),
+        // RegisterScreenUser.idscreen: (context) => RegisterScreenUser(),     
         Homepageadmin.idscreen: (context) => Homepageadmin(),
         AddFoodForm.idscreen: (context) => AddFoodForm(),
         MainHomePageAdmin.idscreen: (context) => MainHomePageAdmin(),
       }
     );
->>>>>>> Stashed changes
   }
 }

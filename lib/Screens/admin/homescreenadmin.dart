@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:khan_pin/Screens/admin/addfood.dart';
 import 'package:khan_pin/Screens/users/OTP/home_page.dart';
-import 'package:khan_pin/Screens/users/OTP/loginScreenuser.dart';
+
 import 'package:khan_pin/constants.dart';
 import 'package:khan_pin/firstScreen.dart';
 import 'package:khan_pin/widgets/food_card_item.dart';
@@ -119,7 +119,7 @@ class _HomepageadminState extends State<Homepageadmin> {
                               final total_price = st.get('price_with_discount');
 
                               // final datas = FoodCardItemAdmin(category,url,name );
-                              final datas = FoodCardItemAdmin(foodurl, foodname,
+                              final datas = FoodCardItemAdminedit(foodurl, foodname,
                                   foodcategory, price, discount, total_price);
 
                               // final datas = buildTile(category, name, url, context);

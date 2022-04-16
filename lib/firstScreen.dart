@@ -8,7 +8,7 @@ import 'package:khan_pin/Screens/users/OTP/main_home_page.dart';
 
 import 'package:khan_pin/Refactorcodes/buttons.dart';
 import 'package:khan_pin/Screens/admin/loginScreenadmin.dart';
-import 'package:khan_pin/Screens/users/OTP/loginScreenuser.dart';
+import 'package:khan_pin/Screens/users/OTP/RegisterScreenuser.dart';
 
 import 'package:khan_pin/constants.dart';
 
@@ -79,7 +79,7 @@ class _FirstScreenState extends State<FirstScreen> {
                         button_name: "SignIn with PhoneNumber",
                         onPress: () {
                           Navigator.of(context).push(
-                              MaterialPageRoute(builder: (c) => LoginScreen()));
+                              MaterialPageRoute(builder: (c) => RegisterScreenUser()));
                         },
                         icon: FontAwesomeIcons.keyboard),
                   ),

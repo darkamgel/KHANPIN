@@ -54,6 +54,8 @@ FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 final firebaseUser = firebaseAuth.currentUser;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+var verificationCode = '';
+
 
 
 

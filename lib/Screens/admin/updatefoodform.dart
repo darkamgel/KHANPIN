@@ -1,3 +1,4 @@
+
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,16 +12,20 @@ import 'package:khan_pin/firstScreen.dart';
 import 'package:khan_pin/widgets/loading_dialog.dart';
 import 'package:firebase_storage/firebase_storage.dart' as fstorage;
 
-class AddFoodForm extends StatefulWidget {
-  static const String idscreen = "foodform";
-  AddFoodForm({Key? key}) : super(key: key);
+import '../../main.dart';
+
+
+
+class UpdateFoodForm extends StatefulWidget {
+  
+  UpdateFoodForm({Key? key}) : super(key: key);
 
   @override
-  State<AddFoodForm> createState() => _AddFoodFormState();
+  State<UpdateFoodForm> createState() => _UpdateFoodFormState();
 }
 
-class _AddFoodFormState extends State<AddFoodForm> {
-  bool? update;
+class _UpdateFoodFormState extends State<UpdateFoodForm> {
+  
   TextEditingController food_category_controller = TextEditingController();
   TextEditingController food_name_controller = TextEditingController();
   TextEditingController food_price_controller = TextEditingController();
@@ -61,9 +66,7 @@ class _AddFoodFormState extends State<AddFoodForm> {
         foodImageUrl = url;
 
         //  save info to firestore database
-        if (FirebaseAuth.instance.currentUser != null) {
-                          saveDatatoFirestore(firebaseAuth.currentUser!);
-                        }
+        
       });
     } else {
       displayToastMessage("Fill The All Required Field", context);
@@ -78,22 +81,80 @@ class _AddFoodFormState extends State<AddFoodForm> {
     });
   }
 
-  Future saveDatatoFirestore(User currentUser) async {
-    FirebaseFirestore.instance.collection("food").add({
-      "foodUID": currentUser.uid,
-      "foodurl": foodImageUrl,
+  // Future saveDatatoFirestore(User currentUser) async {
+  //   FirebaseFirestore.instance.collection("food").add({
+  //     "foodUID": currentUser.uid,
+  //     "foodurl": foodImageUrl,
+  //     "foodcategory": food_category_controller.text.trim(),
+  //     "foodname": food_name_controller.text.trim(),
+  //     "price": food_price_controller.text.trim(),
+  //     "discount": food_dicount_controller.text.trim(),
+  //     "price_with_discount": totalprice_controller.text.trim(),
+  //   }).whenComplete(() {
+  //     Navigator.of(context)
+  //         .push(MaterialPageRoute(builder: (c) => Homepageadmin()));
+  //   });
+  // }
+
+  // Future updatefood(User currentUser)async {
+  //   return await foodcollectionref.doc().update({
+  //     "foodUID":currentUser.uid,
+      
+  //     "foodurl": foodImageUrl,
+  //     "foodcategory": food_category_controller.text.trim(),
+  //     "foodname": food_name_controller.text.trim(),
+  //     "price": food_price_controller.text.trim(),
+  //     "discount": food_dicount_controller.text.trim(),
+  //     "price_with_discount": totalprice_controller.text.trim(),
+
+  //   }).whenComplete(() {
+  //     Navigator.of(context)
+  //         .push(MaterialPageRoute(builder: (c) => Homepageadmin()));
+
+  //   });
+
+  // }
+  // Future updatefood(User currentUser)async {
+  //   return await foodcollectionref.doc(currentUser.uid).update({
+      
+  //     "foodurl": foodImageUrl,
+  //     "foodcategory": food_category_controller.text.trim(),
+  //     "foodname": food_name_controller.text.trim(),
+  //     "price": food_price_controller.text.trim(),
+  //     "discount": food_dicount_controller.text.trim(),
+  //     "price_with_discount": totalprice_controller.text.trim(),
+
+  //   }).whenComplete(() {
+  //     Navigator.of(context)
+  //         .push(MaterialPageRoute(builder: (c) => Homepageadmin()));
+
+  //   });
+
+  // }
+
+  Future<void> updateFoodData() {
+  return foodcollectionref.doc()
+    .update({
+       "foodurl": foodImageUrl,
       "foodcategory": food_category_controller.text.trim(),
       "foodname": food_name_controller.text.trim(),
       "price": food_price_controller.text.trim(),
       "discount": food_dicount_controller.text.trim(),
       "price_with_discount": totalprice_controller.text.trim(),
-    }).whenComplete(() {
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (c) => Homepageadmin()));
-    });
-  }
+      
+      })
+    .then((value) => print("User Updated")).whenComplete((){
+      Navigator.push(context, (MaterialPageRoute(builder: (c)=> Homepageadmin())));
+    })
+    .catchError((error) => print("Failed to update user: $error"));
+}
 
-  @override
+ 
+
+
+ 
+
+ @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
@@ -117,7 +178,7 @@ class _AddFoodFormState extends State<AddFoodForm> {
                     Padding(
                       padding: const EdgeInsets.only(left: 50),
                       child: Text(
-                        " Add Food ".toUpperCase(),
+                        " Update Food ".toUpperCase(),
                         style: kStyle.copyWith(
                             fontSize: 18.0,
                             color: Colors.white,
@@ -272,6 +333,7 @@ class _AddFoodFormState extends State<AddFoodForm> {
                       height: 42,
                       onPress: () async {
                         await formvalidation();
+                        // updateFoodData();
 
                         
                       }),

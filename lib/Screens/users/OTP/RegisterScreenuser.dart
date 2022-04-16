@@ -10,15 +10,18 @@ import 'package:khan_pin/constants.dart';
 import 'package:khan_pin/database/database.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
-class LoginScreen extends StatefulWidget {
-  static const String idscreen = "loginScreen";
-  LoginScreen({Key? key}) : super(key: key);
+final FirebaseAuth _auth = FirebaseAuth.instance;
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+class RegisterScreenUser extends StatefulWidget {
+  // static const String idscreen = "RegisterUserScreen";
+  RegisterScreenUser({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreenUser> createState() => _RegisterScreenUserState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenUserState extends State<RegisterScreenUser> {
   String? phonenumber;
 
   bool showSpinner = false;
@@ -182,3 +185,5 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+
+
