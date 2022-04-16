@@ -39,12 +39,13 @@ class MyApp extends StatelessWidget {
         home: FirstScreen(),
         initialRoute: FirebaseAuth.instance.currentUser != null
             ? FirstScreen.idscreen
-            : Homepageadmin.idscreen,
+            : MainHomePage.idscreen,
         routes: {
           FirstScreen.idscreen: (context) => FirstScreen(),
           LoginScreen.idscreen: (context) => LoginScreen(),
           Homepageadmin.idscreen: (context) => Homepageadmin(),
           AddFoodForm.idscreen: (context) => AddFoodForm(),
+          MainHomePage.idscreen: ((context) => MainHomePage())
         });
   }
 }
