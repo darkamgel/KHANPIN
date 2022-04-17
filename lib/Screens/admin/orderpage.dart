@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:khan_pin/widgets/notification_card.dart';
 
-class FavoritePage extends StatefulWidget {
+class OrderPage extends StatefulWidget {
   @override
-  _FavoritePageState createState() => _FavoritePageState();
+  _OrderPageState createState() => _OrderPageState();
 }
 
-class _FavoritePageState extends State<FavoritePage> {
+class _OrderPageState extends State<OrderPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,13 +27,7 @@ class _FavoritePageState extends State<FavoritePage> {
       ),
       body: ListView(
         children: <Widget>[
-          NotificationCard(),
-          NotificationCard(),
-          NotificationCard(),
-          NotificationCard(),
-          NotificationCard(),
-          NotificationCard(),
-          NotificationCard(),
+          
         ],
       ),
     );

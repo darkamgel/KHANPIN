@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:khan_pin/Refactorcodes/buttons.dart';
+import 'package:khan_pin/Screens/admin/home_tab_page.dart';
 import 'package:khan_pin/Screens/admin/homescreenadmin.dart';
 import 'package:khan_pin/constants.dart';
 import 'package:khan_pin/firstScreen.dart';
@@ -132,10 +133,12 @@ class _UpdateFoodFormState extends State<UpdateFoodForm> {
 
   // }
 
-  Future<void> updateFoodData() {
-  return foodcollectionref.doc()
+  Future<void> updateFoodData(User currentuser)async {
+    print(currentuser.uid);
+  return FirebaseFirestore.instance.collection('food').doc(currentuser.uid)
     .update({
-       "foodurl": foodImageUrl,
+      "foodUID":currentuser.uid,
+      "foodurl": foodImageUrl,
       "foodcategory": food_category_controller.text.trim(),
       "foodname": food_name_controller.text.trim(),
       "price": food_price_controller.text.trim(),
@@ -143,13 +146,12 @@ class _UpdateFoodFormState extends State<UpdateFoodForm> {
       "price_with_discount": totalprice_controller.text.trim(),
       
       })
-    .then((value) => print("User Updated")).whenComplete((){
-      Navigator.push(context, (MaterialPageRoute(builder: (c)=> Homepageadmin())));
+    .then((value) => print("food updates")).whenComplete((){
+      Navigator.push(context, (MaterialPageRoute(builder: (c)=> MainHomePageAdmin())));
     })
-    .catchError((error) => print("Failed to update user: $error"));
+    .catchError((error) => print("Failed to update food: $error"));
 }
 
- 
 
 
  
@@ -328,12 +330,12 @@ class _UpdateFoodFormState extends State<UpdateFoodForm> {
                       }),
                   Button1(
                       color: Colors.red,
-                      button_name: "Submit",
+                      button_name: "Update",
                       width: 150,
                       height: 42,
                       onPress: () async {
                         await formvalidation();
-                        // updateFoodData();
+                        updateFoodData(firebaseAuth.currentUser!);
 
                         
                       }),

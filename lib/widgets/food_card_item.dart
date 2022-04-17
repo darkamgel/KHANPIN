@@ -204,7 +204,7 @@ class _FoodCardItemAdmineditState extends State<FoodCardItemAdminedit> {
                       title: Text('Do You Want To Update/Delete ?'),
                       actions: [TextButton(
                         onPressed: ()async{
-                          await FirebaseFirestore.instance.collection('food').doc(foodcollectionref.id).delete().whenComplete((){
+                          await FirebaseFirestore.instance.collection('food').doc(firebaseAuth.currentUser!.uid).delete().whenComplete((){
                             Navigator.pop(context);
                           });
                         }, 

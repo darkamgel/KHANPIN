@@ -36,6 +36,8 @@ dependencies:
   geocoding: ^2.0.4
   firebase_storage: ^10.2.9
   google_maps_flutter: ^2.1.3
+  firebase_messaging: ^11.2.13
+  flutter_local_notifications: ^9.4.0
   # permission: ^0.1.7
 
 

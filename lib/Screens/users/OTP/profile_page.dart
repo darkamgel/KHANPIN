@@ -8,6 +8,35 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+    
+    // AlertDialog(
+    //   title: Text("Do you want to SignOut"),
+    //   actions: [
+    //     TextButton(onPressed: (){
+    //       print("NO");
+
+    //     }, 
+    //     child: Text("No"),
+    //     ),
+    //     TextButton(onPressed: (){
+    //       print("yes");
+    //     }, child: Text("yes"))
+    //   ],
+    // );
+      
+
+
+
+
+      
+
+      
+
+
+
+
+
+
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -36,6 +65,64 @@ class ProfilePage extends StatelessWidget {
           )
         ],
       ),
+
+
+
+
+
     );
   }
 }
+
+
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:flutter/material.dart';
+
+// import 'package:khan_pin/firstScreen.dart';
+// // import 'package:provider/provider.dart';
+
+// class ProfilePage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return 
+    
+//     AlertDialog(
+//       title: Text("Do you want to SignOut"),
+//       actions: [
+//         TextButton(onPressed: (){
+//           print("NO");
+
+//         }, 
+//         child: Text("No"),
+//         ),
+//         TextButton(onPressed: (){
+//           print("yes");
+//         }, child: Text("yes"))
+//       ],
+//     );
+      
+
+
+
+
+      
+
+      
+
+
+
+
+
+
+      
+//   }
+// }
+
+
+
+
+
+
+
+
+

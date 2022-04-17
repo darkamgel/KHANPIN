@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:khan_pin/Screens/admin/homescreenadmin.dart';
-import 'package:khan_pin/Screens/users/OTP/favorite_page.dart';
+import 'package:khan_pin/Screens/admin/orderpage.dart';
+// import 'package:khan_pin/Screens/users/OTP/favorite_page.dart';
 import 'package:khan_pin/Screens/users/OTP/order_page.dart';
 import 'package:khan_pin/Screens/users/OTP/profile_page.dart';
 import '../../../widgets/Map_Box.dart';
@@ -20,8 +22,7 @@ class _MainHomePageState extends State<MainHomePageAdmin> {
   late Widget currentPage;
   late Homepageadmin homePage;
   late ProfilePage profilePage;
-  late Order orderPage;
-  late FavoritePage favPage;
+  late OrderPage favPage;
   late GoogleMapsDraw maps;
 
   @override
@@ -29,7 +30,7 @@ class _MainHomePageState extends State<MainHomePageAdmin> {
     homePage = Homepageadmin();
     
     profilePage = ProfilePage();
-    favPage = FavoritePage();
+    favPage = OrderPage();
     maps = GoogleMapsDraw();
 
     pages = [homePage,  favPage, maps, profilePage];
@@ -38,6 +39,8 @@ class _MainHomePageState extends State<MainHomePageAdmin> {
 
     super.initState();
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +64,11 @@ class _MainHomePageState extends State<MainHomePageAdmin> {
             BottomNavigationBarItem(icon: Icon(Icons.note_alt), label: "Orders"),
             BottomNavigationBarItem(icon: Icon(Icons.map), label: "Maps"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.person_outline), label: "Logout"),
+
+              
+                icon: Icon(Icons.person_outline), label: "Logout" , 
+
+                 ),
           ],
         ),
         body: currentPage,
@@ -69,3 +76,6 @@ class _MainHomePageState extends State<MainHomePageAdmin> {
     );
   }
 }
+
+
+

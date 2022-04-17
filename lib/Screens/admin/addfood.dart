@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:khan_pin/Refactorcodes/buttons.dart';
+import 'package:khan_pin/Screens/admin/home_tab_page.dart';
 import 'package:khan_pin/Screens/admin/homescreenadmin.dart';
 import 'package:khan_pin/constants.dart';
 import 'package:khan_pin/firstScreen.dart';
@@ -79,7 +80,8 @@ class _AddFoodFormState extends State<AddFoodForm> {
   }
 
   Future saveDatatoFirestore(User currentUser) async {
-    FirebaseFirestore.instance.collection("food").add({
+    // FirebaseFirestore.instance.collection("food").doc(currentUser.uid).set({
+      return FirebaseFirestore.instance.collection("food").add({
       "foodUID": currentUser.uid,
       "foodurl": foodImageUrl,
       "foodcategory": food_category_controller.text.trim(),
@@ -87,9 +89,11 @@ class _AddFoodFormState extends State<AddFoodForm> {
       "price": food_price_controller.text.trim(),
       "discount": food_dicount_controller.text.trim(),
       "price_with_discount": totalprice_controller.text.trim(),
-    }).whenComplete(() {
+    },
+   
+    ).whenComplete(() {
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (c) => Homepageadmin()));
+          .push(MaterialPageRoute(builder: (c) => MainHomePageAdmin()));
     });
   }
 
