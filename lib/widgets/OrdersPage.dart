@@ -83,22 +83,21 @@ class _OrderCartState extends State<OrderCart> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                        snapshot.data.docs[index]
-                                            ['ProductName'],
+                                        "Food Name : ${snapshot.data.docs[index]['ProductName']}".toUpperCase(),
                                         style: TextStyle(
-                                            color: Colors.black, fontSize: 28)),
-                                    Text(snapshot.data.docs[index]['Quantity'],
+                                            color: Colors.black, fontSize: 15)),
+                                    Text(" Quantity : ${snapshot.data.docs[index]['Quantity']}".toUpperCase(),
                                         style: TextStyle(
-                                            color: Colors.black, fontSize: 24)),
-                                    Text("TotalPrice",
+                                            color: Colors.black, fontSize: 15)),
+                                    Text("TotalPrice ${snapshot.data.docs[index]['TotalPrice']}",
                                         style: TextStyle(
-                                            color: Colors.black, fontSize: 20)),
+                                            color: Colors.black, fontSize: 15)),
                                     Text(
-                                        snapshot.data.docs[index]['Delivered']
+                                        " Status : ${snapshot.data.docs[index]['Delivered']
                                             ? "Delivered"
-                                            : "Pending",
+                                            : "Pending"}", 
                                         style: TextStyle(
-                                            color: Colors.black, fontSize: 20)),
+                                            color: Colors.black, fontSize: 15)),
                                   ]),
                             )
                           ]),
@@ -111,17 +110,19 @@ class _OrderCartState extends State<OrderCart> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoading
-        ? Center(child: CircularProgressIndicator())
-        : Scaffold(
-            body: isLoading
-                ? Center(child: CircularProgressIndicator())
-                : SafeArea(
-                    child: doesOrderExist
-                        ? buildData()
-                        : Center(
-                            child: Text("No Orders",
-                                style: TextStyle(
-                                    color: Colors.grey, fontSize: 20)))));
+    return SafeArea(
+      child: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : Scaffold(
+              body: isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : SafeArea(
+                      child: doesOrderExist
+                          ? buildData()
+                          : Center(
+                              child: Text("No Orders",
+                                  style: TextStyle(
+                                      color: Colors.grey, fontSize: 20))))),
+    );
   }
 }

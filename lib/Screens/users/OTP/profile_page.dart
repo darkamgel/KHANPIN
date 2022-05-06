@@ -1,128 +1,166 @@
+
+
+
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'package:khan_pin/firstScreen.dart';
-// import 'package:provider/provider.dart';
 
-class ProfilePage extends StatelessWidget {
+
+// our data
+const url = "sandeep.me";
+const email = "sandeepkshetri3@gmail.com";
+const phone = "9860587826"; 
+const location = "Nepal";
+
+class ProfilePageUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    
-    // AlertDialog(
-    //   title: Text("Do you want to SignOut"),
-    //   actions: [
-    //     TextButton(onPressed: (){
-    //       print("NO");
-
-    //     }, 
-    //     child: Text("No"),
-    //     ),
-    //     TextButton(onPressed: (){
-    //       print("yes");
-    //     }, child: Text("yes"))
-    //   ],
-    // );
-      
-
-
-
-
-      
-
-      
-
-
-
-
-
-
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Image.asset("images/logo.png"),
-          Container(
-            margin: EdgeInsets.all(65),
-            width: double.infinity,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(primary: Colors.blueAccent),
-              onPressed: () {
-                FirebaseAuth.instance.signOut();
-                // Provider.of<ControllerLogin>(context, listen: false)
-                //     .allowUserToLogOut();
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (c) => FirstScreen()));
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('LogOut',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold)),
+        backgroundColor: Color(0xffFFFDD0),
+        body: SafeArea(
+          minimum: const EdgeInsets.only(top: 100),
+          child: Column(
+            children: <Widget>[
+              CircleAvatar(
+                backgroundColor: Colors.blue,
+                radius: 100,
+                backgroundImage: AssetImage('images/avatar.jpg'),
               ),
-            ),
-          )
-        ],
-      ),
+              Text(
+                "Sandeep kshetri",
+                style: TextStyle(
+                  fontSize: 40.0,
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Pacifico",
+                ),
+              ),
+              
+              SizedBox(
+                height: 20,
+                width: 200,
+                child: Divider(
+                  color: Colors.black,
+                ),
+              ),
+
+              // we will be creating a new widget name info carrd
+
+              InfoCard(text: phone, icon: Icons.phone, onPressed: () async {}),
+              // InfoCard(text: url, icon: Icons.web, onPressed: () async {}),
+              InfoCard(
+                  text: location,
+                  icon: Icons.location_city,
+                  onPressed: () async {}),
+              InfoCard(text: "logout", icon: Icons.logout_outlined, onPressed: (){
+                FirebaseAuth.instance.signOut();
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (c) => FirstScreen()));
+
+              })
 
 
-
-
-
-    );
+              // InfoCard(text: email, icon: Icons.email, onPressed: () async {}),
+            ],
+          ),
+        ));
   }
 }
 
 
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:flutter/material.dart';
-
-// import 'package:khan_pin/firstScreen.dart';
-// // import 'package:provider/provider.dart';
-
-// class ProfilePage extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return 
-    
-//     AlertDialog(
-//       title: Text("Do you want to SignOut"),
-//       actions: [
-//         TextButton(onPressed: (){
-//           print("NO");
-
-//         }, 
-//         child: Text("No"),
-//         ),
-//         TextButton(onPressed: (){
-//           print("yes");
-//         }, child: Text("yes"))
-//       ],
-//     );
-      
 
 
 
+class ProfilePageAdmin extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: Color(0xffFFFDD0),
+        body: SafeArea(
+          minimum: const EdgeInsets.only(top: 100),
+          child: Column(
+            children: <Widget>[
+              CircleAvatar(
+                backgroundColor: Colors.blue,
+                radius: 100,
+                backgroundImage: AssetImage('images/avatar.jpg'),
+              ),
+              Text(
+                "Sandeep khatri",
+                style: TextStyle(
+                  fontSize: 40.0,
+                  color: Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Pacifico",
+                ),
+              ),
+              
+              SizedBox(
+                height: 20,
+                width: 200,
+                child: Divider(
+                  color: Colors.black,
+                ),
+              ),
 
-      
+              // we will be creating a new widget name info carrd
 
-      
+              InfoCard(text: phone, icon: Icons.phone, onPressed: () async {}),
+              // InfoCard(text: url, icon: Icons.web, onPressed: () async {}),
+              InfoCard(
+                  text: location,
+                  icon: Icons.location_city,
+                  onPressed: () async {}),
+              InfoCard(text: "logout", icon: Icons.logout_outlined, onPressed: (){
+                FirebaseAuth.instance.signOut();
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (c) => FirstScreen()));
 
-
-
-
-
-
-      
-//   }
-// }
-
-
-
-
+              })
 
 
+              // InfoCard(text: email, icon: Icons.email, onPressed: () async {}),
+            ],
+          ),
+        ));
+  }
+}
 
 
 
+
+class InfoCard extends StatelessWidget {
+  // the values we need
+  final String text;
+  final IconData icon;
+  VoidCallback onPressed;
+
+  InfoCard(
+      {required this.text, required this.icon, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Card(
+        color: Colors.white,
+        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 25),
+        child: ListTile(
+          leading: Icon(
+            icon,
+            color: Colors.teal,
+          ),
+          title: Text(
+            text.toUpperCase(),
+
+            style: TextStyle(
+                color: Colors.teal,
+                fontSize: 20,
+                fontFamily: "Source Sans Pro"),
+          ),
+        ),
+      ),
+    );
+  }
+}

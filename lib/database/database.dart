@@ -26,13 +26,13 @@ class DatabBaseServiceOTPAdmin {
       FirebaseFirestore.instance.collection("admins");
 
   Future updateAdminData(String name, String phonenumber, String email,
-      String resturantname , String location) async {
+      String resturantname, String location) async {
     return await adminCollection.doc(uid).set({
       'name': name,
       'phonenumber': phonenumber,
       'email': email,
       'resturantname': resturantname,
-      "loaction":location
+      "loaction": location
     });
   }
 
@@ -46,5 +46,4 @@ class DatabBaseServiceOTPAdmin {
   // String? resturantname;
 
 }
-
 

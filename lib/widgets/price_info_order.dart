@@ -151,7 +151,7 @@ Widget buildContainer(
           child: Container(
             margin: EdgeInsets.only(top: 35.0),
             height: 50.0,
-            width: 400.0,
+            width: 200.0,
             decoration: BoxDecoration(
               color: Color(0xffe23e57),
               borderRadius: BorderRadius.circular(25.0),

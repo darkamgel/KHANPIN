@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../widgets/Map_Box.dart';
 import '../../../widgets/OrdersPage.dart';
-import 'favorite_page.dart';
+// import 'favorite_page.dart';
 import 'home_page.dart';
 import 'order_page.dart';
 import 'profile_page.dart';
@@ -19,7 +19,7 @@ class _MainHomePageState extends State<MainHomePage> {
   List<Widget> pages = [];
   late Widget currentPage;
   late HomePage homePage;
-  late ProfilePage profilePage;
+  late ProfilePageUser profilePage;
   late Order orderPage;
   late OrderCart orderCart;
 
@@ -28,7 +28,7 @@ class _MainHomePageState extends State<MainHomePage> {
     homePage = HomePage();
     orderPage = Order();
     orderCart = OrderCart();
-    profilePage = ProfilePage();
+    profilePage = ProfilePageUser();
 
     pages = [homePage, orderPage, orderCart, profilePage];
 

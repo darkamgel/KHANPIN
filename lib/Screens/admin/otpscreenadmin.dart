@@ -15,8 +15,23 @@ class OTPScreenadmin extends StatefulWidget {
   static const String idscreen = "otp";
   final String phone;
   final String codeDigits;
+  final String username;
+  final String latitude;
+  final String longitutde;
+  final String resturantname;
+  final String email;
+  final String completeAddress;
 
-  OTPScreenadmin({required this.phone, required this.codeDigits});
+  OTPScreenadmin({
+    required this.phone,
+    required this.codeDigits,
+    required this.username,
+    required this.latitude,
+    required this.longitutde,
+    required this.resturantname,
+    required this.email,
+    required this.completeAddress,
+  });
 
   @override
   State<OTPScreenadmin> createState() => _OTPScreenadminState();
@@ -49,7 +64,19 @@ class _OTPScreenadminState extends State<OTPScreenadmin> {
       verificationCompleted: (PhoneAuthCredential credential) async {
         await FirebaseAuth.instance
             .signInWithCredential(credential)
-            .then((value) {
+            .then((value) async {
+          await FirebaseFirestore.instance.collection("admin").add({
+            'uid': FirebaseAuth.instance.currentUser!.uid,
+            'address': widget.completeAddress,
+            'adminEmail': widget.email,
+            'adminName': widget.username,
+            'earnings': 0.0,
+            'lat': widget.latitude,
+            'lng': widget.longitutde,
+            'phonenumner': widget.phone,
+            'resturantName': widget.resturantname
+          });
+
           if (value.user != null) {
             Navigator.of(context)
                 .push(MaterialPageRoute(builder: (c) => MainHomePageAdmin()));
@@ -134,25 +161,23 @@ class _OTPScreenadminState extends State<OTPScreenadmin> {
                 followingFieldDecoration: pinOTPCodeDecoration,
                 pinAnimationType: PinAnimationType.rotation,
                 onSubmit: (pin) async {
-                   await FirebaseFirestore.instance.collection('admin').doc().update({
-                    'currentuser':FirebaseAuth.instance.currentUser,
-                  });
-
-                  
+                  // await FirebaseFirestore.instance
+                  //     .collection('admin')
+                  //     .doc()
+                  //     .update({
+                  //   'currentuser': FirebaseAuth.instance.currentUser,
+                  // });
 
                   try {
                     await firebaseAuth
                         .signInWithCredential(PhoneAuthProvider.credential(
                             verificationId: verificationCode!, smsCode: pin))
                         .then((value) {
-                          
                       if (value.user != null) {
-                        
-                        Route newRoute =
-                            MaterialPageRoute(builder: (c) => Homepageadmin());
+                        Route newRoute = MaterialPageRoute(
+                            builder: (c) => MainHomePageAdmin());
                         Navigator.pushReplacement(context, newRoute);
                       }
-                                           
                     });
                   } catch (e) {
                     FocusScope.of(context).unfocus();

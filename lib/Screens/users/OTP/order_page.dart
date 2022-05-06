@@ -72,7 +72,7 @@ class _OrderState extends State<Order> {
             child: Column(
               children: [
                 Container(
-                  height: MediaQuery.of(context).size.height / 2,
+                  height: MediaQuery.of(context).size.height / 2.15,
                   child: ListView.builder(
                       itemCount: snapshot.data.docs.length,
                       itemBuilder: (context, index) {

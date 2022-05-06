@@ -1,17 +1,32 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:khan_pin/Screens/users/OTP/RegisterScreenuser.dart';
 import 'package:khan_pin/Screens/users/OTP/main_home_page.dart';
 import 'package:khan_pin/Refactorcodes/buttons.dart';
 
 import 'package:pinput/pin_put/pin_put.dart';
 
+UserCredential? userCredential;
+
 class OTPScreen extends StatefulWidget {
   static const String idscreen = "otp";
   final String phone;
   final String codeDigits;
+  // final String number;
+  final String username;
+  final String latitude;
+  final String longitude;
+  final String completeAddress;
 
-  OTPScreen({required this.phone, required this.codeDigits});
+  OTPScreen({
+    required this.phone,
+    required this.codeDigits,
+    required this.username,
+    required this.latitude,
+    required this.longitude,
+    required this.completeAddress,
+  });
 
   @override
   State<OTPScreen> createState() => _OTPScreenState();
@@ -44,11 +59,18 @@ class _OTPScreenState extends State<OTPScreen> {
       verificationCompleted: (PhoneAuthCredential credential) async {
         await FirebaseAuth.instance
             .signInWithCredential(credential)
-            .then((value) {
-          if (value.user != null) {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (c) => MainHomePage()));
-          }
+            .then((value) async {
+          await FirebaseFirestore.instance.collection("users").add({
+            'uid': FirebaseAuth.instance.currentUser!.uid,
+            'username': widget.username,
+            'phone_number': widget.phone,
+            'address': widget.completeAddress,
+            'lat': widget.latitude,
+            'lng': widget.longitude,
+          });
+
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (c) => MainHomePage()));
         });
       },
       verificationFailed: (FirebaseAuthException e) {
@@ -129,20 +151,23 @@ class _OTPScreenState extends State<OTPScreen> {
                 followingFieldDecoration: pinOTPCodeDecoration,
                 pinAnimationType: PinAnimationType.rotation,
                 onSubmit: (pin) async {
-                  await FirebaseFirestore.instance.collection('admin').doc().update({
-                    'currentuser':FirebaseAuth.instance.currentUser,
-                  });
+                  // await FirebaseFirestore.instance.collection('users').doc().update({
+                  //   'currentuser':FirebaseAuth.instance.currentUser,
+
+                  // });
                   try {
-                    await FirebaseAuth.instance
+                    userCredential = await FirebaseAuth.instance
                         .signInWithCredential(PhoneAuthProvider.credential(
                             verificationId: verificationCode!, smsCode: pin))
                         .then((value) {
-                      if (value.user != null) {
-                        Route newRoute =
-                            MaterialPageRoute(builder: (c) => MainHomePage());
-                        Navigator.pushReplacement(context, newRoute);
-                      }
+                      Route newRoute =
+                          MaterialPageRoute(builder: (c) => MainHomePage());
+                      Navigator.pushReplacement(context, newRoute);
                     });
+                    print(userCredential!.user!.uid);
+
+                    // upto
+
                   } catch (e) {
                     FocusScope.of(context).unfocus();
                     ScaffoldMessenger.of(context).showSnackBar(

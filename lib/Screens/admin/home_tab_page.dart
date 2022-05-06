@@ -1,9 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:khan_pin/Screens/admin/homescreenadmin.dart';
 import 'package:khan_pin/Screens/admin/orderpage.dart';
-// import 'package:khan_pin/Screens/users/OTP/favorite_page.dart';
-import 'package:khan_pin/Screens/users/OTP/order_page.dart';
+
+
 import 'package:khan_pin/Screens/users/OTP/profile_page.dart';
 import '../../../widgets/Map_Box.dart';
 
@@ -21,19 +21,24 @@ class _MainHomePageState extends State<MainHomePageAdmin> {
   List<Widget> pages = [];
   late Widget currentPage;
   late Homepageadmin homePage;
-  late ProfilePage profilePage;
-  late OrderPage favPage;
+  late ProfilePageAdmin profilePage;
+  late OrderPage1 favPage;
   late GoogleMapsDraw maps;
+
+
+  
 
   @override
   void initState() {
+    
+
     homePage = Homepageadmin();
     
-    profilePage = ProfilePage();
-    favPage = OrderPage();
+    profilePage = ProfilePageAdmin();
+    favPage = OrderPage1();
     maps = GoogleMapsDraw();
 
-    pages = [homePage,  favPage, maps, profilePage];
+    pages = [homePage,  favPage, maps , profilePage];
 
     currentPage = homePage;
 
@@ -47,26 +52,35 @@ class _MainHomePageState extends State<MainHomePageAdmin> {
     return SafeArea(
       child: Scaffold(
         bottomNavigationBar: BottomNavigationBar(
+          
           onTap: (int index) {
+
+
+
             setState(() {
               currentIndex = index;
               currentPage = pages[index];
             });
+
+            
           },
           currentIndex: currentIndex,
           type: BottomNavigationBarType.fixed,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
+              
               icon: Icon(Icons.home),
+              activeIcon: Icon(Icons.home,color: Colors.red,),
               label: 'Home',
             ),
             
-            BottomNavigationBarItem(icon: Icon(Icons.note_alt), label: "Orders"),
-            BottomNavigationBarItem(icon: Icon(Icons.map), label: "Maps"),
+            BottomNavigationBarItem(icon: Icon(Icons.note_alt), label: "Orders" , activeIcon: Icon(Icons.note_alt,color: Colors.red,),),
+            BottomNavigationBarItem(icon: Icon(Icons.map), label: "Maps",activeIcon: Icon(Icons.map,color: Colors.red,),),
             BottomNavigationBarItem(
 
               
-                icon: Icon(Icons.person_outline), label: "Logout" , 
+                icon: Icon(Icons.person_outline), label: "Profile", 
+                activeIcon: Icon(Icons.person_outline , color: Colors.red,)
 
                  ),
           ],

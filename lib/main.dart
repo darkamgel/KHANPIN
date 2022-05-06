@@ -10,6 +10,7 @@ import 'package:khan_pin/Screens/users/OTP/home_page.dart';
 import 'package:khan_pin/Screens/users/OTP/RegisterScreenuser.dart';
 import 'package:khan_pin/Screens/users/OTP/main_home_page.dart';
 import 'package:khan_pin/Screens/users/OTP/otpscreen.dart';
+import 'package:khan_pin/Screens/users/OTP/profile_page.dart';
 import 'package:khan_pin/constants.dart';
 
 ///  AIzaSyCMskATBBlrA_vC654vk3fVS1Ov0ibai2M
@@ -26,7 +27,7 @@ void main() async {
 }
 
 // CollectionReference admincollectionref = FirebaseFirestore.instance.collection("admin");
-CollectionReference usercollectionref = FirebaseFirestore.instance.collection('users');
+// CollectionReference usercollectionref = FirebaseFirestore.instance.collection('users');
 CollectionReference foodcollectionref = FirebaseFirestore.instance.collection('food');
 
 
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
       // home: AddFoodForm(),
       // home: HomePage(),
         home: FirstScreen(),
+        // home: ProfilePage(),
 
       // initialRoute: FirebaseAuth.instance.currentUser == null ? HomeScreen.idscreen : FirstScreen.idscreen,
       initialRoute: FirebaseAuth.instance.currentUser==null ? FirstScreen.idscreen : MainHomePageAdmin.idscreen,

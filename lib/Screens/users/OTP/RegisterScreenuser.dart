@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 
 import 'package:khan_pin/Refactorcodes/buttons.dart';
 import 'package:khan_pin/Screens/users/OTP/otpscreen.dart';
@@ -22,12 +24,64 @@ class RegisterScreenUser extends StatefulWidget {
 }
 
 class _RegisterScreenUserState extends State<RegisterScreenUser> {
+  
+
   String? phonenumber;
+  String completeAddress = "";
+
+  Position? position;
+  List<Placemark>? placeMarks;
+
+  getCurrentLocation() async {
+    LocationPermission permission = await Geolocator.requestPermission();
+
+    Position newPosition = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+    position = newPosition;
+
+    placeMarks =
+        await placemarkFromCoordinates(position!.latitude, position!.longitude);
+    Placemark pMark = placeMarks![0];
+
+    // String completeAddress = '${pMark.subThoroughfare} ${pMark.thoroughfare} , ${pMark.subLocality}  ${pMark.locality} , ${pMark.subAdministrativeArea} , ${pMark.administrativeArea} ${pMark.postalCode} , ${pMark.country}';
+    completeAddress =
+        '${pMark.subThoroughfare} ${pMark.thoroughfare} , ${pMark.subLocality}  ${pMark.locality} , ${pMark.subAdministrativeArea} , ${pMark.administrativeArea} ${pMark.postalCode} , ${pMark.country}';
+    print(completeAddress);
+    location_controller.text = completeAddress;
+  }
+
+  // Future saveuserDatatoFirestore()async{
+
+  //   final User user = await firebaseAuth.currentUser!;
+  //   final uid = user.uid;
+  //   await  FirebaseFirestore.instance.collection('users').add({
+  //     "uid":uid,
+  //     "username": username_controller.text,
+  //                       "phone_number": phonenumber,
+  //                       // "address": completeAddress,
+  //                       // "earnings": 0.0,
+  //                       "lat": position!.latitude,
+  //                       "lng": position!.longitude,
+
+  //   },
+  //   ).whenComplete((){
+  //     Navigator.push(context, MaterialPageRoute(builder:(c) => OTPScreen(phone: phonenumber!, codeDigits:dialCodeDigits )));
+
+  //   });
+  // }
 
   bool showSpinner = false;
   String dialCodeDigits = "+977";
   // TextEditingController number_controller = TextEditingController();
+  TextEditingController location_controller = TextEditingController();
   TextEditingController username_controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -131,6 +185,45 @@ class _RegisterScreenUserState extends State<RegisterScreenUser> {
                 ),
               ),
 
+              Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10),
+                child: TextField(
+                  controller: location_controller,
+                  enabled: false,
+                  textAlign: TextAlign.center,
+                  decoration: kTextFieldDecoration.copyWith(
+                      hintText: "Resturant Location", hintStyle: kHintStyle),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                width: 400,
+                height: 40,
+                alignment: Alignment.center,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    getCurrentLocation();
+                    // debugPrint("Button test");
+                  },
+                  icon: Icon(
+                    Icons.location_on,
+                    color: Colors.white,
+                  ),
+                  label: Text(
+                    "Get My Current Location",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.amber,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                ),
+              ),
+
               Container(
                 margin: EdgeInsets.all(30),
                 width: double.infinity,
@@ -148,28 +241,23 @@ class _RegisterScreenUserState extends State<RegisterScreenUser> {
                         showSpinner = true;
                       });
 
-                      FirebaseFirestore.instance.collection("users").add({
-                        // "adminUID":currentuser.uid,
-                        "username": username_controller.text,
-                        "phone_number": phonenumber,
-                        // "address": completeAddress,
-                        // "earnings": 0.0,
-                        // "lat": position!.latitude,
-                        // "lng": position!.longitude,
-                      })
-                      .whenComplete(() {
-                        // Route newRoute = MaterialPageRoute(
-                        //     builder: (c) => OTPScreen(
-                        //         phone: phonenumber!,
-                        //         codeDigits: dialCodeDigits));
-                        // Navigator.pushReplacement(context, newRoute);
-                        Navigator.push(context, MaterialPageRoute(builder:(c) => OTPScreen(phone: phonenumber!, codeDigits:dialCodeDigits )));
-                      });
-
-                      // Route newRoute = await MaterialPageRoute(
-                      //     builder: (c) => OTPScreen(
-                      //         phone: phonenumber!, codeDigits: dialCodeDigits));
-                      // Navigator.pushReplacement(context, newRoute);
+                      
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (c) => OTPScreen(
+                              phone: phonenumber!,
+                              codeDigits: dialCodeDigits,
+                              username: username_controller.text.trim(),
+                              latitude: position!.latitude.toString(),
+                              longitude: position!.longitude.toString(),
+                              completeAddress: completeAddress,
+                            ),
+                          ),
+                        );
+                     
+                      // saveuserDatatoFirestore(firebaseAuth.currentUser!);
+                      // saveuserDatatoFirestore();
 
                       setState(() {
                         showSpinner = false;
@@ -185,5 +273,3 @@ class _RegisterScreenUserState extends State<RegisterScreenUser> {
     );
   }
 }
-
-

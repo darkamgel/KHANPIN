@@ -256,24 +256,21 @@ class _LoginScreenadminState extends State<LoginScreenadmin> {
                       //   setState(() {
                       //     showSpinner = true;
                       //   });
-                      FirebaseFirestore.instance.collection("admin").add({
-
-                        // "uid":FirebaseAuth.instance.currentUser!.uid,
-                        "phonenumner":phonenumber, 
-                        "adminName": username_controller.text.trim(),
-                        "resturantName": resturantname_controller.text.trim(),
-                        "adminEmail": email_controller.text.trim(),
-                        "address": completeAddress,
-                        "earnings": 0.0,
-                        "lat": position!.latitude,
-                        "lng": position!.longitude,
-                      }).whenComplete(() {
+                      
+                      
+                      
                         Route newRoute = MaterialPageRoute(
                             builder: (c) => OTPScreenadmin(
                                 phone: phonenumber_controller.text,
-                                codeDigits: dialCodeDigits));
+                                codeDigits: dialCodeDigits,
+                                 completeAddress: completeAddress, email: 
+                                 email_controller.text.trim(), 
+                                 latitude: position!.latitude.toString(), 
+                                 longitutde: position!.longitude.toString(),
+                                  resturantname: resturantname_controller.text.trim(), 
+                                  username: username_controller.text.trim(),));
                         Navigator.pushReplacement(context, newRoute);
-                      });
+                      
 
                       
                     }
