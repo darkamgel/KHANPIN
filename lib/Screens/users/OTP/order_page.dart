@@ -67,60 +67,63 @@ class _OrderState extends State<Order> {
           }
           processCart(snapshot.data);
 
-          return Container(
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              children: [
-                Container(
-                  height: MediaQuery.of(context).size.height / 2.15,
-                  child: ListView.builder(
-                      itemCount: snapshot.data.docs.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ProductDetails(
-                                          initCounter: int.parse(snapshot
-                                              .data.docs[index]['Quantity']),
-                                          productName: snapshot.data.docs[index]
-                                              ['ProductName'],
-                                          price: double.parse(snapshot
-                                              .data.docs[index]['TotalPrice']),
-                                          rating: 5.0,
-                                          id: snapshot.data.docs[index]
-                                              ['ProductId'],
-                                          category: snapshot.data.docs[index]
-                                              ['category'],
-                                          imageUrl: snapshot.data.docs[index]
-                                              ['ProductPhoto'],
-                                          discount: double.parse(snapshot.data.docs[index]['Discount']))));
-                            },
-                            child: !snapshot.data.docs[index]['Delivered']
-                                ? OrderCard(
-                                    productId: snapshot.data.docs[index]
-                                        ['ProductId'],
-                                    productPhotoUrl: snapshot.data.docs[index]
-                                        ['ProductPhoto'],
-                                    productName: snapshot.data.docs[index]
-                                        ['ProductName'],
-                                    quantity: snapshot.data.docs[index]
-                                        ['Quantity'],
-                                    finalPrice: snapshot.data.docs[index]
-                                        ['TotalPrice'])
-                                : SizedBox(
-                                    height: 1,
-                                  ));
-                      }),
-                ),
-                buildContainer(
-                    context: context,
-                    sub: cart - discount,
-                    tax: tax,
-                    discount: discount,
-                    cartTotal: cart)
-              ],
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height / 2.15,
+                    child: ListView.builder(
+                        itemCount: snapshot.data.docs.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ProductDetails(
+                                            initCounter: int.parse(snapshot
+                                                .data.docs[index]['Quantity']),
+                                            productName: snapshot.data.docs[index]
+                                                ['ProductName'],
+                                            price: double.parse(snapshot
+                                                .data.docs[index]['TotalPrice']),
+                                            rating: 5.0,
+                                            id: snapshot.data.docs[index]
+                                                ['ProductId'],
+                                            category: snapshot.data.docs[index]
+                                                ['category'],
+                                            imageUrl: snapshot.data.docs[index]
+                                                ['ProductPhoto'],
+                                            discount: double.parse(snapshot.data.docs[index]['Discount']))));
+                              },
+                              child: !snapshot.data.docs[index]['Delivered']
+                                  ? OrderCard(
+                                      productId: snapshot.data.docs[index]
+                                          ['ProductId'],
+                                      productPhotoUrl: snapshot.data.docs[index]
+                                          ['ProductPhoto'],
+                                      productName: snapshot.data.docs[index]
+                                          ['ProductName'],
+                                      quantity: snapshot.data.docs[index]
+                                          ['Quantity'],
+                                      finalPrice: snapshot.data.docs[index]
+                                          ['TotalPrice'])
+                                  : SizedBox(
+                                      height: 1,
+                                    ));
+                        }),
+                  ),
+                  buildContainer(
+                      context: context,
+                      sub: cart - discount,
+                      tax: tax,
+                      discount: discount,
+                      cartTotal: cart)
+                ],
+              ),
             ),
           );
         });

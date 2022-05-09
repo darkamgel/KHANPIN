@@ -57,17 +57,21 @@ class _OTPScreenState extends State<OTPScreen> {
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: "${widget.codeDigits + widget.phone}",
       verificationCompleted: (PhoneAuthCredential credential) async {
+        print("Debug 1");
         await FirebaseAuth.instance
             .signInWithCredential(credential)
             .then((value) async {
-          await FirebaseFirestore.instance.collection("users").add({
-            'uid': FirebaseAuth.instance.currentUser!.uid,
+              await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid).set({
+                'uid': FirebaseAuth.instance.currentUser!.uid,
             'username': widget.username,
             'phone_number': widget.phone,
             'address': widget.completeAddress,
             'lat': widget.latitude,
             'lng': widget.longitude,
-          });
+
+              });
+
+              print("Debug 2");
 
           Navigator.of(context)
               .push(MaterialPageRoute(builder: (c) => MainHomePage()));

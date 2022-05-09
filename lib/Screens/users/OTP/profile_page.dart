@@ -1,11 +1,7 @@
-
-
-
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:khan_pin/firstScreen.dart';
-
 
 // our data
 const url = "sandeep.me";
@@ -13,7 +9,60 @@ const email = "sandeepkshetri3@gmail.com";
 const phone = "9860587826"; 
 const location = "Nepal";
 
-class ProfilePageUser extends StatelessWidget {
+class ProfilePageUser extends StatefulWidget {
+
+  @override
+  State<ProfilePageUser> createState() => _ProfilePageUserState();
+}
+
+class _ProfilePageUserState extends State<ProfilePageUser> {
+  String? username="";
+  String? phnumber="";
+  String? location = '';
+
+  @override
+  void initState(){
+    getuserdata();
+    super.initState();
+
+  }
+
+  getuserdata()async{
+
+    try{
+      String uid = FirebaseAuth.instance.currentUser!.uid;
+
+    QuerySnapshot query = await FirebaseFirestore.instance.collection('users').get();
+
+    query.docs.forEach((element) { 
+
+      if(element['uid']==uid){
+        print("Found");
+        setState(() {
+            
+            username=element['username'];
+            phnumber=element['phone_number'];
+            location=element['address'];
+
+            
+          
+        });
+        
+      }
+    });
+
+    }catch(e){
+      print(e.toString());
+
+    }
+
+    
+
+
+
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +77,7 @@ class ProfilePageUser extends StatelessWidget {
                 backgroundImage: AssetImage('images/avatar.jpg'),
               ),
               Text(
-                "Sandeep kshetri",
+                username!,
                 style: TextStyle(
                   fontSize: 40.0,
                   color: Colors.blueGrey,
@@ -50,7 +99,7 @@ class ProfilePageUser extends StatelessWidget {
               InfoCard(text: phone, icon: Icons.phone, onPressed: () async {}),
               // InfoCard(text: url, icon: Icons.web, onPressed: () async {}),
               InfoCard(
-                  text: location,
+                  text: location!,
                   icon: Icons.location_city,
                   onPressed: () async {}),
               InfoCard(text: "logout", icon: Icons.logout_outlined, onPressed: (){

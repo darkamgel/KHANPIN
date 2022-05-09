@@ -80,9 +80,9 @@ class _AddFoodFormState extends State<AddFoodForm> {
   }
 
   Future saveDatatoFirestore(User currentUser) async {
-    // FirebaseFirestore.instance.collection("food").doc(currentUser.uid).set({
+    // FirebaseFirestore.instance.collection("food").doc(firebaseAuth.currentUser!.uid).set({
       return FirebaseFirestore.instance.collection("food").add({
-      "foodUID": currentUser.uid,
+      "foodUID": firebaseAuth.currentUser!.uid,
       "foodurl": foodImageUrl,
       "foodcategory": food_category_controller.text.trim(),
       "foodname": food_name_controller.text.trim(),
@@ -267,6 +267,7 @@ class _AddFoodFormState extends State<AddFoodForm> {
                       width: 150,
                       height: 42,
                       onPress: () {
+                        Navigator.pop(context);
                         Navigator.pop(context);
                       }),
                   Button1(

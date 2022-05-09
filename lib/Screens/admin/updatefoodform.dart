@@ -17,6 +17,8 @@ import '../../main.dart';
 
 
 
+
+
 class UpdateFoodForm extends StatefulWidget {
   
   UpdateFoodForm({Key? key}) : super(key: key);
@@ -26,6 +28,12 @@ class UpdateFoodForm extends StatefulWidget {
 }
 
 class _UpdateFoodFormState extends State<UpdateFoodForm> {
+
+
+  ////// added lately
+  ///
+
+
   
   TextEditingController food_category_controller = TextEditingController();
   TextEditingController food_name_controller = TextEditingController();
@@ -82,57 +90,7 @@ class _UpdateFoodFormState extends State<UpdateFoodForm> {
     });
   }
 
-  // Future saveDatatoFirestore(User currentUser) async {
-  //   FirebaseFirestore.instance.collection("food").add({
-  //     "foodUID": currentUser.uid,
-  //     "foodurl": foodImageUrl,
-  //     "foodcategory": food_category_controller.text.trim(),
-  //     "foodname": food_name_controller.text.trim(),
-  //     "price": food_price_controller.text.trim(),
-  //     "discount": food_dicount_controller.text.trim(),
-  //     "price_with_discount": totalprice_controller.text.trim(),
-  //   }).whenComplete(() {
-  //     Navigator.of(context)
-  //         .push(MaterialPageRoute(builder: (c) => Homepageadmin()));
-  //   });
-  // }
-
-  // Future updatefood(User currentUser)async {
-  //   return await foodcollectionref.doc().update({
-  //     "foodUID":currentUser.uid,
-      
-  //     "foodurl": foodImageUrl,
-  //     "foodcategory": food_category_controller.text.trim(),
-  //     "foodname": food_name_controller.text.trim(),
-  //     "price": food_price_controller.text.trim(),
-  //     "discount": food_dicount_controller.text.trim(),
-  //     "price_with_discount": totalprice_controller.text.trim(),
-
-  //   }).whenComplete(() {
-  //     Navigator.of(context)
-  //         .push(MaterialPageRoute(builder: (c) => Homepageadmin()));
-
-  //   });
-
-  // }
-  // Future updatefood(User currentUser)async {
-  //   return await foodcollectionref.doc(currentUser.uid).update({
-      
-  //     "foodurl": foodImageUrl,
-  //     "foodcategory": food_category_controller.text.trim(),
-  //     "foodname": food_name_controller.text.trim(),
-  //     "price": food_price_controller.text.trim(),
-  //     "discount": food_dicount_controller.text.trim(),
-  //     "price_with_discount": totalprice_controller.text.trim(),
-
-  //   }).whenComplete(() {
-  //     Navigator.of(context)
-  //         .push(MaterialPageRoute(builder: (c) => Homepageadmin()));
-
-  //   });
-
-  // }
-
+  
   Future<void> updateFoodData(User currentuser)async {
     print(currentuser.uid);
   return FirebaseFirestore.instance.collection('food').doc(currentuser.uid)
@@ -326,6 +284,7 @@ class _UpdateFoodFormState extends State<UpdateFoodForm> {
                       width: 150,
                       height: 42,
                       onPress: () {
+                        Navigator.pop(context);
                         Navigator.pop(context);
                       }),
                   Button1(

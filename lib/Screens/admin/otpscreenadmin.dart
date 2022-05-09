@@ -65,7 +65,9 @@ class _OTPScreenadminState extends State<OTPScreenadmin> {
         await FirebaseAuth.instance
             .signInWithCredential(credential)
             .then((value) async {
-          await FirebaseFirestore.instance.collection("admin").add({
+          // await FirebaseFirestore.instance.collection("admin").add(
+            await FirebaseFirestore.instance.collection('admin').doc(FirebaseAuth.instance.currentUser!.uid).set(
+            {
             'uid': FirebaseAuth.instance.currentUser!.uid,
             'address': widget.completeAddress,
             'adminEmail': widget.email,

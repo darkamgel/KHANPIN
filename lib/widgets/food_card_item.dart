@@ -165,9 +165,10 @@ class FoodCardItemAdminedit extends StatefulWidget {
   final String price;
   final String discount;
   final String price_with_discount;
+  final String foodUID;
   // final double ratings;
-  FoodCardItemAdminedit(this.imagePath, this.name, this.category, this.price,
-      this.discount, this.price_with_discount);
+  FoodCardItemAdminedit({required this.foodUID, required this.imagePath, required this.name,required this.category,required this.price,
+      required this.discount, required this.price_with_discount});
   @override
   _FoodCardItemAdmineditState createState() => _FoodCardItemAdmineditState();
 }
@@ -204,9 +205,22 @@ class _FoodCardItemAdmineditState extends State<FoodCardItemAdminedit> {
                       title: Text('Do You Want To Update/Delete ?'),
                       actions: [TextButton(
                         onPressed: ()async{
-                          await FirebaseFirestore.instance.collection('food').doc(firebaseAuth.currentUser!.uid).delete().whenComplete((){
+
+                          String food_uid = widget.foodUID;
+
+                          QuerySnapshot query = await FirebaseFirestore.instance.collection('food').get();
+
+                          query.docs.forEach((element) async{ 
+
+                            if(element['foodUID']==widget.foodUID){
+                              await FirebaseFirestore.instance.collection('food').doc(element.id).delete().whenComplete((){
                             Navigator.pop(context);
                           });
+
+
+                            }
+                          });
+                          
                         }, 
                         child: Text("Delete"),
                         

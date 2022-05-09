@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:khan_pin/Screens/admin/Worldmap.dart';
 import 'package:khan_pin/constants.dart';
 import 'package:khan_pin/widgets/food_card_item.dart';
 import 'package:khan_pin/widgets/notification_card.dart';
@@ -23,8 +24,6 @@ class _OrderPageState extends State<OrderPage> {
   getDocId() async {
     FirebaseFirestore.instance.collection('users').get().then((value) {
       value.docs.forEach((element) {
-        print(element.id);
-
         docIds!.add(element.id);
       });
     });
@@ -146,12 +145,76 @@ class OrderPage1 extends StatefulWidget {
 }
 
 class _OrderPage1State extends State<OrderPage1> {
-
   List? docIds = [];
+  List? cartId = [];
+  List? cartItems = [];
+
+  bool isLoading = false;
+
   @override
   void initState() {
-    
+    call_necessary();
     super.initState();
+  }
+
+
+
+  call_necessary() async {
+    await getCartId();
+    await getcartItems();
+  }
+
+  getCartId() async {
+    try {
+      setState(() {
+        isLoading = true;
+      });
+
+      QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection('orders').get();
+      querySnapshot.docs.forEach((x) {
+        cartId!.add(x['cartId']);
+      });
+
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  getcartItems() async {
+    print(cartId);
+    try {
+      setState(() {
+        isLoading = true;
+      });
+
+      cartId = cartId!.toSet().toList();
+
+      print(cartId);
+
+      for (int i = 0; i <= cartId!.length; ++i) {
+        DocumentSnapshot doc = await FirebaseFirestore.instance
+            .collection('cart')
+            .doc(cartId![i])
+            .collection('items')
+            .doc('random')
+            .get();
+
+        cartItems!.add(doc.data());
+        print(cartItems);
+      }
+      setState(() {
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      print(e.toString());
+    }
   }
 
   @override
@@ -178,7 +241,7 @@ class _OrderPage1State extends State<OrderPage1> {
                     Padding(
                       padding: EdgeInsets.only(left: 50),
                       child: Text(
-                        "Order List1".toUpperCase(),
+                        "Order List".toUpperCase(),
                         style: kStyle.copyWith(
                             fontSize: 18.0,
                             color: Colors.white,
@@ -194,49 +257,143 @@ class _OrderPage1State extends State<OrderPage1> {
                         color: Colors.white,
                       ),
                     ),
-                    
                   ],
                 ),
               ),
 
-              Expanded(
-                child: ListView(
-                  children: [
-                    SingleChildScrollView(
-                      child: Center(
-                        child: StreamBuilder<QuerySnapshot>(
-                          stream: FirebaseFirestore.instance.collection('cart')
-                          .doc('4BcmD5C8KIOXfs2p4m9OpvzVA7k2').collection('items').snapshots(),
-                          builder: (context , snapshot){
-                            final services = snapshot.data!.docs;
-                            List<Widget> servicesWidget = [];
-                            for (var st in services){
-                              final foodurl = st.get('ProductPhoto');
-                              final foodname = st.get('ProductName');
-                              final foodcategory = st.get('category');
-                              final price =st.get('TotalPrice');
-                              final discount =st.get('Discount');
-                              final quantity=st.get('Quantity');
+              isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : Expanded(
+                      child: ListView.builder(
+                          itemCount: cartId!.length,
+                          itemBuilder: (context, index) {
+                            bool isDelivered = cartItems![index]['Delivered'];
 
-                              final datas = FoodCardItemAdminedit(
-                                foodurl, 
-                                foodname, foodcategory, price, discount, quantity);
+                          
+                            
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => WorldMap(
+                                               cart_id: cartId![index],
+                                            )));
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: Colors.teal),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                  'Product Id ${cartItems![index]["ProductName"].toString()}'),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                  'Total Price ${cartItems![index]["TotalPrice"].toString()}'),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                  "Category ${cartItems![index]["category"].toString()}"),
+                                            )
+                                          ],
+                                        ),
+                                        Checkbox(
+                                            value: isDelivered,
+                                            onChanged: (value) async {
+                                              QuerySnapshot query =
+                                                  await FirebaseFirestore
+                                                      .instance
+                                                      .collection('cart')
+                                                      .doc(cartId![index])
+                                                      .collection('items')
+                                                      .get();
 
-                              servicesWidget.add(datas);
-                            }
-                            return ListView(
-                              children: servicesWidget,
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
+                                              query.docs.forEach((element) {
+                                                if (element['Timestamp'] ==
+                                                    cartItems![index]
+                                                        ['Timestamp']) {
+                                                  FirebaseFirestore.instance
+                                                      .collection('cart')
+                                                      .doc(cartId![index])
+                                                      .collection('items')
+                                                      .doc(element.id)
+                                                      .update(
+                                                          {"Delivered": value});
+                                                }
+                                              });
+
+                                              setState(() async {
+                                                cartItems![index]['Delivered'] =
+                                                    value;
+                                              });
+                                            })
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
                             );
-                          },
-                        )
-                        ),
-                    ),
-                  ],
-                )
-              )
-              
+                          })),
+
+              // Expanded(
+              //   child: ListView(
+              //     children: [
+              //       SingleChildScrollView(
+              //         child: Center(
+              //           child: StreamBuilder<QuerySnapshot>(
+              //             stream: FirebaseFirestore.instance.collection('cart').snapshots(),
+              //             builder: (context , snapshot){
+              //               final services = snapshot.data!.docs;
+              //               print("HERE");
+              //               services.forEach((element) {
+              //                 print('hereeee');
+              //                 print(element.data());
+              //                });
+              //               List<Widget> servicesWidget = [];
+              //               for (var st in services){
+              //                 final foodurl = st.get('ProductPhoto');
+              //                 final foodname = st.get('ProductName');
+              //                 final foodcategory = st.get('category');
+              //                 final price =st.get('TotalPrice');
+              //                 final discount =st.get('Discount');
+              //                 final quantity=st.get('Quantity');
+              //                 final food_id=st.get('FoodUID');
+
+              //                 final datas = FoodCardItemAdminedit(foodUID: food_id, imagePath: foodurl, name: foodname, category: foodcategory, price: price, discount: discount, price_with_discount: "10");
+
+              //                 servicesWidget.add(datas);
+              //               }
+              //               return ListView(
+              //                 children: servicesWidget,
+              //                 shrinkWrap: true,
+              //                 physics: NeverScrollableScrollPhysics(),
+              //               );
+              //             },
+              //           )
+              //           ),
+              //       ),
+              //     ],
+              //   )
+              // )
             ],
           )),
     );

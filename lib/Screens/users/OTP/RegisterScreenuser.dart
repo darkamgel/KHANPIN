@@ -139,6 +139,18 @@ class _RegisterScreenUserState extends State<RegisterScreenUser> {
                     },
                     textAlign: TextAlign.center,
                     decoration: kTextFieldDecoration.copyWith(
+                        hintText: "Enter your Full Name",
+                        hintStyle: kHintStyle)),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: TextField(
+                    onChanged: (value) {
+                      username_controller.text = value;
+                    },
+                    textAlign: TextAlign.center,
+                    decoration: kTextFieldDecoration.copyWith(
                         hintText: "Enter your Username",
                         hintStyle: kHintStyle)),
               ),
@@ -192,7 +204,7 @@ class _RegisterScreenUserState extends State<RegisterScreenUser> {
                   enabled: false,
                   textAlign: TextAlign.center,
                   decoration: kTextFieldDecoration.copyWith(
-                      hintText: "Resturant Location", hintStyle: kHintStyle),
+                      hintText: "Your Location", hintStyle: kHintStyle),
                 ),
               ),
               SizedBox(

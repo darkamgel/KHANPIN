@@ -70,12 +70,6 @@ class _HomePageState extends State<HomePage> {
           FoodCategory(),
 
           //search info
-          Searchbar(
-            onPress: () {
-              print("hello");
-            },
-            margin: 15,
-          ),
 
           //bought info
           Padding(

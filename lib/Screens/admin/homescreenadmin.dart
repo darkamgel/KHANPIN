@@ -87,15 +87,7 @@ class _HomepageadminState extends State<Homepageadmin> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Searchbar(
-                onPress: () {
-                  print("Search button");
-                },
-                margin: 5,
-              ),
-            ),
+
             Expanded(
               child: ListView(
                 children: [
@@ -117,10 +109,10 @@ class _HomepageadminState extends State<Homepageadmin> {
                               final price = st.get('price');
                               final discount = st.get('discount');
                               final total_price = st.get('price_with_discount');
+                              final food_id = st.get('foodUID');
 
                               // final datas = FoodCardItemAdmin(category,url,name );
-                              final datas = FoodCardItemAdminedit(foodurl, foodname,
-                                  foodcategory, price, discount, total_price);
+                              final datas = FoodCardItemAdminedit(foodUID: food_id, imagePath: foodurl, name: foodname, category: foodcategory, price: price, discount: discount, price_with_discount: total_price);
 
                               // final datas = buildTile(category, name, url, context);
                               servicesWidget.add(datas);
@@ -157,24 +149,3 @@ class _HomepageadminState extends State<Homepageadmin> {
   }
 }
 
-
-//   Future<String> _fetchName() async {
-
-//   if (firebaseUser != null)
-//   print("test-1");
-//     await _firestore
-//         .collection('admin')
-//         .doc(FirebaseAuth.instance.currentUser!.uid)
-//         .get()
-//         .then((DocumentSnapshot documentSnapshot) {
-//       resturantName = documentSnapshot.get('resturantName');
-//       print("test-2");
-//       print(resturantName);
-      
-//     }).catchError((e) {
-//       print(e);
-//     });
-
-  
-//   return resturantName;
-// }

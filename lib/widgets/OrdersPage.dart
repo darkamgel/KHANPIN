@@ -44,7 +44,6 @@ class _OrderCartState extends State<OrderCart> {
   }
 
   FutureBuilder buildData() {
-    print("IIII");
     return FutureBuilder(
         future: FirebaseFirestore.instance
             .collection('cart')
@@ -57,14 +56,14 @@ class _OrderCartState extends State<OrderCart> {
           }
           return Container(
             height: MediaQuery.of(context).size.height,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListView.builder(
-                itemCount: snapshot.data.docs.length,
-                itemBuilder: (context, index) => Container(
+            child: ListView.builder(
+              itemCount: snapshot.data.docs.length,
+              itemBuilder: (context, index) => Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color: Colors.pink,
+                      color: Colors.teal
                     ),
                     height: MediaQuery.of(context).size.height / 6,
                     child: Padding(
@@ -114,6 +113,9 @@ class _OrderCartState extends State<OrderCart> {
       child: isLoading
           ? Center(child: CircularProgressIndicator())
           : Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.teal,
+              title: Text("Your Orders")),
               body: isLoading
                   ? Center(child: CircularProgressIndicator())
                   : SafeArea(
